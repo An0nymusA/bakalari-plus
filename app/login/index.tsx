@@ -1,76 +1,153 @@
-import { View } from "tamagui";
 import { useState } from "react";
+import { View } from "tamagui";
+import { useMutation } from "@tanstack/react-query";
+
+import BakalariAPI from "bakalari-ts-api/build/models/BakalariApi";
+import { AxiosError } from "axios";
+
+import Toast from "react-native-toast-message";
 
 import { HouseSearch, Key, User } from "@images/index";
 
-import { LoginInput } from "@components/LoginInput";
+import { LoginInput } from "@/src/components/form/LoginInput";
 import { HorizontalLine } from "@/src/components/HorizontalLine";
 
-import { Button } from "@components/Button";
+import { Button } from "@/src/components/form/Button";
 
-import { checkUrl } from "@/src/utils/utils";
+import { checkUrl } from "@utils/utils";
+import { useFormInputs } from "@hooks/useFormInputs";
+import toastHelper from "@/src/utils/toastHelper";
 
 export default function Page() {
-  const [values, setValues] = useState({
+  const [disabled, setDisabled] = useState(false);
+
+  /**
+   * Hook pro správu dat formuláře
+   */
+  const { inputData, updateInput } = useFormInputs({
     url: "",
     username: "",
     password: "",
   });
 
-  const onSubmit = () => {
-    if (!values.url || !values.username || !values.password) return;
+  /**
+   * Komunikace s API
+   */
+  const mutation = useMutation({
+    mutationFn: (data: { [key: string]: string }) => {
+      return BakalariAPI.initialize({
+        baseUrl: `https://${data.url}`,
+        username: data.username,
+        password: data.password,
+      });
+    },
+    onSuccess: () => {
+      Toast.hide();
+      toastHelper.success("Přihlášení proběhlo úspěšně");
 
-    if (!checkUrl(values.url)) {
-      alert("Invalid url");
+      setDisabled(false);
+    },
+    onError: (err: AxiosError) => {
+      Toast.hide();
+
+      if (err.code == "ERR_NETWORK" || err.response?.status == 404)
+        toastHelper.error("Adresa neexistuje, nebo je nedostupná");
+
+      if (err.response?.status == 400)
+        toastHelper.error("Heslo / uživatelské jméno je špatně");
+
+      setDisabled(false);
+    },
+  });
+
+  /**
+   * Callback pro submit tlacitko
+   */
+  const onSubmit = () => {
+
+    if (!inputData.url || !inputData.username || !inputData.password) {
+      toastHelper.error("Musí být vyplněna všechna pole");
       return;
     }
 
-    alert("Process login");
+    if (!checkUrl(inputData.url)) {
+      toastHelper.error("Nevalidní url adresa");
+      return;
+    }
+
+    toastHelper.loading("Ověřování údajů...");
+
+    setDisabled(true);
+
+    mutation.mutate(inputData);
   };
 
   return (
     <View flex={1} justifyContent="center" alignItems="center">
       <View width="100%" paddingHorizontal={20} gap={22}>
+        {/* School URL input */}
         <LoginInput width="100%">
           <LoginInput.Icon>
             <HouseSearch />
           </LoginInput.Icon>
           <LoginInput.Input
-            onChangeText={(newText) =>
-              setValues((val) => ({
-                ...val,
-                url: newText.toLowerCase().trim(),
-              }))
-            }
-            placeholder="URL adresa Bakalářů"
+            elementDisabled={disabled}
+            autoCapitalize="none"
+            autoComplete="url"
+            textContentType="URL"
+            onChangeText={(newText) => {
+              newText = newText
+                .replace("http://", "")
+                .replace("https://", "")
+                .replace("www.", "");
+
+              updateInput("url", newText.toLowerCase());
+            }}
+            placeholder="https://URL adresa Bakalářů"
           />
         </LoginInput>
+
         <HorizontalLine />
+
+        {/* Username input */}
         <LoginInput width="100%">
           <LoginInput.Icon>
             <User />
           </LoginInput.Icon>
           <LoginInput.Input
-            onChangeText={(newText) =>
-              setValues((val) => ({ ...val, username: newText.trim() }))
-            }
+            elementDisabled={disabled}
+            autoCapitalize="none"
+            autoComplete="username"
+            textContentType="username"
+            onChangeText={(newText) => updateInput("username", newText)}
             placeholder="Uživatelské jméno"
           />
         </LoginInput>
+
+        {/* Password input */}
         <LoginInput width="100%">
           <LoginInput.Icon>
             <Key />
           </LoginInput.Icon>
           <LoginInput.Input
-            onChangeText={(newText) =>
-              setValues((val) => ({ ...val, password: newText.trim() }))
-            }
+            elementDisabled={disabled}
+            autoCapitalize="none"
+            autoComplete="password"
+            textContentType="password"
+            onChangeText={(newText) => updateInput("password", newText)}
             secureTextEntry={true}
             placeholder="Heslo"
           />
         </LoginInput>
+
         <HorizontalLine />
-        <Button onPress={onSubmit}>
+
+        {/* Submit button */}
+        <Button
+          pointerEvents={disabled ? "none" : "auto"}
+          onPress={onSubmit}
+          elementDisabled={disabled}
+        >
           <Button.Text>Přihlásit se</Button.Text>
         </Button>
       </View>

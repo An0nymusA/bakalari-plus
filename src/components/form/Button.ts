@@ -4,7 +4,6 @@ import {
   styled,
   withStaticProperties,
   createStyledContext,
-  GetProps,
 } from "tamagui";
 
 export const ButtonContext = createStyledContext({
@@ -14,7 +13,7 @@ export const ButtonContext = createStyledContext({
 export const ButtonFrame = styled(TamaguiButton, {
   name: "ButtonFrame",
   context: ButtonContext,
-  borderRadius: 8,
+  borderRadius: "$1",
   padding: 10,
 
   textAlign: "center",
@@ -37,6 +36,11 @@ export const ButtonFrame = styled(TamaguiButton, {
       },
       white: {
         borderColor: "$grey0",
+      },
+    },
+    elementDisabled: {
+      true: {
+        opacity: 0.5,
       },
     },
   },

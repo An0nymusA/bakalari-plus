@@ -64,6 +64,10 @@ const config = createTamagui({
   tokens: createTokens({
     ...tokens,
     color: colors,
+    radius: {
+      1: 8,
+      2: 16,
+    },
   }),
   media: createMedia({
     xs: { maxWidth: 660 },

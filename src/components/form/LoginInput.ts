@@ -1,14 +1,24 @@
-import { Stack, styled, withStaticProperties } from "@tamagui/core";
 import React, { ReactElement } from "react";
-import { Input as TamaguiInput } from "tamagui";
+import {
+  Stack,
+  Input as TamaguiInput,
+  createStyledContext,
+  styled,
+  withStaticProperties,
+} from "tamagui";
+
+export const InputContext = createStyledContext({
+  elementDisabled: "false",
+});
 
 const InputFrame = styled(Stack, {
   name: "InputFrame",
+  context: InputContext,
   backgroundColor: "$transparent",
   flexDirection: "row",
   gap: 12,
 
-  borderRadius: 8,
+  borderRadius: '$1',
   padding: 10,
 
   borderColor: "$grey80",
@@ -19,6 +29,7 @@ const InputFrame = styled(Stack, {
 
 const Input = styled(TamaguiInput, {
   name: "Input",
+  context: InputContext,
   unstyled: true,
   fontSize: "$2",
   fontWeight: "$normal",
@@ -26,6 +37,16 @@ const Input = styled(TamaguiInput, {
   placeholderTextColor: "$grey050",
   width: "100%",
   flex: 1,
+  variants: {
+    elementDisabled: {
+      true: {
+        disabled: true,
+        editable: false,
+        selectable: false,
+        opacity: 0.5,
+      },
+    },
+  },
 });
 
 const InputIcon = (props: { children: React.ReactNode }): ReactElement => {
@@ -36,6 +57,7 @@ const InputIcon = (props: { children: React.ReactNode }): ReactElement => {
 };
 
 export const LoginInput = withStaticProperties(InputFrame, {
+  Props: InputContext.Provider,
   Icon: InputIcon,
   Input,
 });

@@ -15089,6 +15089,184 @@
             "isStyledHOC": false
           }
         },
+        "DirectionalYStack": {
+          "staticConfig": {
+            "acceptsClassName": true,
+            "defaultProps": {
+              "alignItems": "stretch",
+              "flexDirection": "column"
+            },
+            "validStyles": {
+              "enterStyle": true,
+              "exitStyle": true,
+              "hoverStyle": true,
+              "pressStyle": true,
+              "focusStyle": true,
+              "backfaceVisibility": true,
+              "borderBottomEndRadius": true,
+              "borderBottomStartRadius": true,
+              "borderBottomWidth": true,
+              "borderLeftWidth": true,
+              "borderRightWidth": true,
+              "borderStyle": true,
+              "borderTopEndRadius": true,
+              "borderTopStartRadius": true,
+              "borderTopWidth": true,
+              "borderWidth": true,
+              "transform": true,
+              "alignContent": true,
+              "alignItems": true,
+              "alignSelf": true,
+              "borderEndWidth": true,
+              "borderStartWidth": true,
+              "bottom": true,
+              "display": true,
+              "end": true,
+              "flexBasis": true,
+              "flexDirection": true,
+              "flexWrap": true,
+              "gap": true,
+              "columnGap": true,
+              "rowGap": true,
+              "justifyContent": true,
+              "left": true,
+              "margin": true,
+              "marginBlockEnd": true,
+              "marginBlockStart": true,
+              "marginInlineEnd": true,
+              "marginInline": true,
+              "marginInlineStart": true,
+              "marginBottom": true,
+              "marginEnd": true,
+              "marginHorizontal": true,
+              "marginLeft": true,
+              "marginRight": true,
+              "marginStart": true,
+              "marginTop": true,
+              "marginVertical": true,
+              "overflow": true,
+              "padding": true,
+              "paddingBottom": true,
+              "paddingInline": true,
+              "paddingBlock": true,
+              "paddingBlockStart": true,
+              "paddingInlineEnd": true,
+              "paddingInlineStart": true,
+              "paddingEnd": true,
+              "paddingHorizontal": true,
+              "paddingLeft": true,
+              "paddingRight": true,
+              "paddingStart": true,
+              "paddingTop": true,
+              "paddingVertical": true,
+              "position": true,
+              "right": true,
+              "start": true,
+              "top": true,
+              "direction": true,
+              "shadowOffset": true,
+              "shadowRadius": true,
+              "backgroundColor": true,
+              "borderColor": true,
+              "borderBlockStartColor": true,
+              "borderBlockEndColor": true,
+              "borderBlockColor": true,
+              "borderBottomColor": true,
+              "borderTopColor": true,
+              "borderLeftColor": true,
+              "borderRightColor": true,
+              "borderEndColor": true,
+              "borderStartColor": true,
+              "shadowColor": true,
+              "color": true,
+              "placeholderTextColor": true,
+              "textDecorationColor": true,
+              "textShadowColor": true,
+              "borderRadius": true,
+              "borderTopLeftRadius": true,
+              "borderTopRightRadius": true,
+              "borderBottomLeftRadius": true,
+              "borderBottomRightRadius": true,
+              "borderStartStartRadius": true,
+              "borderStartEndRadius": true,
+              "borderEndStartRadius": true,
+              "borderEndEndRadius": true,
+              "width": true,
+              "height": true,
+              "minWidth": true,
+              "minHeight": true,
+              "maxWidth": true,
+              "maxHeight": true,
+              "x": true,
+              "y": true,
+              "scale": true,
+              "perspective": true,
+              "scaleX": true,
+              "scaleY": true,
+              "skewX": true,
+              "skewY": true,
+              "matrix": true,
+              "rotate": true,
+              "rotateY": true,
+              "rotateX": true,
+              "rotateZ": true,
+              "WebkitLineClamp": true,
+              "animationIterationCount": true,
+              "aspectRatio": true,
+              "borderImageOutset": true,
+              "borderImageSlice": true,
+              "borderImageWidth": true,
+              "columnCount": true,
+              "flex": true,
+              "flexGrow": true,
+              "flexOrder": true,
+              "flexPositive": true,
+              "flexShrink": true,
+              "flexNegative": true,
+              "fontWeight": true,
+              "gridRow": true,
+              "gridRowEnd": true,
+              "gridRowGap": true,
+              "gridRowStart": true,
+              "gridColumn": true,
+              "gridColumnEnd": true,
+              "gridColumnGap": true,
+              "gridColumnStart": true,
+              "lineClamp": true,
+              "opacity": true,
+              "order": true,
+              "orphans": true,
+              "tabSize": true,
+              "widows": true,
+              "zIndex": true,
+              "zoom": true,
+              "scaleZ": true,
+              "shadowOpacity": true
+            },
+            "variants": {
+              "fullscreen": {
+                "true": {
+                  "position": "absolute",
+                  "top": 0,
+                  "left": 0,
+                  "right": 0,
+                  "bottom": 0
+                }
+              },
+              "elevation": {
+                "...size": "Function",
+                ":number": "Function"
+              },
+              "orientation": {
+                "horizontal": {},
+                "vertical": {}
+              }
+            },
+            "isReactNative": false,
+            "isText": false,
+            "isStyledHOC": false
+          }
+        },
         "SliderFrame": {
           "staticConfig": {
             "acceptsClassName": true,
@@ -20869,102 +21047,18 @@
         }
       },
       "radius": {
-        "0": {
-          "isVar": true,
-          "key": "$0",
-          "name": "radius-1",
-          "val": 0,
-          "variable": ""
-        },
         "1": {
           "isVar": true,
           "key": "$1",
-          "name": "radius-2",
-          "val": 3,
+          "name": "radius-1",
+          "val": 8,
           "variable": ""
         },
         "2": {
           "isVar": true,
           "key": "$2",
-          "name": "radius-3",
-          "val": 5,
-          "variable": ""
-        },
-        "3": {
-          "isVar": true,
-          "key": "$3",
-          "name": "radius-4",
-          "val": 7,
-          "variable": ""
-        },
-        "4": {
-          "isVar": true,
-          "key": "$4",
-          "name": "radius-5",
-          "val": 9,
-          "variable": ""
-        },
-        "5": {
-          "isVar": true,
-          "key": "$5",
-          "name": "radius-6",
-          "val": 10,
-          "variable": ""
-        },
-        "6": {
-          "isVar": true,
-          "key": "$6",
-          "name": "radius-7",
+          "name": "radius-2",
           "val": 16,
-          "variable": ""
-        },
-        "7": {
-          "isVar": true,
-          "key": "$7",
-          "name": "radius-8",
-          "val": 19,
-          "variable": ""
-        },
-        "8": {
-          "isVar": true,
-          "key": "$8",
-          "name": "radius-9",
-          "val": 22,
-          "variable": ""
-        },
-        "9": {
-          "isVar": true,
-          "key": "$9",
-          "name": "radius-10",
-          "val": 26,
-          "variable": ""
-        },
-        "10": {
-          "isVar": true,
-          "key": "$10",
-          "name": "radius-11",
-          "val": 34,
-          "variable": ""
-        },
-        "11": {
-          "isVar": true,
-          "key": "$11",
-          "name": "radius-12",
-          "val": 42,
-          "variable": ""
-        },
-        "12": {
-          "isVar": true,
-          "key": "$12",
-          "name": "radius-13",
-          "val": 50,
-          "variable": ""
-        },
-        "true": {
-          "isVar": true,
-          "key": "$true",
-          "name": "radius-14",
-          "val": 9,
           "variable": ""
         }
       },
@@ -21866,102 +21960,18 @@
         "val": "#1E1F25",
         "variable": ""
       },
-      "$radius.0": {
-        "isVar": true,
-        "key": "$0",
-        "name": "radius-1",
-        "val": 0,
-        "variable": ""
-      },
       "$radius.1": {
         "isVar": true,
         "key": "$1",
-        "name": "radius-2",
-        "val": 3,
+        "name": "radius-1",
+        "val": 8,
         "variable": ""
       },
       "$radius.2": {
         "isVar": true,
         "key": "$2",
-        "name": "radius-3",
-        "val": 5,
-        "variable": ""
-      },
-      "$radius.3": {
-        "isVar": true,
-        "key": "$3",
-        "name": "radius-4",
-        "val": 7,
-        "variable": ""
-      },
-      "$radius.4": {
-        "isVar": true,
-        "key": "$4",
-        "name": "radius-5",
-        "val": 9,
-        "variable": ""
-      },
-      "$radius.5": {
-        "isVar": true,
-        "key": "$5",
-        "name": "radius-6",
-        "val": 10,
-        "variable": ""
-      },
-      "$radius.6": {
-        "isVar": true,
-        "key": "$6",
-        "name": "radius-7",
+        "name": "radius-2",
         "val": 16,
-        "variable": ""
-      },
-      "$radius.7": {
-        "isVar": true,
-        "key": "$7",
-        "name": "radius-8",
-        "val": 19,
-        "variable": ""
-      },
-      "$radius.8": {
-        "isVar": true,
-        "key": "$8",
-        "name": "radius-9",
-        "val": 22,
-        "variable": ""
-      },
-      "$radius.9": {
-        "isVar": true,
-        "key": "$9",
-        "name": "radius-10",
-        "val": 26,
-        "variable": ""
-      },
-      "$radius.10": {
-        "isVar": true,
-        "key": "$10",
-        "name": "radius-11",
-        "val": 34,
-        "variable": ""
-      },
-      "$radius.11": {
-        "isVar": true,
-        "key": "$11",
-        "name": "radius-12",
-        "val": 42,
-        "variable": ""
-      },
-      "$radius.12": {
-        "isVar": true,
-        "key": "$12",
-        "name": "radius-13",
-        "val": 50,
-        "variable": ""
-      },
-      "$radius.true": {
-        "isVar": true,
-        "key": "$true",
-        "name": "radius-14",
-        "val": 9,
         "variable": ""
       },
       "$zIndex.0": {
