@@ -8,6 +8,7 @@ import {
 } from "tamagui";
 
 export const InputContext = createStyledContext({
+  inputError: "false",
   elementDisabled: "false",
 });
 
@@ -18,13 +19,21 @@ const InputFrame = styled(Stack, {
   flexDirection: "row",
   gap: 12,
 
-  borderRadius: '$1',
+  borderRadius: "$1",
   padding: 10,
 
   borderColor: "$grey80",
   borderWidth: 2,
 
   width: "100%",
+
+  variants: {
+    inputError: {
+      true: {
+        borderColor: "$redTransparent",
+      },
+    },
+  },
 });
 
 const Input = styled(TamaguiInput, {

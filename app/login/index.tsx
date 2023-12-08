@@ -24,7 +24,7 @@ export default function Page() {
   /**
    * Hook pro správu dat formuláře
    */
-  const { inputData, updateInput } = useFormInputs({
+  const { inputData, updateInput, inputErrors, setInputError } = useFormInputs({
     url: "",
     username: "",
     password: "",
@@ -50,11 +50,18 @@ export default function Page() {
     onError: (err: AxiosError) => {
       Toast.hide();
 
-      if (err.code == "ERR_NETWORK" || err.response?.status == 404)
+      if (err.code == "ERR_NETWORK" || err.response?.status == 404) {
         toastHelper.error("Adresa neexistuje, nebo je nedostupná");
 
-      if (err.response?.status == 400)
+        setInputError("url", true);
+      }
+
+      if (err.response?.status == 400) {
         toastHelper.error("Heslo / uživatelské jméno je špatně");
+
+        setInputError("username", true);
+        setInputError("password", true);
+      }
 
       setDisabled(false);
     },
@@ -64,16 +71,26 @@ export default function Page() {
    * Callback pro submit tlacitko
    */
   const onSubmit = () => {
-
     if (!inputData.url || !inputData.username || !inputData.password) {
+      if (!inputData.url) setInputError("url", true);
+
+      if (!inputData.username) setInputError("username", true);
+
+      if (!inputData.password) setInputError("password", true);
+
       toastHelper.error("Musí být vyplněna všechna pole");
       return;
     }
 
     if (!checkUrl(inputData.url)) {
+      setInputError("url", true);
       toastHelper.error("Nevalidní url adresa");
       return;
     }
+
+    Object.keys(inputErrors).forEach((key) => {
+      setInputError(key, false);
+    });
 
     toastHelper.loading("Ověřování údajů...");
 
@@ -86,7 +103,7 @@ export default function Page() {
     <View flex={1} justifyContent="center" alignItems="center">
       <View width="100%" paddingHorizontal={20} gap={22}>
         {/* School URL input */}
-        <LoginInput width="100%">
+        <LoginInput inputError={inputErrors.url} width="100%">
           <LoginInput.Icon>
             <HouseSearch />
           </LoginInput.Icon>
@@ -103,14 +120,14 @@ export default function Page() {
 
               updateInput("url", newText.toLowerCase());
             }}
-            placeholder="https://URL adresa Bakalářů"
+            placeholder="URL adresa Bakalářů"
           />
         </LoginInput>
 
         <HorizontalLine />
 
         {/* Username input */}
-        <LoginInput width="100%">
+        <LoginInput inputError={inputErrors.username} width="100%">
           <LoginInput.Icon>
             <User />
           </LoginInput.Icon>
@@ -125,7 +142,7 @@ export default function Page() {
         </LoginInput>
 
         {/* Password input */}
-        <LoginInput width="100%">
+        <LoginInput inputError={inputErrors.password} width="100%">
           <LoginInput.Icon>
             <Key />
           </LoginInput.Icon>
