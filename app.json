@@ -7,8 +7,7 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./src/assets/icons/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1e1f25"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -18,7 +17,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/icons/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.bakalariplus"
     },
     "web": {
       "favicon": "./src/assets/icons/favicon.png",
@@ -28,6 +28,15 @@
     "scheme": "bakalariplus",
     "experiments": {
       "tsconfigPaths": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "d3ed06bb-f358-40b8-a978-17172a788662",
+        "image": "latest"
+      }
     }
   }
 }

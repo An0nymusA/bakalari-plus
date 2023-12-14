@@ -1,5 +1,6 @@
 // import '@tamagui/core/reset.css'
 
+import { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import { TamaguiProvider, Theme } from "tamagui";
 
@@ -21,6 +22,9 @@ import {
 import config from "@/tamagui.config";
 import { StyledSafeAreaView } from "@src/components/layout/StyledSafeAreaView";
 
+import StorageWrapper from "@/src/utils/storage";
+import { useAuth } from "@/src/hooks/useAuth";
+
 const queryClient = new QueryClient();
 
 const toastConfig = {
@@ -38,13 +42,26 @@ const toastConfig = {
 export default function App() {
   const colorScheme = useColorScheme();
 
-  const [loaded] = useFonts({
+  const { status, login } = useAuth();
+  const [storageLoaded, setStorageLoaded] = useState(false);
+
+  const [fontsLoaded] = useFonts({
     MontserratBold: require("@fonts/Montserrat-Bold.ttf"),
     MontserratMedium: require("@fonts/Montserrat-Medium.ttf"),
     MontserratRegular: require("@fonts/Montserrat-Regular.ttf"),
   });
 
-  if (!loaded) {
+  useEffect(() => {
+    (async () => {
+      await StorageWrapper.init();
+
+      login(StorageWrapper.get("loginData"));
+
+      setStorageLoaded(true);
+    })();
+  }, []);
+
+  if (!(storageLoaded && fontsLoaded && status !== "pending")) {
     return null;
   }
 
@@ -60,10 +77,7 @@ export default function App() {
         <Theme name={colorScheme === "dark" ? "dark" : "light"}>
           <StyledSafeAreaView backgroundColor="$grey100">
             <Slot />
-            <Toast
-              config={toastConfig}
-              onPress={() => Toast.hide()}
-            />
+            <Toast config={toastConfig} onPress={() => Toast.hide()} />
           </StyledSafeAreaView>
         </Theme>
       </TamaguiProvider>

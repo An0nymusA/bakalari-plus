@@ -39,6 +39,7 @@ const InputFrame = styled(Stack, {
 const Input = styled(TamaguiInput, {
   name: "Input",
   context: InputContext,
+  autoCapitalize: "none",
   unstyled: true,
   fontSize: "$2",
   fontWeight: "$normal",

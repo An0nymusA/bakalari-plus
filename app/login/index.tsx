@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useRouter } from "expo-router";
+
 import { View } from "tamagui";
 import { useMutation } from "@tanstack/react-query";
 
@@ -9,17 +11,23 @@ import Toast from "react-native-toast-message";
 
 import { HouseSearch, Key, User } from "@images/index";
 
-import { LoginInput } from "@/src/components/form/LoginInput";
-import { HorizontalLine } from "@/src/components/HorizontalLine";
-
-import { Button } from "@/src/components/form/Button";
-
 import { checkUrl } from "@utils/utils";
+import toastHelper from "@utils/toastHelper";
+
 import { useFormInputs } from "@hooks/useFormInputs";
-import toastHelper from "@/src/utils/toastHelper";
+
+import { LoginInput } from "@components/form/LoginInput";
+import { HorizontalLine } from "@components/HorizontalLine";
+import { Button } from "@components/form/Button";
+
+import StorageWrapper from "@/src/utils/storage";
+
+import useBakalariStore from "@utils/useBakalariStore";
 
 export default function Page() {
+  const { setApi } = useBakalariStore();
   const [disabled, setDisabled] = useState(false);
+  const router = useRouter();
 
   /**
    * Hook pro správu dat formuláře
@@ -41,11 +49,22 @@ export default function Page() {
         password: data.password,
       });
     },
-    onSuccess: () => {
+    onSuccess: (api) => {
       Toast.hide();
       toastHelper.success("Přihlášení proběhlo úspěšně");
 
+      const authOptions = api.connector?.authOptions;
+      StorageWrapper.set("loginData", {
+        baseUrl: authOptions!.baseUrl,
+        username: authOptions!.username,
+        accessToken: authOptions!.token,
+        refreshToken: authOptions!.refreshToken,
+      });
+
+      setApi(api);
+
       setDisabled(false);
+      router.push("/modules/timetable");
     },
     onError: (err: AxiosError) => {
       Toast.hide();
@@ -93,7 +112,6 @@ export default function Page() {
     });
 
     toastHelper.loading("Ověřování údajů...");
-
     setDisabled(true);
 
     mutation.mutate(inputData);
@@ -109,7 +127,6 @@ export default function Page() {
           </LoginInput.Icon>
           <LoginInput.Input
             elementDisabled={disabled}
-            autoCapitalize="none"
             autoComplete="url"
             textContentType="URL"
             onChangeText={(newText) => {
@@ -133,7 +150,6 @@ export default function Page() {
           </LoginInput.Icon>
           <LoginInput.Input
             elementDisabled={disabled}
-            autoCapitalize="none"
             autoComplete="username"
             textContentType="username"
             onChangeText={(newText) => updateInput("username", newText)}
@@ -148,7 +164,6 @@ export default function Page() {
           </LoginInput.Icon>
           <LoginInput.Input
             elementDisabled={disabled}
-            autoCapitalize="none"
             autoComplete="password"
             textContentType="password"
             onChangeText={(newText) => updateInput("password", newText)}
