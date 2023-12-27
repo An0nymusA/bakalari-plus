@@ -14,7 +14,7 @@ export const BaseToastContext = createStyledContext({
 const BaseToastFrame = styled(XStack, {
   name: "InputFrame",
   context: BaseToastContext,
-  borderRadius: "$1",
+  borderRadius: "$2",
   backgroundColor: "$grey100",
   padding: 20,
   paddingVertical: 15,
@@ -26,7 +26,7 @@ const BaseToastFrame = styled(XStack, {
 const BaseToastText = styled(Text, {
   name: "Input",
   context: BaseToastContext,
-  fontSize: "$2",
+  fontSize: "$1.5",
   color: "$grey0",
   textAlign: "left",
   maxWidth: 180,

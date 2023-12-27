@@ -21,9 +21,8 @@ export default function App() {
     };
   }, []);
 
-  if (api) {
-    return <Redirect href="/modules/timetable" />;
-  }
+  // Redirect to timetable if API is ready
+  if (api) return <Redirect href="/modules/timetable" />;
 
   return (
     <ImageBackground

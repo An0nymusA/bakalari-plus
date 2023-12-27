@@ -24,6 +24,7 @@ import StorageWrapper from "@/src/utils/storage";
 
 import useBakalariStore from "@utils/useBakalariStore";
 
+//TODO: implement error message when network error happens in useAuth
 export default function Page() {
   const { setApi } = useBakalariStore();
   const [disabled, setDisabled] = useState(false);
@@ -53,6 +54,7 @@ export default function Page() {
       Toast.hide();
       toastHelper.success("Přihlášení proběhlo úspěšně");
 
+      // Saving login data for later use
       const authOptions = api.connector?.authOptions;
       StorageWrapper.set("loginData", {
         baseUrl: authOptions!.baseUrl,
@@ -61,20 +63,23 @@ export default function Page() {
         refreshToken: authOptions!.refreshToken,
       });
 
+      // Saving api to global state
       setApi(api);
 
       setDisabled(false);
-      router.push("/modules/timetable");
+      router.replace("/modules/timetable");
     },
     onError: (err: AxiosError) => {
       Toast.hide();
 
+      // Checking if url is available
       if (err.code == "ERR_NETWORK" || err.response?.status == 404) {
         toastHelper.error("Adresa neexistuje, nebo je nedostupná");
 
         setInputError("url", true);
       }
 
+      // Checking if username or password is wrong
       if (err.response?.status == 400) {
         toastHelper.error("Heslo / uživatelské jméno je špatně");
 
@@ -90,30 +95,30 @@ export default function Page() {
    * Callback pro submit tlacitko
    */
   const onSubmit = () => {
+    // Checking for empty inputs
     if (!inputData.url || !inputData.username || !inputData.password) {
-      if (!inputData.url) setInputError("url", true);
-
-      if (!inputData.username) setInputError("username", true);
-
-      if (!inputData.password) setInputError("password", true);
+      !inputData.url && setInputError("url", true);
+      !inputData.username && setInputError("username", true);
+      !inputData.password && setInputError("password", true);
 
       toastHelper.error("Musí být vyplněna všechna pole");
       return;
     }
 
+    // Checking if url is valid
     if (!checkUrl(inputData.url)) {
       setInputError("url", true);
       toastHelper.error("Nevalidní url adresa");
       return;
     }
 
-    Object.keys(inputErrors).forEach((key) => {
-      setInputError(key, false);
-    });
+    // Removing old input errors
+    Object.keys(inputErrors).forEach((key) => setInputError(key, false));
 
     toastHelper.loading("Ověřování údajů...");
     setDisabled(true);
 
+    // Sending request
     mutation.mutate(inputData);
   };
 

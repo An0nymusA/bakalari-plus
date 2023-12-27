@@ -7,7 +7,7 @@ import { setVisibility } from "@/src/components/general/MenuBackdrop";
 export default function Page() {
   const { api } = useBakalariStore();
   const { logout } = useAuth();
-  const { log } = useLogger("timetable", "modules");
+  const { log } = useLogger("marks", "modules");
 
   // logout();
 
@@ -15,13 +15,13 @@ export default function Page() {
 
   return (
     <View flex={1}>
-      <Text color={"$grey0"}>Timetable</Text>
+      <Text color={"$grey0"}>Marks</Text>
       <Button
         onPress={() => {
           setVisibility(true);
         }}
       >
-        <Text>Show Backdrop</Text>
+        Show Backdrop
       </Button>
     </View>
   );

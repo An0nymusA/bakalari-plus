@@ -7,7 +7,7 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./src/assets/icons/splash.png",
-      "backgroundColor": "#1e1f25"
+      "backgroundColor": "#1E1F25"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -24,7 +24,6 @@
       "favicon": "./src/assets/icons/favicon.png",
       "bundler": "metro"
     },
-    "plugins": ["expo-router"],
     "scheme": "bakalariplus",
     "experiments": {
       "tsconfigPaths": true

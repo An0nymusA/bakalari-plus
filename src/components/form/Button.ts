@@ -13,7 +13,7 @@ export const ButtonContext = createStyledContext({
 export const ButtonFrame = styled(TamaguiButton, {
   name: "ButtonFrame",
   context: ButtonContext,
-  borderRadius: "$1",
+  borderRadius: "$2",
   padding: 10,
 
   textAlign: "center",
@@ -49,7 +49,7 @@ export const ButtonFrame = styled(TamaguiButton, {
 const ButtonText = styled(Text, {
   name: "ButtonText",
   context: ButtonContext,
-  fontSize: "$3",
+  fontSize: "$2.5",
   fontWeight: "$medium",
 
   variants: {

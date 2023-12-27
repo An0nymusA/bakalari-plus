@@ -4,6 +4,10 @@ import { create } from "zustand";
 interface BakakalariStore {
   api: BakalariApi | null;
   setApi: (api: BakalariApi | null) => void;
+  authStatus: "network-error" | "error" | "success" | "pending";
+  setAuthStatus: (
+    authStatus: "network-error" | "error" | "success" | "pending"
+  ) => void;
 }
 
 const useBakalariStore = create<BakakalariStore>((set) => ({
@@ -12,6 +16,14 @@ const useBakalariStore = create<BakakalariStore>((set) => ({
     set((state) => ({
       ...state,
       api,
+    })),
+  authStatus: "pending",
+  setAuthStatus: (
+    authStatus: "network-error" | "error" | "success" | "pending"
+  ) =>
+    set((state) => ({
+      ...state,
+      authStatus,
     })),
 }));
 

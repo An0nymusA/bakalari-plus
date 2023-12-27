@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { useRouter } from "expo-router";
 
 import BakalariApi from "bakalari-ts-api/build/models/BakalariApi";
@@ -10,8 +8,10 @@ import { AxiosError } from "axios";
 import useLogger from "./useLogger";
 
 export const useAuth = () => {
-  const [status, setStatus] = useState<string>("pending");
+
+  const { setAuthStatus } = useBakalariStore();
   const router = useRouter();
+
   const { log } = useLogger("authHook", "hooks");
 
   const { api, setApi } = useBakalariStore();
@@ -33,7 +33,7 @@ export const useAuth = () => {
     if (credentials == null) {
       log("no-credentials");
 
-      setStatus("success");
+      setAuthStatus("success");
       return;
     }
 
@@ -48,18 +48,25 @@ export const useAuth = () => {
       });
 
       setApi(api);
-      setStatus("success");
+      setAuthStatus("success");
     } catch (e) {
-      if (
-        e instanceof AxiosError &&
-        e.response?.data?.error_description ==
-          `The specified refresh token has already been redeemed.`
-      ) {
-        logout();
-      }
       log("error");
 
-      setStatus("error");
+      if (e instanceof AxiosError) {
+        if (
+          e.response?.data?.error_description ==
+          `The specified refresh token has already been redeemed.`
+        ) {
+          logout();
+        }
+
+        if (e.code == "ERR_NETWORK") {
+          setAuthStatus("network-error");
+          return;
+        }
+      }
+
+      setAuthStatus("error");
     }
   };
 
@@ -67,8 +74,8 @@ export const useAuth = () => {
     setApi(null);
     StorageWrapper.remove("loginData");
 
-    router.push("/login");
+    router.replace("/login");
   };
 
-  return { status, login, logout };
+  return { login, logout };
 };

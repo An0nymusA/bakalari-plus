@@ -10,5 +10,6 @@ export default function Page() {
 
   if (api) return <Redirect href="/modules/timetable" />;
 
-  return <Redirect href="/login" />;
+  return <Redirect href="/modules/timetable" />;
+  // return <Redirect href="/login" />;
 }

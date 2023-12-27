@@ -19,7 +19,7 @@ const InputFrame = styled(Stack, {
   flexDirection: "row",
   gap: 12,
 
-  borderRadius: "$1",
+  borderRadius: "$2",
   padding: 10,
 
   borderColor: "$grey80",
@@ -41,7 +41,7 @@ const Input = styled(TamaguiInput, {
   context: InputContext,
   autoCapitalize: "none",
   unstyled: true,
-  fontSize: "$2",
+  fontSize: "$1.5",
   fontWeight: "$normal",
   color: "$grey0",
   placeholderTextColor: "$grey050",
