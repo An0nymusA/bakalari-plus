@@ -8,7 +8,6 @@ import { AxiosError } from "axios";
 import useLogger from "./useLogger";
 
 export const useAuth = () => {
-
   const { setAuthStatus } = useBakalariStore();
   const router = useRouter();
 
@@ -28,17 +27,17 @@ export const useAuth = () => {
   };
 
   const login = async (credentials: BakalariAuthOptions) => {
-    log("starting");
+    log.debug("starting-auth");
 
     if (credentials == null) {
-      log("no-credentials");
+      log.debug("no-credentials");
 
       setAuthStatus("success");
       return;
     }
 
     try {
-      log("trying");
+      log.debug("trying-login");
 
       const api = await BakalariApi.initialize({
         baseUrl: credentials.baseUrl,
@@ -50,7 +49,7 @@ export const useAuth = () => {
       setApi(api);
       setAuthStatus("success");
     } catch (e) {
-      log("error");
+      log.debug("error");
 
       if (e instanceof AxiosError) {
         if (
@@ -72,7 +71,7 @@ export const useAuth = () => {
 
   const logout = () => {
     setApi(null);
-    StorageWrapper.remove("loginData");
+    StorageWrapper.clear();
 
     router.replace("/login");
   };

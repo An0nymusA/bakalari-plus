@@ -6,10 +6,10 @@ export default function Page() {
   const { api } = useBakalariStore();
   const { log } = useLogger("index", "root");
 
-  log("opened");
+  log.navigation("opened");
 
   if (api) return <Redirect href="/modules/timetable" />;
 
-  return <Redirect href="/modules/timetable" />;
-  // return <Redirect href="/login" />;
+  // return <Redirect href="/modules/timetable" />;
+  return <Redirect href="/login" />;
 }

@@ -11,18 +11,12 @@ export default function Page() {
 
   // logout();
 
-  log("opened", `loginAPI ${api == null ? "null" : "ready"}`);
+  log.navigation("opened");
+  log.info(`loginAPI ${api == null ? "null" : "ready"}`)
 
   return (
     <View flex={1}>
       <Text color={"$grey0"}>Timetable</Text>
-      <Button
-        onPress={() => {
-          setVisibility(true);
-        }}
-      >
-        <Text>Show Backdrop</Text>
-      </Button>
     </View>
   );
 }

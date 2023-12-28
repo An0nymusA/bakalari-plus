@@ -14,16 +14,21 @@ class StorageWrapper {
   }
 
   static getObject(key: string) {
-
     const value = this.get(key);
 
-    if(!value) return value;
-    
+    if (!value) return value;
+
     return JSON.parse(this.get(key));
   }
 
   static remove(key: string): Promise<void> {
     return SyncStorage.remove(key);
+  }
+
+  static clear(): Promise<void[]> {
+    return Promise.all(
+      SyncStorage.getAllKeys().map((key) => SyncStorage.remove(key))
+    );
   }
 }
 

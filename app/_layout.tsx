@@ -13,11 +13,8 @@ import SuccessToast from "@components/toasts/SuccessToast";
 import LoadingToast from "@components/toasts/LoadingToast";
 
 import NetInfo from "@react-native-community/netinfo";
-import {
-  onlineManager,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { onlineManager, QueryClient } from "@tanstack/react-query";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 
 import config from "@/tamagui.config";
 import { StyledSafeAreaView } from "@/src/components/general/StyledSafeAreaView";
@@ -25,8 +22,18 @@ import { StyledSafeAreaView } from "@/src/components/general/StyledSafeAreaView"
 import StorageWrapper from "@/src/utils/storage";
 import { useAuth } from "@/src/hooks/useAuth";
 import useBakalariStore from "@/src/utils/useBakalariStore";
+import createStoragePersister from "@/src/utils/StoragePersister";
+import useLogger from "@/src/hooks/useLogger";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchInterval: 2 * 60 * 1000, // 2 minutes
+      gcTime: Infinity,
+    },
+  },
+});
 
 /**
  * Setting up toasts
@@ -49,6 +56,7 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   const { login } = useAuth();
+  const { log } = useLogger("layout", "root");
   const { authStatus } = useBakalariStore();
   const [storageLoaded, setStorageLoaded] = useState(false);
 
@@ -60,13 +68,15 @@ export default function App() {
   });
 
   useEffect(() => {
+
+    log.space();
+
     (async () => {
       // Loading storage
       await StorageWrapper.init();
       setStorageLoaded(true);
 
-      await login(StorageWrapper.get("loginData"));
-      SplashScreen.hideAsync();
+      login(StorageWrapper.get("loginData"));
     })();
   }, []);
 
@@ -81,7 +91,10 @@ export default function App() {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{ persister: createStoragePersister() }}
+    >
       <TamaguiProvider config={config}>
         <Theme name={colorScheme === "dark" ? "dark" : "light"}>
           <StyledSafeAreaView backgroundColor="$background">
@@ -90,6 +103,6 @@ export default function App() {
           </StyledSafeAreaView>
         </Theme>
       </TamaguiProvider>
-    </QueryClientProvider>
+    </PersistQueryClientProvider>
   );
 }

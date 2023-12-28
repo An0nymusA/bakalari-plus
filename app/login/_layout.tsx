@@ -11,7 +11,8 @@ export default function App() {
   const { api } = useBakalariStore();
   const { log } = useLogger("layout", "login");
 
-  log("opened", `loginAPI ${api == null ? "null" : "ready"}`);
+  log.navigation("opened");
+  log.info(`loginAPI ${api == null ? "null" : "ready"}`)
 
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useRouter } from "expo-router";
+import { useState, useEffect } from "react";
+import { useRouter, SplashScreen } from "expo-router";
 
 import { View } from "tamagui";
 import { useMutation } from "@tanstack/react-query";
@@ -23,12 +23,18 @@ import { Button } from "@components/form/Button";
 import StorageWrapper from "@/src/utils/storage";
 
 import useBakalariStore from "@utils/useBakalariStore";
+import useLogger from "@/src/hooks/useLogger";
 
 //TODO: implement error message when network error happens in useAuth
 export default function Page() {
   const { setApi } = useBakalariStore();
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
+  const { log } = useLogger("login");
+
+  useEffect(() => {
+    SplashScreen.hideAsync();
+  }, []);
 
   /**
    * Hook pro správu dat formuláře
@@ -44,6 +50,7 @@ export default function Page() {
    */
   const mutation = useMutation({
     mutationFn: (data: { [key: string]: string }) => {
+      log.debug("fetching api", `https://${data.url}`);
       return BakalariAPI.initialize({
         baseUrl: `https://${data.url}`,
         username: data.username,
@@ -51,6 +58,7 @@ export default function Page() {
       });
     },
     onSuccess: (api) => {
+      log.debug("fetching success");
       Toast.hide();
       toastHelper.success("Přihlášení proběhlo úspěšně");
 
@@ -70,6 +78,7 @@ export default function Page() {
       router.replace("/modules/timetable");
     },
     onError: (err: AxiosError) => {
+      log.debug("fetching error");
       Toast.hide();
 
       // Checking if url is available
@@ -87,6 +96,7 @@ export default function Page() {
         setInputError("password", true);
       }
 
+      console.log(JSON.stringify(err, null, 2));
       setDisabled(false);
     },
   });
