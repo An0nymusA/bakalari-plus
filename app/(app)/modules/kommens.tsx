@@ -1,17 +1,15 @@
 import { Text, View } from "tamagui";
-import useBakalariStore from "@utils/useBakalariStore";
-import { useAuth } from "@/src/hooks/useAuth";
 import useLogger from "@/src/hooks/useLogger";
+import { useEffect } from "react";
 
 export default function Page() {
-  const { api } = useBakalariStore();
-  const { logout } = useAuth();
   const { log } = useLogger("kommens", "modules");
 
   // logout();
 
-  log.navigation("opened");
-  log.info(`loginAPI ${api == null ? "null" : "ready"}`)
+  useEffect(() => {
+    log.navigation("opened");
+  }, [])
 
   return (
     <View flex={1}>

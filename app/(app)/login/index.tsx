@@ -34,6 +34,10 @@ export default function Page() {
 
   useEffect(() => {
     SplashScreen.hideAsync();
+
+    updateInput("url", "adamz.cz/bakapi");
+    updateInput("username", "test");
+    updateInput("password", "test");
   }, []);
 
   /**
@@ -57,17 +61,17 @@ export default function Page() {
         password: data.password,
       });
     },
-    onSuccess: (api) => {
+    onSuccess: async (api) => {
       log.debug("fetching success");
       Toast.hide();
       toastHelper.success("Přihlášení proběhlo úspěšně");
 
       // Saving login data for later use
       const authOptions = api.connector?.authOptions;
-      StorageWrapper.set("loginData", {
+      await StorageWrapper.set("loginData", {
         baseUrl: authOptions!.baseUrl,
         username: authOptions!.username,
-        accessToken: authOptions!.token,
+        token: authOptions!.token,
         refreshToken: authOptions!.refreshToken,
       });
 
@@ -87,16 +91,16 @@ export default function Page() {
 
         setInputError("url", true);
       }
-
       // Checking if username or password is wrong
-      if (err.response?.status == 400) {
+      else if (err.response?.status == 400) {
         toastHelper.error("Heslo / uživatelské jméno je špatně");
 
         setInputError("username", true);
         setInputError("password", true);
+      } else {
+        toastHelper.error("Nastala chyba při přihlašování");
       }
 
-      console.log(JSON.stringify(err, null, 2));
       setDisabled(false);
     },
   });
@@ -141,6 +145,8 @@ export default function Page() {
             <HouseSearch />
           </LoginInput.Icon>
           <LoginInput.Input
+            //TODO: remove
+            value="adamz.cz/bakapi"
             elementDisabled={disabled}
             autoComplete="url"
             textContentType="URL"
@@ -164,6 +170,8 @@ export default function Page() {
             <User />
           </LoginInput.Icon>
           <LoginInput.Input
+            //TODO: remove
+            value="test"
             elementDisabled={disabled}
             autoComplete="username"
             textContentType="username"
@@ -178,6 +186,8 @@ export default function Page() {
             <Key />
           </LoginInput.Icon>
           <LoginInput.Input
+            //TODO: remove
+            value="test"
             elementDisabled={disabled}
             autoComplete="password"
             textContentType="password"

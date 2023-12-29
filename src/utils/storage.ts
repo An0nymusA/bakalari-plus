@@ -1,34 +1,23 @@
-import SyncStorage from "sync-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 class StorageWrapper {
-  static async init() {
-    return SyncStorage.init();
-  }
-
   static set(key: string, value: any): Promise<void> {
-    return SyncStorage.set(key, value);
+    return AsyncStorage.setItem(key, JSON.stringify(value));
   }
 
-  static get(key: string) {
-    return SyncStorage.get(key);
-  }
-
-  static getObject(key: string) {
-    const value = this.get(key);
-
-    if (!value) return value;
-
-    return JSON.parse(this.get(key));
+  static async get(key: string): Promise<any | null> {
+    return AsyncStorage.getItem(key).then((value) => {
+      if (value == null) return null;
+      return JSON.parse(value);
+    });
   }
 
   static remove(key: string): Promise<void> {
-    return SyncStorage.remove(key);
+    return AsyncStorage.removeItem(key);
   }
 
-  static clear(): Promise<void[]> {
-    return Promise.all(
-      SyncStorage.getAllKeys().map((key) => SyncStorage.remove(key))
-    );
+  static clear(): Promise<void> {
+    return AsyncStorage.clear();
   }
 }
 

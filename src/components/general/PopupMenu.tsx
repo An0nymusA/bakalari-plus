@@ -3,7 +3,7 @@ import PopupMenuButton from "../menu/PopupMenuButton";
 
 import { usePathname, useRouter } from "expo-router";
 import { setVisibility } from "./MenuBackdrop";
-import { useAuth } from "@hooks/useAuth";
+import useAuth from "@hooks/useAuth";
 
 import { Logout } from "@/src/assets/images";
 import { Kommens, KommensActive } from "@/src/assets/images";

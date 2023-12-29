@@ -6,8 +6,9 @@ import StorageWrapper from "../utils/storage";
 import useBakalariStore from "../utils/useBakalariStore";
 import { AxiosError } from "axios";
 import useLogger from "./useLogger";
+import queryClient from "../api/queryClient";
 
-export const useAuth = () => {
+const useAuth = () => {
   const { setAuthStatus } = useBakalariStore();
   const router = useRouter();
 
@@ -27,7 +28,7 @@ export const useAuth = () => {
   };
 
   const login = async (credentials: BakalariAuthOptions) => {
-    log.debug("starting-auth");
+    log.debug("starting-auth", JSON.stringify(credentials, null, 4));
 
     if (credentials == null) {
       log.debug("no-credentials");
@@ -50,6 +51,7 @@ export const useAuth = () => {
       setAuthStatus("success");
     } catch (e) {
       log.debug("error");
+      console.log(JSON.stringify(e, null, 4));
 
       if (e instanceof AxiosError) {
         if (
@@ -69,12 +71,16 @@ export const useAuth = () => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
     setApi(null);
-    StorageWrapper.clear();
+    await StorageWrapper.clear();
+    await queryClient.invalidateQueries();
+    queryClient.removeQueries();
 
     router.replace("/login");
   };
 
   return { login, logout };
 };
+
+export default useAuth;

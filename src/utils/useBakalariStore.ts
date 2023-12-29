@@ -8,6 +8,8 @@ interface BakakalariStore {
   setAuthStatus: (
     authStatus: "network-error" | "error" | "success" | "pending"
   ) => void;
+  loaderVisible: boolean;
+  setLoaderVisible: (loaderVisible: boolean) => void;
 }
 
 const useBakalariStore = create<BakakalariStore>((set) => ({
@@ -24,6 +26,12 @@ const useBakalariStore = create<BakakalariStore>((set) => ({
     set((state) => ({
       ...state,
       authStatus,
+    })),
+  loaderVisible: false,
+  setLoaderVisible: (loaderVisible: boolean) =>
+    set((state) => ({
+      ...state,
+      loaderVisible,
     })),
 }));
 
