@@ -18,7 +18,8 @@ const PopupMenu = () => {
   const { logout } = useAuth();
 
   const redirect = (module: string) => {
-    router.push(`/modules/${module}`);
+    if (!pathname.includes(module)) router.push(`/modules/${module}`);
+
     setVisibility(false);
   };
 

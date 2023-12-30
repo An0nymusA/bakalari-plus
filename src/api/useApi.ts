@@ -1,39 +1,69 @@
 import { useEffect, useState } from "react";
-import { log } from "../hooks/useLogger";
 import useBakalariStore from "../utils/useBakalariStore";
 import { useQueries } from "@tanstack/react-query";
 import {
+  formatKommens,
   formatMarks,
   formatTimetable,
 } from "bakalari-ts-api/build/utils/formattingUtils";
+import useLogger from "../hooks/useLogger";
+import { getMondayDate } from "../utils/utils";
 
-const useApi = (log: log) => {
+const useApi = () => {
   const { api } = useBakalariStore();
   const [isLoading, setIsLoading] = useState(true);
+
+  const { log } = useLogger("apiHook", "hooks");
 
   const data = useQueries({
     queries: [
       {
-        queryKey: ["module:mark"],
+        queryKey: ["marks"],
         queryFn: () => {
-          log.debug("fetching marks");
+          log.debug("marks");
 
           return api?.marks().then((data) => {
-            log.debug("fetching marks", "done");
+            log.debug("marks", "done");
             return formatMarks(data);
           });
         },
       },
       {
-        queryKey: ["module:timetable", "actua"],
+        queryKey: ["timetable", "permanent"],
         queryFn: () => {
-          log.debug("fetching timetable-a");
+          log.debug("timetable:p");
 
-          return api?.timetable().then((data) => {
-
-            log.debug("fetching timetable-a", "done");
+          return api?.timetable({ type: "permanent" }).then((data) => {
+            log.debug("timetable:p", "done");
             return formatTimetable(data);
           });
+        },
+      },
+      {
+        queryKey: ["timetable", getMondayDate(0)],
+        queryFn: () => {
+          log.debug("timetable:a");
+
+          return api
+            ?.timetable({ type: "actual", date: getMondayDate(0) })
+            .then((data) => {
+              log.debug("timetable:a", "done");
+              return formatTimetable(data);
+            });
+        },
+        staleTime: 2 * 24 * 60 * 60 * 1000, // 2 days
+      },
+      {
+        queryKey: ["kommens"],
+        queryFn: async () => {
+          log.debug("kommens");
+
+          const received: any = await api?.kommens();
+          const noticeboard = await api?.kommens({ noticeboard: true });
+
+          log.debug("kommens", "done");
+
+          return formatKommens(received, noticeboard);
         },
       },
     ],

@@ -33,7 +33,7 @@ const useAuth = () => {
     if (credentials == null) {
       log.debug("no-credentials");
 
-      setAuthStatus("success");
+      setAuthStatus("no-credentials");
       return;
     }
 
@@ -53,29 +53,23 @@ const useAuth = () => {
       log.debug("error");
       console.log(JSON.stringify(e, null, 4));
 
-      if (e instanceof AxiosError) {
-        if (
-          e.response?.data?.error_description ==
-          `The specified refresh token has already been redeemed.`
-        ) {
-          logout();
-        }
-
-        if (e.code == "ERR_NETWORK") {
-          setAuthStatus("network-error");
-          return;
-        }
+      if (e instanceof AxiosError && e.code == "ERR_NETWORK") {
+        setAuthStatus("network-error");
+        return;
       }
 
       setAuthStatus("error");
+      logout();
     }
   };
 
   const logout = async () => {
+    log.info("logout");
+
     setApi(null);
     await StorageWrapper.clear();
-    await queryClient.invalidateQueries();
-    queryClient.removeQueries();
+    // await queryClient.invalidateQueries();
+    queryClient.clear();
 
     router.replace("/login");
   };

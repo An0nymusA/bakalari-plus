@@ -4,9 +4,19 @@ import { create } from "zustand";
 interface BakakalariStore {
   api: BakalariApi | null;
   setApi: (api: BakalariApi | null) => void;
-  authStatus: "network-error" | "error" | "success" | "pending";
+  authStatus:
+    | "network-error"
+    | "error"
+    | "success"
+    | "pending"
+    | "no-credentials";
   setAuthStatus: (
-    authStatus: "network-error" | "error" | "success" | "pending"
+    authStatus:
+      | "network-error"
+      | "error"
+      | "success"
+      | "pending"
+      | "no-credentials"
   ) => void;
   loaderVisible: boolean;
   setLoaderVisible: (loaderVisible: boolean) => void;
@@ -21,7 +31,12 @@ const useBakalariStore = create<BakakalariStore>((set) => ({
     })),
   authStatus: "pending",
   setAuthStatus: (
-    authStatus: "network-error" | "error" | "success" | "pending"
+    authStatus:
+      | "network-error"
+      | "error"
+      | "success"
+      | "pending"
+      | "no-credentials"
   ) =>
     set((state) => ({
       ...state,

@@ -5,6 +5,7 @@ const PopupMenuButton = styled(Stack, {
   backgroundColor: "$transparent",
   borderRadius: "$2",
   padding: "$1",
+  shadowRadius: "$2",
 
   variants: {
     type: {

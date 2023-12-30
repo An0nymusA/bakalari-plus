@@ -20,8 +20,8 @@ const animations = createAnimations({
   },
   quick: {
     type: "spring",
-    damping: 20,
-    mass: 1.2,
+    damping: 22,
+    mass: 1.1,
     stiffness: 250,
   },
 });
@@ -100,6 +100,8 @@ const config = createTamagui({
     tall: { minHeight: 820 },
     hoverNone: { hover: "none" },
     pointerCoarse: { pointer: "coarse" },
+    portait: { orientation: "portrait" },
+    landscape: { orientation: "landscape" },
   }),
   defaultProps: {
     color: "$grey0",

@@ -21,6 +21,8 @@ const StaticMenu = () => {
       backgroundColor="$grey100"
       paddingVertical="$2"
       paddingHorizontal="$4"
+      borderTopWidth={1}
+      borderTopColor="$grey60"
     >
       <View
         display="flex"

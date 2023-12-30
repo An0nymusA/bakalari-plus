@@ -1,4 +1,3 @@
-import { ImageBackground } from "react-native";
 import { useEffect } from "react";
 
 import { Slot, SplashScreen } from "expo-router";
@@ -18,27 +17,23 @@ export default function App() {
   useEffect(() => {
     log.navigation("opened");
     setLoaderVisible(true);
-    
+
     SplashScreen.hideAsync();
   }, []);
 
-  const isLoading = useApi(log);
+  const isLoading = useApi();
 
   useEffect(() => {
     setLoaderVisible(isLoading);
   }, [isLoading]);
 
   return isLoading ? null : (
-    <ImageBackground
-      source={require("@images/Background-global.svg")}
-      style={{ flex: 1 }}
-    >
+    <>
       <View flex={1}>
         <Slot />
-
         <Backdrop />
       </View>
       <StaticMenu />
-    </ImageBackground>
+    </>
   );
 }

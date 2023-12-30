@@ -8,4 +8,17 @@ const checkUrl = (url: string): boolean => {
   return pattern.test(url);
 };
 
-export { checkUrl };
+const getMondayDate = (week: number = 0): string => {
+  const currentDate = new Date();
+  const currentDay = currentDate.getDay();
+  const diff = currentDay === 0 ? -6 : 1 - currentDay;
+  const mondayDate = new Date(
+    currentDate.setDate(currentDate.getDate() + (diff + 7 * week))
+  );
+  const year = mondayDate.getFullYear();
+  const month = String(mondayDate.getMonth() + 1).padStart(2, "0");
+  const day = String(mondayDate.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+export { checkUrl, getMondayDate };

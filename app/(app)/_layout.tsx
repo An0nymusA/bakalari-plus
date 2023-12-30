@@ -1,10 +1,11 @@
 // import '@tamagui/core/reset.css'
 
 import { useEffect, useState } from "react";
-import { TamaguiProvider, Text, Theme } from "tamagui";
+import { TamaguiProvider, Theme, useMedia } from "tamagui";
+import { StatusBar, ImageBackground } from "react-native";
 
 import { useFonts } from "expo-font";
-import { Redirect, Slot, usePathname } from "expo-router";
+import { Redirect, Slot, usePathname, useRouter } from "expo-router";
 
 import Toast, { ToastConfigParams } from "react-native-toast-message";
 import ErrorToast from "@components/toasts/ErrorToast";
@@ -24,6 +25,7 @@ import useBakalariStore from "@utils/useBakalariStore";
 import useLogger from "@hooks/useLogger";
 import queryClient, { asyncStoragePersister } from "@src/api/queryClient";
 import LoadingScreen from "@/src/pages/LoadingScreen";
+import colors from "@/src/constants/colors";
 
 /**
  * Setting up toasts
@@ -46,6 +48,9 @@ export default function App() {
   const { authStatus, api } = useBakalariStore();
   const [storageLoaded, setStorageLoaded] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  const media = useMedia();
 
   // Setting up fonts
   const [fontsLoaded] = useFonts({
@@ -56,6 +61,9 @@ export default function App() {
 
   useEffect(() => {
     log.space();
+
+    StatusBar.setBackgroundColor(colors.grey100);
+    StatusBar.setBarStyle("light-content");
 
     onlineManager.setEventListener((setOnline) =>
       NetInfo.addEventListener((state) => {
@@ -70,6 +78,17 @@ export default function App() {
     })();
   }, []);
 
+  useEffect(() => {
+    if (pathname.includes("login")) return;
+
+    if (authStatus.includes("no-credentials") || authStatus.includes("error")) {
+      router.replace("/login");
+      return;
+    }
+  }, [api, authStatus]);
+
+  const everyThingLoaded =
+    storageLoaded && fontsLoaded && authStatus !== "pending";
 
   return (
     <PersistQueryClientProvider
@@ -77,16 +96,18 @@ export default function App() {
       persistOptions={{ persister: asyncStoragePersister }}
     >
       <TamaguiProvider config={config}>
-        {/* <Theme name={colorScheme === "dark" ? "dark" : "light"}> */}
         <Theme name={"dark"}>
-          <StyledSafeAreaView backgroundColor="$background">
+          <StyledSafeAreaView>
             <LoadingScreen />
-            {storageLoaded && fontsLoaded && authStatus !== "pending" ? (
-              authStatus.includes("error") && !pathname.includes("/login") ? (
-                <Redirect href="/login" />
-              ) : (
+            {everyThingLoaded ? (
+              <ImageBackground
+                source={
+                  media.landscape ? 0 : require("@images/Background-Login.png")
+                }
+                style={{ flex: 1 }}
+              >
                 <Slot />
-              )
+              </ImageBackground>
             ) : null}
             <Toast config={toastConfig} onPress={() => Toast.hide()} />
           </StyledSafeAreaView>

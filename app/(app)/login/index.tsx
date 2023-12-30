@@ -27,7 +27,7 @@ import useLogger from "@/src/hooks/useLogger";
 
 //TODO: implement error message when network error happens in useAuth
 export default function Page() {
-  const { setApi } = useBakalariStore();
+  const { setApi, setLoaderVisible } = useBakalariStore();
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
   const { log } = useLogger("login");
@@ -62,23 +62,28 @@ export default function Page() {
       });
     },
     onSuccess: async (api) => {
+      if (!api.connector?.authOptions) throw new Error();
+
       log.debug("fetching success");
       Toast.hide();
       toastHelper.success("Přihlášení proběhlo úspěšně");
 
       // Saving login data for later use
-      const authOptions = api.connector?.authOptions;
+      const authOptions = api.connector.authOptions;
       await StorageWrapper.set("loginData", {
-        baseUrl: authOptions!.baseUrl,
-        username: authOptions!.username,
-        token: authOptions!.token,
-        refreshToken: authOptions!.refreshToken,
+        baseUrl: authOptions.baseUrl,
+        username: authOptions.username,
+        token: authOptions.token,
+        refreshToken: authOptions.refreshToken,
       });
 
       // Saving api to global state
       setApi(api);
-
       setDisabled(false);
+
+      setLoaderVisible(true);
+
+      log.info("redirecting to timetable");
       router.replace("/modules/timetable");
     },
     onError: (err: AxiosError) => {
