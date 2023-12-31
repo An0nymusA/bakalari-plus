@@ -18,8 +18,8 @@ interface BakakalariStore {
       | "pending"
       | "no-credentials"
   ) => void;
-  loaderVisible: boolean;
-  setLoaderVisible: (loaderVisible: boolean) => void;
+  loaderVisible: true | false | "simple";
+  setLoaderVisible: (loaderVisible: true | false | "simple") => void;
 }
 
 const useBakalariStore = create<BakakalariStore>((set) => ({
@@ -43,7 +43,7 @@ const useBakalariStore = create<BakakalariStore>((set) => ({
       authStatus,
     })),
   loaderVisible: false,
-  setLoaderVisible: (loaderVisible: boolean) =>
+  setLoaderVisible: (loaderVisible: true | false | "simple") =>
     set((state) => ({
       ...state,
       loaderVisible,

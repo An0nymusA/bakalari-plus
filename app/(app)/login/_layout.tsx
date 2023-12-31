@@ -6,9 +6,10 @@ import useBakalariStore from "@utils/useBakalariStore";
 import useLogger from "@/src/hooks/useLogger";
 import { useEffect } from "react";
 
+const { log } = useLogger("layout", "login");
+
 export default function App() {
   const { api } = useBakalariStore();
-  const { log } = useLogger("layout", "login");
 
   useEffect(() => {
     log.navigation("opened");

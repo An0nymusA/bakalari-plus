@@ -8,11 +8,11 @@ import { AxiosError } from "axios";
 import useLogger from "./useLogger";
 import queryClient from "../api/queryClient";
 
+const { log } = useLogger("authHook", "hooks");
+
 const useAuth = () => {
   const { setAuthStatus } = useBakalariStore();
   const router = useRouter();
-
-  const { log } = useLogger("authHook", "hooks");
 
   const { api, setApi } = useBakalariStore();
 
@@ -55,7 +55,9 @@ const useAuth = () => {
 
       if (
         e instanceof AxiosError &&
-        (e.code == "ERR_NETWORK" || e.response?.status == 404 || e.status == 404)
+        (e.code == "ERR_NETWORK" ||
+          e.response?.status == 404 ||
+          e.status == 404)
       ) {
         setAuthStatus("network-error");
         return;

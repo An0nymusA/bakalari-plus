@@ -1,39 +1,71 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { View, Text } from "tamagui";
-import { useQueryClient } from "@tanstack/react-query";
+
+import { useQuery } from "@tanstack/react-query";
+
+import useApiRequests from "@/src/hooks/ApiRequests";
+import useBakalariStore from "@/src/utils/useBakalariStore";
 
 import useLogger from "@hooks/useLogger";
-import PageMenu from "@components/general/PageMenu";
+import PageMenu from "@/src/components/menu/PageMenu";
+import { getMondayDate } from "@/src/utils/utils";
+
+const { log } = useLogger("timetable", "modules");
 
 export default function Page() {
-  const { log } = useLogger("timetable", "modules");
-  const queryClient = useQueryClient();
+  const { api, setLoaderVisible } = useBakalariStore();
+  const ApiRequests = useApiRequests(api);
 
-  const cachedData = queryClient.getQueryData(["timetable", "permanent"]);
+  const [dateModifier, setDateModifier] = useState(0);
+  const date = getMondayDate(dateModifier);
+
+  const [type, setType] = useState<"actual" | "permanent">("actual");
+
+  const { data, isFetching } = useQuery(ApiRequests.timetable({ type, date }));
 
   useEffect(() => {
     log.navigation("opened");
+  }, []);
 
-    // console.log(cachedData);
-  });
+  useEffect(() => {
+    setLoaderVisible(isFetching ? "simple" : false);
+  }, [isFetching]);
 
   return (
     <View flex={1}>
       <View flex={1}>
-        <Text color={"$grey0"}>Timetable</Text>
+        <Text>Timetable</Text>
+        <Text>
+          {type}:{date}
+        </Text>
       </View>
       <PageMenu
         buttons={[
           {
-            onPress: () => {},
+            onPress: () => {
+              setType("actual");
+              setDateModifier((current) => --current);
+            },
             text: "Předchozí",
           },
           {
-            onPress: () => {},
+            onPress: (setText) => {
+              setDateModifier(0);
+
+              setType((current) => {
+                const newType = current === "actual" ? "permanent" : "actual";
+                setText(newType === "actual" ? "Aktuální" : "Stálý");
+
+                return newType;
+              });
+            },
             text: "Stálý",
           },
           {
-            onPress: () => {},
+            onPress: () => {
+              setType("actual");
+              setDateModifier((current) => ++current);
+            },
             text: "Další",
           },
         ]}

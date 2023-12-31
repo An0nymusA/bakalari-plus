@@ -23,7 +23,7 @@ const LoadingScreen = () => {
         gap={"$2"}
         flex={1}
       >
-        <Logo width={100} height={100} />
+        {loaderVisible !== "simple" && <Logo width={100} height={100} />}
         <ActivityIndicator size={"large"} color={colors.primary} />
       </View>
     )

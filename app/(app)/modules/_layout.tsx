@@ -5,15 +5,15 @@ import useBakalariStore from "@utils/useBakalariStore";
 import useLogger from "@hooks/useLogger";
 
 import { View } from "tamagui";
-import Backdrop from "@components/general/MenuBackdrop";
-import StaticMenu from "@components/general/StaticMenu";
+import Backdrop from "@/src/components/menu/MenuBackdrop";
+import StaticMenu from "@/src/components/menu/StaticMenu";
 
-import useApi from "@/src/api/useApi";
+import useApi from "@/src/hooks/useApi";
+
+const { log } = useLogger("layout", "modules");
 
 export default function App() {
-  const { log } = useLogger("layout", "modules");
   const { setLoaderVisible } = useBakalariStore();
-  const [firstLoad, setFirstLoad] = useState(true);
 
   useEffect(() => {
     log.navigation("opened");
@@ -22,17 +22,13 @@ export default function App() {
     SplashScreen.hideAsync();
   }, []);
 
-  const isLoading = useApi();
+  const isFetching = useApi();
 
   useEffect(() => {
-    setLoaderVisible(firstLoad && isLoading);
+    setLoaderVisible(isFetching);
+  }, [isFetching]);
 
-    if (!isLoading && firstLoad) {
-      setFirstLoad(false);
-    }
-  }, [isLoading]);
-
-  return isLoading ? null : (
+  return isFetching ? null : (
     <>
       <View flex={1}>
         <Slot />

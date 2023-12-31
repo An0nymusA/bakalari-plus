@@ -8,8 +8,8 @@ const checkUrl = (url: string): boolean => {
   return pattern.test(url);
 };
 
-const getMondayDate = (week: number = 0): string => {
-  const currentDate = new Date();
+const getMondayDate = (week: number = 0, originPoint?: string): string => {
+  const currentDate = originPoint ? new Date(originPoint) : new Date();
   const currentDay = currentDate.getDay();
   const diff = currentDay === 0 ? -6 : 1 - currentDay;
   const mondayDate = new Date(

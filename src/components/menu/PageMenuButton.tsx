@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Text } from "tamagui";
-import { PageButtonProp } from "../general/PageMenu";
+import { PageButtonProp } from "./PageMenu";
 
 const PageMenuButton = ({ button }: { button: PageButtonProp }) => {
   const [text, setText] = useState(button.text);

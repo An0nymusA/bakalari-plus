@@ -13,7 +13,7 @@ const queryClient = new QueryClient({
       refetchOnMount: false,
       refetchOnReconnect: false,
       refetchInterval: 2.5 * 60 * 1000, // 2.5 minutes
-      staleTime: Infinity,
+      staleTime: (2.5 * 60 * 1000) - 1,
       gcTime: Infinity,
     },
   },

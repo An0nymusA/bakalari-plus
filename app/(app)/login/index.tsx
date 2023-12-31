@@ -25,12 +25,13 @@ import StorageWrapper from "@/src/utils/storage";
 import useBakalariStore from "@utils/useBakalariStore";
 import useLogger from "@/src/hooks/useLogger";
 
+const { log } = useLogger("login");
+
 //TODO: implement error message when network error happens in useAuth
 export default function Page() {
   const { setApi, setLoaderVisible } = useBakalariStore();
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
-  const { log } = useLogger("login");
 
   useEffect(() => {
     SplashScreen.hideAsync();
@@ -54,9 +55,9 @@ export default function Page() {
    */
   const mutation = useMutation({
     mutationFn: (data: { [key: string]: string }) => {
-      log.debug("fetching api", `https://${data.url}`);
+      log.debug("fetching api", `http://${data.url}`);
       return BakalariAPI.initialize({
-        baseUrl: `https://${data.url}`,
+        baseUrl: `http://${data.url}`,
         username: data.username,
         password: data.password,
       });

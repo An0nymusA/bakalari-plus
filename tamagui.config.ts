@@ -2,7 +2,12 @@ import { createAnimations } from "@tamagui/animations-react-native";
 import { createMedia } from "@tamagui/react-native-media-driver";
 import { shorthands } from "@tamagui/shorthands";
 import { tokens } from "@tamagui/themes";
-import { createTokens, createTamagui, createFont } from "tamagui";
+import {
+  createTokens,
+  createTamagui,
+  createFont,
+  TamaguiInternalConfig,
+} from "tamagui";
 
 import colors from "./src/constants/colors";
 
@@ -49,7 +54,7 @@ const montserratFont = createFont({
   },
 });
 
-const config = createTamagui({
+const config: TamaguiInternalConfig = createTamagui({
   animations,
   defaultTheme: "dark",
   shouldAddPrefersColorThemes: false,
@@ -102,10 +107,7 @@ const config = createTamagui({
     pointerCoarse: { pointer: "coarse" },
     portait: { orientation: "portrait" },
     landscape: { orientation: "landscape" },
-  }),
-  defaultProps: {
-    color: "$grey0",
-  },
+  })
 });
 
 export type AppConfig = typeof config;

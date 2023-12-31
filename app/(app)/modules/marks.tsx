@@ -2,8 +2,9 @@ import { Text, View } from "tamagui";
 import useLogger from "@/src/hooks/useLogger";
 import { useEffect } from "react";
 
+const { log } = useLogger("marks", "modules");
+
 export default function Page() {
-  const { log } = useLogger("marks", "modules");
 
   useEffect(() => {
     log.navigation("opened");

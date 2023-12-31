@@ -5,9 +5,10 @@ import * as ScreenOrientation from "expo-screen-orientation";
 
 import { useMedia } from "tamagui";
 
+const { log } = useLogger("index", "root");
+
 export default function Page() {
   const media = useMedia();
-  const { log } = useLogger("index", "root");
 
   useEffect(() => {
     log.navigation("opened");

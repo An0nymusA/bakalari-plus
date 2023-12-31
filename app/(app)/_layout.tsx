@@ -42,9 +42,10 @@ const toastConfig = {
   ),
 };
 
+const { log } = useLogger("layout", "root");
+
 export default function App() {
   const { login } = useAuth();
-  const { log } = useLogger("layout", "root");
   const { authStatus, api } = useBakalariStore();
   const [storageLoaded, setStorageLoaded] = useState(false);
   const [hasAuthData, setHasAuthData] = useState(false);

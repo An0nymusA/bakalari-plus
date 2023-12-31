@@ -1,5 +1,5 @@
 import { View, useMedia } from "tamagui";
-import PopupMenuButton from "../menu/PopupMenuButton";
+import PopupMenuButton from "./PopupMenuButton";
 
 import { usePathname, useRouter } from "expo-router";
 import { setVisibility } from "./MenuBackdrop";
