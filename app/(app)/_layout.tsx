@@ -47,6 +47,7 @@ export default function App() {
   const { log } = useLogger("layout", "root");
   const { authStatus, api } = useBakalariStore();
   const [storageLoaded, setStorageLoaded] = useState(false);
+  const [hasAuthData, setHasAuthData] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -74,6 +75,9 @@ export default function App() {
     (async () => {
       setStorageLoaded(true);
 
+      const authData = await StorageWrapper.get("loginData");
+      setHasAuthData(authData == null);
+
       login(await StorageWrapper.get("loginData"));
     })();
   }, []);
@@ -88,7 +92,7 @@ export default function App() {
   }, [api, authStatus]);
 
   const everyThingLoaded =
-    storageLoaded && fontsLoaded && authStatus !== "pending";
+    storageLoaded && fontsLoaded && (hasAuthData || authStatus !== "pending");
 
   return (
     <PersistQueryClientProvider

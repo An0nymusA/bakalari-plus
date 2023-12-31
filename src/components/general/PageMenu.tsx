@@ -4,7 +4,7 @@ import PageMenuButton from "../menu/PageMenuButton";
 import { useMedia } from "tamagui";
 
 interface PageButtonProp {
-  onPress: (setText: () => void) => void;
+  onPress: (setText: (text: string) => void) => void;
   text: string;
 }
 interface PageButtonProps {
@@ -19,7 +19,7 @@ const PageMenu = ({ buttons }: PageButtonProps) => {
   const media = useMedia();
 
   return (
-    media.portait && (
+    (media.portait || media.gtSm) && (
       <View
         width="100%"
         backgroundColor="$transparent"

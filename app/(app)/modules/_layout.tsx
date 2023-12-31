@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Slot, SplashScreen } from "expo-router";
 import useBakalariStore from "@utils/useBakalariStore";
@@ -13,6 +13,7 @@ import useApi from "@/src/api/useApi";
 export default function App() {
   const { log } = useLogger("layout", "modules");
   const { setLoaderVisible } = useBakalariStore();
+  const [firstLoad, setFirstLoad] = useState(true);
 
   useEffect(() => {
     log.navigation("opened");
@@ -24,7 +25,11 @@ export default function App() {
   const isLoading = useApi();
 
   useEffect(() => {
-    setLoaderVisible(isLoading);
+    setLoaderVisible(firstLoad && isLoading);
+
+    if (!isLoading && firstLoad) {
+      setFirstLoad(false);
+    }
   }, [isLoading]);
 
   return isLoading ? null : (

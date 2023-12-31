@@ -88,6 +88,7 @@ export default function Page() {
     },
     onError: (err: AxiosError) => {
       log.debug("fetching error");
+      console.log(JSON.stringify(err, null, 4));
       Toast.hide();
 
       // Checking if url is available
@@ -143,7 +144,7 @@ export default function Page() {
 
   return (
     <View flex={1} justifyContent="center" alignItems="center">
-      <View width="100%" paddingHorizontal={20} gap={22}>
+      <View maxWidth={600} width="100%" paddingHorizontal={20} gap={22}>
         {/* School URL input */}
         <LoginInput inputError={inputErrors.url} width="100%">
           <LoginInput.Icon>

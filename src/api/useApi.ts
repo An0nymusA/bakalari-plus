@@ -18,7 +18,7 @@ const useApi = () => {
   const data = useQueries({
     queries: [
       {
-        queryKey: ["marks"],
+        queryKey: ["module", "marks"],
         queryFn: () => {
           log.debug("marks");
 
@@ -29,7 +29,7 @@ const useApi = () => {
         },
       },
       {
-        queryKey: ["timetable", "permanent"],
+        queryKey: ["module", "timetable", "permanent"],
         queryFn: () => {
           log.debug("timetable:p");
 
@@ -40,7 +40,7 @@ const useApi = () => {
         },
       },
       {
-        queryKey: ["timetable", getMondayDate(0)],
+        queryKey: ["module", "timetable", getMondayDate(0)],
         queryFn: () => {
           log.debug("timetable:a");
 
@@ -54,7 +54,7 @@ const useApi = () => {
         staleTime: 2 * 24 * 60 * 60 * 1000, // 2 days
       },
       {
-        queryKey: ["kommens"],
+        queryKey: ["module", "kommens"],
         queryFn: async () => {
           log.debug("kommens");
 

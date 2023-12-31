@@ -53,7 +53,10 @@ const useAuth = () => {
       log.debug("error");
       console.log(JSON.stringify(e, null, 4));
 
-      if (e instanceof AxiosError && e.code == "ERR_NETWORK") {
+      if (
+        e instanceof AxiosError &&
+        (e.code == "ERR_NETWORK" || e.response?.status == 404 || e.status == 404)
+      ) {
         setAuthStatus("network-error");
         return;
       }

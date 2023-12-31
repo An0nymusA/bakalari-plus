@@ -27,3 +27,4 @@ export { default as SyncButton } from "./Sync-Button.svg";
 export { default as SyncError } from "./Sync-Error.svg";
 export { default as SyncPending } from "./Sync-Pending.svg";
 export { default as SyncSuccess } from "./Sync-Success.svg";
+export { default as Refresh } from "./Refresh.svg";

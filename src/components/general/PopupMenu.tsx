@@ -1,4 +1,4 @@
-import { View } from "tamagui";
+import { View, useMedia } from "tamagui";
 import PopupMenuButton from "../menu/PopupMenuButton";
 
 import { usePathname, useRouter } from "expo-router";
@@ -14,6 +14,7 @@ import { VerticalLine } from "../VerticalLine";
 const PopupMenu = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const media = useMedia();
 
   const { logout } = useAuth();
 
@@ -22,6 +23,8 @@ const PopupMenu = () => {
 
     setVisibility(false);
   };
+
+  const iconSize = media.sm ? 32 : 40;
 
   return (
     <View
@@ -41,34 +44,34 @@ const PopupMenu = () => {
       }}
     >
       <PopupMenuButton type="red" onPress={() => logout()}>
-        <Logout width={32} height={32} />
+        <Logout width={iconSize} height={iconSize} />
       </PopupMenuButton>
       <VerticalLine />
 
       {/* Marks Button */}
       <PopupMenuButton onPress={() => redirect("marks")}>
         {pathname.includes("marks") ? (
-          <MarksActive width={32} height={32} />
+          <MarksActive width={iconSize} height={iconSize} />
         ) : (
-          <Marks width={32} height={32} />
+          <Marks width={iconSize} height={iconSize} />
         )}
       </PopupMenuButton>
 
       {/* Timetable Button */}
       <PopupMenuButton onPress={() => redirect("timetable")}>
         {pathname.includes("timetable") ? (
-          <TimetableActive width={32} height={32} />
+          <TimetableActive width={iconSize} height={iconSize} />
         ) : (
-          <Timetable width={32} height={32} />
+          <Timetable width={iconSize} height={iconSize} />
         )}
       </PopupMenuButton>
 
       {/* Kommens Button */}
       <PopupMenuButton onPress={() => redirect("kommens")}>
         {pathname.includes("kommens") ? (
-          <KommensActive width={32} height={32} />
+          <KommensActive width={iconSize} height={iconSize} />
         ) : (
-          <Kommens width={32} height={32} />
+          <Kommens width={iconSize} height={iconSize} />
         )}
       </PopupMenuButton>
     </View>
