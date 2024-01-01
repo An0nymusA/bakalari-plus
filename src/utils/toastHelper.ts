@@ -1,6 +1,6 @@
 import Toast from "react-native-toast-message";
 
-const visibilityTime = 4000;
+const visibilityTime = 3000;
 
 var lastToastData = {
   time: Date.now(),
@@ -42,3 +42,4 @@ const toastHelper = {
 };
 
 export default toastHelper;
+export { visibilityTime as toastVisibilityTime };

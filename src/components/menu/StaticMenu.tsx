@@ -4,16 +4,24 @@ import { View, Button, useMedia } from "tamagui";
 import { usePathname } from "expo-router";
 import colors from "@/src/constants/colors";
 
-import { Refresh, Settings, SettingsActive } from "@src/assets/images";
+import {
+  NoSignal,
+  ProgressError,
+  Refresh,
+  Settings,
+  SettingsActive,
+} from "@src/assets/images";
 import { Menu } from "@src/assets/images";
 
-import { toggleVisibility } from "./MenuBackdrop";
 import queryClient from "@/src/api/queryClient";
+import { toggleVisibility } from "./MenuBackdrop";
+import { onlineManager } from "@tanstack/react-query";
 
 const StaticMenu = () => {
   const media = useMedia();
   const pathname = usePathname();
   const [dataLoading, setDataLoading] = useState(false);
+  const isOnline = onlineManager.isOnline();
 
   const iconSize = media.sm ? 35 : 40;
 
@@ -59,14 +67,19 @@ const StaticMenu = () => {
             if (dataLoading) return;
 
             setDataLoading(true);
-            await queryClient.invalidateQueries({ queryKey: ['module'] });
+            if (!isOnline) {
+              await queryClient.invalidateQueries({ queryKey: ["auth"] });
+            }
+            await queryClient.invalidateQueries({ queryKey: ["module"] });
             setDataLoading(false);
           }}
         >
           {dataLoading ? (
             <ActivityIndicator size={"large"} color={colors.grey0} />
-          ) : (
+          ) : isOnline ? (
             <Refresh width={iconSize} height={iconSize} />
+          ) : (
+            <NoSignal width={iconSize} height={iconSize} />
           )}
         </Button>
       </View>

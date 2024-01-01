@@ -26,7 +26,7 @@ const BaseToastFrame = styled(XStack, {
 const BaseToastText = styled(Text, {
   name: "Input",
   context: BaseToastContext,
-  fontSize: "$1.5",
+  fontSize: "$1",
   color: "$grey0",
   textAlign: "left",
   maxWidth: 180,

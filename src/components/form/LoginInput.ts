@@ -42,7 +42,7 @@ const Input = styled(TamaguiInput, {
   autoCapitalize: "none",
   unstyled: true,
   fontSize: "$1.5",
-  fontWeight: "$normal",
+  fontWeight: "normal",
   color: "$grey0",
   placeholderTextColor: "$grey050",
   width: "100%",

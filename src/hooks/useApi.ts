@@ -3,20 +3,20 @@ import { useQueries } from "@tanstack/react-query";
 
 import useBakalariStore from "@utils/useBakalariStore";
 import { getMondayDate } from "@utils/utils";
-import useApiRequests from "@hooks/ApiRequests";
+import useApiRequests from "@/src/hooks/useApiEndpoints";
 
 const useApi = () => {
   const { api } = useBakalariStore();
-  const ApiRequests = useApiRequests(api!);
+  const { marks, komens, timetable } = useApiRequests(api!);
 
   const [isFetching, setIsFetching] = useState(true);
 
   const data = useQueries({
     queries: [
-      ApiRequests.marks(),
-      ApiRequests.kommens(),
-      ApiRequests.timetable({ type: "permanent" }),
-      ApiRequests.timetable({ type: "actual", date: getMondayDate(0) }),
+      marks(),
+      komens(),
+      timetable({ type: "permanent" }),
+      timetable({ type: "actual", date: getMondayDate(0) }),
     ],
   });
 

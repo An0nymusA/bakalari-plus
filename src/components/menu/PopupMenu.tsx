@@ -1,22 +1,21 @@
 import { View, useMedia } from "tamagui";
-import PopupMenuButton from "./PopupMenuButton";
-
 import { usePathname, useRouter } from "expo-router";
-import { setVisibility } from "./MenuBackdrop";
-import useAuth from "@hooks/useAuth";
+
+import { useLogout } from "@hooks/useAuth";
 
 import { Logout } from "@/src/assets/images";
 import { Kommens, KommensActive } from "@/src/assets/images";
 import { Marks, MarksActive } from "@/src/assets/images";
 import { Timetable, TimetableActive } from "@/src/assets/images";
 import { VerticalLine } from "../VerticalLine";
+import PopupMenuButton from "./PopupMenuButton";
+import { setVisibility } from "./MenuBackdrop";
 
 const PopupMenu = () => {
   const pathname = usePathname();
   const router = useRouter();
   const media = useMedia();
-
-  const { logout } = useAuth();
+  const logout = useLogout();
 
   const redirect = (module: string) => {
     if (!pathname.includes(module)) router.push(`/modules/${module}`);

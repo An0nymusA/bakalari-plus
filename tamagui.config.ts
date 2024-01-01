@@ -10,6 +10,7 @@ import {
 } from "tamagui";
 
 import colors from "./src/constants/colors";
+import { Easing } from "react-native";
 
 const animations = createAnimations({
   bouncy: {
@@ -28,6 +29,11 @@ const animations = createAnimations({
     damping: 25,
     mass: 0.7,
     stiffness: 250,
+  },
+  "quick-bg": {
+    type: "timing",
+    duration: 300,
+    easing: Easing.inOut(Easing.ease),
   },
 });
 
@@ -54,7 +60,7 @@ const montserratFont = createFont({
   },
 });
 
-const config: TamaguiInternalConfig = createTamagui({
+const config = createTamagui({
   animations,
   defaultTheme: "dark",
   shouldAddPrefersColorThemes: false,
@@ -107,7 +113,7 @@ const config: TamaguiInternalConfig = createTamagui({
     pointerCoarse: { pointer: "coarse" },
     portait: { orientation: "portrait" },
     landscape: { orientation: "landscape" },
-  })
+  }),
 });
 
 export type AppConfig = typeof config;

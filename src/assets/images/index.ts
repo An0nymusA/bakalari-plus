@@ -23,8 +23,7 @@ export { default as SettingsActive } from "./Settings-Active.svg";
 
 export { default as Menu } from "./Menu.svg";
 
-export { default as SyncButton } from "./Sync-Button.svg";
-export { default as SyncError } from "./Sync-Error.svg";
-export { default as SyncPending } from "./Sync-Pending.svg";
-export { default as SyncSuccess } from "./Sync-Success.svg";
 export { default as Refresh } from "./Refresh.svg";
+
+export { default as Empty } from "./Empty.svg";
+export { default as NoSignal } from "./No-Signal.svg";

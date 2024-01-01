@@ -1,3 +1,6 @@
+import toastHelper from "./toastHelper";
+import { onlineManager } from "@tanstack/react-query";
+
 const checkUrl = (url: string): boolean => {
   // const pattern =
   //   /^(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?$/g;
@@ -21,4 +24,11 @@ const getMondayDate = (week: number = 0, originPoint?: string): string => {
   return `${year}-${month}-${day}`;
 };
 
-export { checkUrl, getMondayDate };
+const setOffline = () => {
+  if (onlineManager.isOnline())
+    toastHelper.error("Nepodařilo se připojit k Bakalářům.");
+
+  onlineManager.setOnline(false);
+};
+
+export { checkUrl, getMondayDate, setOffline };

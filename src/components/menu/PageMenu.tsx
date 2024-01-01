@@ -4,8 +4,9 @@ import PageMenuButton from "./PageMenuButton";
 import { useMedia } from "tamagui";
 
 interface PageButtonProp {
-  onPress: (setText: (text: string) => void) => void;
+  onPress: () => void;
   text: string;
+  disabled?: boolean;
 }
 interface PageButtonProps {
   buttons: PageButtonProp[];

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter, SplashScreen } from "expo-router";
 
 import { View } from "tamagui";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, onlineManager } from "@tanstack/react-query";
 
 import BakalariAPI from "bakalari-ts-api/build/models/BakalariApi";
 import { AxiosError } from "axios";
@@ -83,13 +83,13 @@ export default function Page() {
       setDisabled(false);
 
       setLoaderVisible(true);
+      onlineManager.setOnline(true);
 
       log.info("redirecting to timetable");
       router.replace("/modules/timetable");
     },
     onError: (err: AxiosError) => {
-      log.debug("fetching error");
-      console.log(JSON.stringify(err, null, 4));
+      log.error("fetching error", err);
       Toast.hide();
 
       // Checking if url is available
@@ -110,6 +110,7 @@ export default function Page() {
 
       setDisabled(false);
     },
+    networkMode: "always",
   });
 
   /**

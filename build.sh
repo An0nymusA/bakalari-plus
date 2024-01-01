@@ -1,0 +1,1 @@
+eas build --local --platform android -e preview
