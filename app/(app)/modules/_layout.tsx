@@ -14,6 +14,7 @@ const { log } = useLogger("layout", "modules");
 
 export default function App() {
   const { setLoaderVisible } = useBakalariStore();
+  const [firstFetch, setFirstFetch] = useState(true);
 
   useEffect(() => {
     log.navigation("opened");
@@ -25,16 +26,25 @@ export default function App() {
   const isFetching = useApi();
 
   useEffect(() => {
+    if (!firstFetch) return;
+
     setLoaderVisible(isFetching);
+
+    if (firstFetch && !isFetching) {
+      setFirstFetch(false);
+      setLoaderVisible(false);
+    }
   }, [isFetching]);
 
-  return isFetching ? null : (
-    <>
-      <View flex={1}>
-        <Slot />
-        <Backdrop />
-      </View>
-      <StaticMenu />
-    </>
+  return (
+    !(firstFetch && isFetching) && (
+      <>
+        <View flex={1}>
+          <Slot />
+          <Backdrop />
+        </View>
+        <StaticMenu />
+      </>
+    )
   );
 }

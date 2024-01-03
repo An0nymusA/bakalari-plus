@@ -53,7 +53,7 @@ const Backdrop = () => {
             height={"100%"}
             onPress={() => setVisibility(false)}
             backgroundColor={"#141518B3"}
-            animation="quick-bg"
+            animation="linear"
             marginBottom="$3"
             enterStyle={{
               opacity: 0,

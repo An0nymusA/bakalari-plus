@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ActivityIndicator } from "react-native";
 import { View, Button, useMedia } from "tamagui";
 import { usePathname } from "expo-router";
-import colors from "@/src/constants/colors";
+import { onlineManager } from "@tanstack/react-query";
 
 import {
   NoSignal,
@@ -12,15 +12,16 @@ import {
   SettingsActive,
 } from "@src/assets/images";
 import { Menu } from "@src/assets/images";
-
+import colors from "@/src/constants/colors";
 import queryClient from "@/src/api/queryClient";
 import { toggleVisibility } from "./MenuBackdrop";
-import { onlineManager } from "@tanstack/react-query";
+import useBakalariStore from "@utils/useBakalariStore";
 
 const StaticMenu = () => {
   const media = useMedia();
   const pathname = usePathname();
   const [dataLoading, setDataLoading] = useState(false);
+  const { setLoaderVisible, loaderVisible } = useBakalariStore();
   const isOnline = onlineManager.isOnline();
 
   const iconSize = media.sm ? 35 : 40;
@@ -64,27 +65,51 @@ const StaticMenu = () => {
         <Button
           backgroundColor="transparent"
           onPress={async () => {
-            if (dataLoading) return;
+            if (dataLoading || loaderVisible) return;
 
             setDataLoading(true);
             if (!isOnline) {
               await queryClient.invalidateQueries({ queryKey: ["auth"] });
             }
+
+            if (!isOnline) {
+              setDataLoading(false);
+              return;
+            }
+
             await queryClient.invalidateQueries({ queryKey: ["module"] });
             setDataLoading(false);
           }}
         >
-          {dataLoading ? (
-            <ActivityIndicator size={"large"} color={colors.grey0} />
-          ) : isOnline ? (
-            <Refresh width={iconSize} height={iconSize} />
-          ) : (
-            <NoSignal width={iconSize} height={iconSize} />
-          )}
+          <RefreshButtonIcon
+            dataLoading={dataLoading}
+            isOnline={isOnline}
+            iconSize={iconSize}
+          />
         </Button>
       </View>
     </View>
   );
+};
+
+const RefreshButtonIcon = ({
+  dataLoading,
+  isOnline,
+  iconSize,
+}: {
+  dataLoading: boolean;
+  isOnline: boolean;
+  iconSize: number;
+}) => {
+  if (dataLoading) {
+    return <ActivityIndicator size={iconSize} color={colors.grey0} />;
+  }
+
+  if (isOnline) {
+    return <Refresh width={iconSize} height={iconSize} />;
+  } else {
+    return <NoSignal width={iconSize} height={iconSize} />;
+  }
 };
 
 export default StaticMenu;

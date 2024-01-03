@@ -21,7 +21,7 @@ const useApi = () => {
   });
 
   useEffect(() => {
-    setIsFetching(data.some((query) => query.isFetching));
+    setIsFetching(data.some((query) => query.isRefetching));
   }, [data]);
 
   return isFetching;

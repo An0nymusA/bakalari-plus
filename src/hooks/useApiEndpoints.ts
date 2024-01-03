@@ -1,10 +1,10 @@
-import { TimetableOptions } from "bakalari-ts-api/build/types/timetable";
-import BakalariApi from "bakalari-ts-api/build/models/BakalariApi";
 import {
+  BakalariApi,
+  TimetableOptions,
   formatKomens,
   formatMarks,
   formatTimetable,
-} from "bakalari-ts-api/build/utils/formattingUtils";
+} from "bakalari-ts-api";
 
 import useLogger from "@hooks/useLogger";
 import { getMondayDate, setOffline } from "@utils/utils";
@@ -42,8 +42,8 @@ const useApiRequests = (api: BakalariApi | null) => ({
       queryFn: async () => {
         log.debug(`timetable:${logKey}`);
 
-        const data = await api?.timetable(args);
-        
+        const data = await api?.timetable({date, type});
+
         if (!data) {
           log.debug(`timetable:${logKey}`, "blank");
           setOffline();
@@ -51,7 +51,7 @@ const useApiRequests = (api: BakalariApi | null) => ({
         }
         log.debug(`timetable:${logKey}`, "done");
 
-        return data;
+        return formatTimetable(data);
       },
       ...(type == "actual" && {
         gcTime: 2 * 24 * 60 * 60 * 1000,
@@ -68,7 +68,6 @@ const useApiRequests = (api: BakalariApi | null) => ({
       const received: any = await api?.komens();
       const noticeboard = await api?.komens({ noticeboard: true });
 
-      
       if (!received || !noticeboard) {
         log.debug("kommens", "blank");
         setOffline();

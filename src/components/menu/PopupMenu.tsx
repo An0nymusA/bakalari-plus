@@ -33,7 +33,7 @@ const PopupMenu = () => {
       display="flex"
       flexDirection="row"
       gap="$5"
-      animation="quick"
+      animation="spring"
       marginBottom="$3"
       enterStyle={{
         y: 100,

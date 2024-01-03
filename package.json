@@ -26,7 +26,7 @@
     "@types/sync-storage": "^0.4.3",
     "axios": "^1.5.1",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
-    "bakalari-ts-api": "github:An0nymusA/Bakalari-TS-Api",
+    "bakalari-ts-api": "github:an0nymusa/bakalari-ts-api",
     "expo": "~49.0.13",
     "expo-constants": "~14.4.2",
     "expo-font": "~11.4.0",

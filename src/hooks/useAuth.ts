@@ -3,8 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { onlineManager } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-import BakalariApi from "bakalari-ts-api/build/models/BakalariApi";
-import { BakalariAuthOptions } from "bakalari-ts-api/build/models/BakalariApiConnector";
+import { BakalariApi, BakalariAuthOptions } from "bakalari-ts-api";
 
 import StorageWrapper from "@utils/storage";
 import useBakalariStore from "@utils/useBakalariStore";
@@ -86,6 +85,7 @@ const useLogout = () => {
 
   return async () => {
     log.info("logout");
+    onlineManager.setOnline(false);
 
     setApi(null);
     await StorageWrapper.clear();

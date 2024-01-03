@@ -4,7 +4,7 @@ import { useRouter, SplashScreen } from "expo-router";
 import { View } from "tamagui";
 import { useMutation, onlineManager } from "@tanstack/react-query";
 
-import BakalariAPI from "bakalari-ts-api/build/models/BakalariApi";
+import { BakalariApi } from "bakalari-ts-api";
 import { AxiosError } from "axios";
 
 import Toast from "react-native-toast-message";
@@ -36,9 +36,9 @@ export default function Page() {
   useEffect(() => {
     SplashScreen.hideAsync();
 
-    updateInput("url", "adamz.cz/bakapi");
-    updateInput("username", "test");
-    updateInput("password", "test");
+    // updateInput("url", "adamz.cz/bakapi");
+    // updateInput("username", "test");
+    // updateInput("password", "test");
   }, []);
 
   /**
@@ -55,14 +55,14 @@ export default function Page() {
    */
   const mutation = useMutation({
     mutationFn: (data: { [key: string]: string }) => {
-      log.debug("fetching api", `http://${data.url}`);
-      return BakalariAPI.initialize({
-        baseUrl: `http://${data.url}`,
+      log.debug("fetching api", `https://${data.url}`);
+      return BakalariApi.initialize({
+        baseUrl: `https://${data.url}`,
         username: data.username,
         password: data.password,
       });
     },
-    onSuccess: async (api) => {
+    onSuccess: async (api: BakalariApi) => {
       if (!api.connector?.authOptions) throw new Error();
 
       log.debug("fetching success");
@@ -154,7 +154,7 @@ export default function Page() {
           </LoginInput.Icon>
           <LoginInput.Input
             //TODO: remove
-            value="adamz.cz/bakapi"
+            // value="adamz.cz/bakapi"
             elementDisabled={disabled}
             autoComplete="url"
             textContentType="URL"
@@ -179,7 +179,7 @@ export default function Page() {
           </LoginInput.Icon>
           <LoginInput.Input
             //TODO: remove
-            value="test"
+            // value="test"
             elementDisabled={disabled}
             autoComplete="username"
             textContentType="username"
@@ -195,7 +195,7 @@ export default function Page() {
           </LoginInput.Icon>
           <LoginInput.Input
             //TODO: remove
-            value="test"
+            // value="test"
             elementDisabled={disabled}
             autoComplete="password"
             textContentType="password"

@@ -1,4 +1,4 @@
-import BakalariApi from "bakalari-ts-api/build/models/BakalariApi";
+import { BakalariApi } from "bakalari-ts-api";
 import { create } from "zustand";
 
 interface BakakalariStore {

@@ -24,11 +24,35 @@ const getMondayDate = (week: number = 0, originPoint?: string): string => {
   return `${year}-${month}-${day}`;
 };
 
-const setOffline = () => {
-  if (onlineManager.isOnline())
+const getWeekNumber = (date: Date): number => {
+  const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+  const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
+  return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+};
+
+const formatDate = (date: Date | string, type: "date" | "weekday"): string => {
+  if (typeof date == "string") {
+    date = new Date(date);
+  }
+
+  if (type === "date") {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    return `${day}.${month}`;
+  } else if (type === "weekday") {
+    const weekdays = ["po", "ut", "st", "ct", "pa", "so", "ne"];
+    const weekdayNumber = date.getDay();
+    return weekdays[weekdayNumber - 1];
+  }
+
+  return "";
+};
+
+const setOffline = (ignoreOnline: boolean = false) => {
+  if (!ignoreOnline && onlineManager.isOnline())
     toastHelper.error("Nepodařilo se připojit k Bakalářům.");
 
   onlineManager.setOnline(false);
 };
 
-export { checkUrl, getMondayDate, setOffline };
+export { checkUrl, getMondayDate, setOffline, getWeekNumber, formatDate };

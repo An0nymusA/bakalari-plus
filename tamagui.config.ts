@@ -1,16 +1,11 @@
+import { Easing } from "react-native";
 import { createAnimations } from "@tamagui/animations-react-native";
 import { createMedia } from "@tamagui/react-native-media-driver";
 import { shorthands } from "@tamagui/shorthands";
 import { tokens } from "@tamagui/themes";
-import {
-  createTokens,
-  createTamagui,
-  createFont,
-  TamaguiInternalConfig,
-} from "tamagui";
+import { createTokens, createTamagui, createFont } from "tamagui";
 
 import colors from "./src/constants/colors";
-import { Easing } from "react-native";
 
 const animations = createAnimations({
   bouncy: {
@@ -24,15 +19,20 @@ const animations = createAnimations({
     damping: 20,
     stiffness: 60,
   },
-  quick: {
+  spring: {
     type: "spring",
     damping: 25,
     mass: 0.7,
     stiffness: 250,
   },
-  "quick-bg": {
+  linear: {
     type: "timing",
     duration: 300,
+    easing: Easing.inOut(Easing.ease),
+  },
+  quick: {
+    type: "timing",
+    duration: 150,
     easing: Easing.inOut(Easing.ease),
   },
 });
@@ -85,6 +85,7 @@ const config = createTamagui({
     },
     space: {
       true: 0,
+      "0.5": 2,
       "1": 4,
       "1.5": 6,
       "2": 8,

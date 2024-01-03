@@ -22,8 +22,20 @@ export const useFormInputs = (initialData: InitialDataType = {}) => {
     }));
   };
 
+  const removeInputErrors = () => {
+    setInputErrors((inputErrors) =>
+      Object.keys(inputErrors).reduce(
+        (acc: { [key: string]: boolean }, key: string) => {
+          acc[key] = false;
+          return acc;
+        },
+        {}
+      )
+    );
+  };
+
   const updateInput = (key: string, value: string) => {
-    setInputError(key, false);
+    removeInputErrors();
 
     setInputData((inputData) => ({
       ...inputData,
