@@ -13,11 +13,19 @@ import queryClient from "../api/queryClient";
 
 const { log } = useLogger("authHook", "hooks");
 
+// Refresh the storage with the latest authentication options
+const refreshStorage = async (token: string, refreshToken: string) => {
+  StorageWrapper.set("loginData", {
+    ...(await StorageWrapper.get("loginData")),
+    accessToken: token,
+    refreshToken: refreshToken,
+  });
+};
+
 // Custom hook for handling authentication logic
 const useAuth = () => {
   const { setApi } = useBakalariStore();
   const logout = useLogout();
-  const refreshStorage = useStorageRefresh();
 
   // Check if the API is unreachable
   const isApiUnreachable = (e: AxiosError) =>
@@ -40,11 +48,13 @@ const useAuth = () => {
         return "no-credentials";
       }
 
+      let api: BakalariApi;
+
       try {
         log.debug("trying-login");
 
         // Initialize the Bakalari API with the provided credentials
-        const api = await BakalariApi.initialize({
+        api = await BakalariApi.initialize({
           baseUrl: credentials.baseUrl,
           token: credentials.token,
           refreshToken: credentials.refreshToken,
@@ -66,7 +76,6 @@ const useAuth = () => {
         logout();
         return "error";
       }
-
       return "success";
     },
     networkMode: "always",
@@ -95,21 +104,5 @@ const useLogout = () => {
   };
 };
 
-// Refresh the storage with the latest authentication options
-const useStorageRefresh = () => {
-  const { api } = useBakalariStore();
-
-  return () => {
-    const authOptions = api!.connector?.authOptions;
-
-    StorageWrapper.set("loginData", {
-      baseUrl: authOptions!.baseUrl,
-      username: authOptions!.username,
-      accessToken: authOptions!.token,
-      refreshToken: authOptions!.refreshToken,
-    });
-  };
-};
-
 export default useAuth;
-export { useStorageRefresh, useLogout };
+export { useLogout };

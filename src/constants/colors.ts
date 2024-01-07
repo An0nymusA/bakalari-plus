@@ -11,11 +11,12 @@ export default {
   background: "#141518",
   backgroundTransparent: "#141518B3",
   transparent: "#27293580",
+  cellTransparent: "#27293566",
   grey050: "#FFFFFF80",
   grey0: "#D9D9D9",
   grey20: "#E5E6ED",
   grey40: "#A5ADCF",
   grey60: "#5D6588",
   grey80: "#303346",
-  grey100: "#1E1F25",
+  grey100: "#191A1F",
 };

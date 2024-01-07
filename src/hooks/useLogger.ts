@@ -1,3 +1,5 @@
+import { AxiosError } from "axios";
+
 const filter = "INDE".split("");
 
 // Define the log interface
@@ -37,6 +39,17 @@ const useLogger = (pageName: string, context?: string) => {
         if (error) {
           log("E", errorMessage, typeof error);
           console.log(JSON.stringify(error, null, 4));
+          console.log(typeof error);
+
+          if (!(error instanceof AxiosError)) {
+            return;
+          }
+
+          if (error.response?.data) {
+            console.log(JSON.stringify(error.response.data));
+          }
+
+          console.log(JSON.stringify(error.response, null, 4));
           return;
         }
         log("E", errorMessage);

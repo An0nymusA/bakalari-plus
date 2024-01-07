@@ -41,7 +41,8 @@ const Backdrop = () => {
   }, []);
 
   return (
-    <AnimatePresence>
+    <>
+      {/* <AnimatePresence> */}
       {visibility && (
         <>
           <View
@@ -79,7 +80,8 @@ const Backdrop = () => {
           </View>
         </>
       )}
-    </AnimatePresence>
+      {/* </ AnimatePresence> */}
+    </>
   );
 };
 

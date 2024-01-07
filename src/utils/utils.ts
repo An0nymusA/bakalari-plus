@@ -1,3 +1,4 @@
+import { FormattedTimetable } from "bakalari-ts-api";
 import toastHelper from "./toastHelper";
 import { onlineManager } from "@tanstack/react-query";
 
@@ -40,7 +41,7 @@ const formatDate = (date: Date | string, type: "date" | "weekday"): string => {
     const month = String(date.getMonth() + 1).padStart(2, "0");
     return `${day}.${month}`;
   } else if (type === "weekday") {
-    const weekdays = ["po", "ut", "st", "ct", "pa", "so", "ne"];
+    const weekdays = ["po", "út", "st", "čt", "pá", "so", "ne"];
     const weekdayNumber = date.getDay();
     return weekdays[weekdayNumber - 1];
   }
@@ -55,4 +56,32 @@ const setOffline = (ignoreOnline: boolean = false) => {
   onlineManager.setOnline(false);
 };
 
-export { checkUrl, getMondayDate, setOffline, getWeekNumber, formatDate };
+const getMaxHoursPerDay = (
+  formattedTimetable: FormattedTimetable
+): Record<number, number> => {
+  const maxHoursRecord: Record<number, number> = {};
+
+  Object.values(formattedTimetable.days).forEach((day) => {
+    Object.keys(day.hours).forEach((hourKey) => {
+      const hourNumber = parseInt(hourKey);
+      const hourArray = day.hours[hourNumber];
+
+      // Update maxHoursRecord with the maximum length found so far for this hour
+      maxHoursRecord[hourNumber] = Math.max(
+        maxHoursRecord[hourNumber] || 0,
+        hourArray?.length ?? 1
+      );
+    });
+  });
+
+  return maxHoursRecord;
+};
+
+export {
+  checkUrl,
+  getMondayDate,
+  setOffline,
+  getWeekNumber,
+  formatDate,
+  getMaxHoursPerDay,
+};

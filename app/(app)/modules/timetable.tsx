@@ -48,6 +48,7 @@ export default function Page() {
         {data == null ? (
           <NoData showNoData={!isFetching} />
         ) : (
+          // <Text>test</Text>
           <Timetable data={data} weekNumber={getWeekNumber(new Date(date))} />
         )}
         <WeekPill weekNumber={dateModifier} showPill={type == "actual"} />
