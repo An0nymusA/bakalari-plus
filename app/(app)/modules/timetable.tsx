@@ -3,14 +3,14 @@ import { View, Text } from "tamagui";
 
 import { useQuery } from "@tanstack/react-query";
 
-import useApiRequests from "@/src/hooks/useApiEndpoints";
-import useBakalariStore from "@/src/utils/useBakalariStore";
+import useApiRequests from "@hooks/useApiEndpoints";
+import useBakalariStore from "@utils/useBakalariStore";
 
 import useLogger from "@hooks/useLogger";
-import PageMenu from "@/src/components/menu/PageMenu";
-import { getMondayDate, getWeekNumber } from "@/src/utils/utils";
+import PageMenu from "@components/menu/PageMenu";
+import Timetable from "@components/modules/Timetable";
+import { getMondayDate, getWeekNumber } from "@utils/utils";
 import { Empty } from "@src/assets/images";
-import Timetable from "@/src/components/modules/Timetable";
 
 const { log } = useLogger("timetable", "modules");
 
@@ -48,10 +48,12 @@ export default function Page() {
         {data == null ? (
           <NoData showNoData={!isFetching} />
         ) : (
-          // <Text>test</Text>
-          <Timetable data={data} weekNumber={getWeekNumber(new Date(date))} />
+          <Timetable
+            data={data}
+            /*weekNumber={getWeekNumber(new Date(date))}*/ type={type}
+          />
         )}
-        <WeekPill weekNumber={dateModifier} showPill={type == "actual"} />
+        <WeekPill weekNumber={dateModifier} type={type} />
       </View>
       <PageMenu
         buttons={[
@@ -73,7 +75,7 @@ export default function Page() {
                 return newType;
               });
             },
-            text: type === "actual" ? "Aktuální" : "Stálý",
+            text: type === "actual" ? "Stálý" : "Aktuální",
           },
           {
             onPress: () => {
@@ -101,15 +103,11 @@ const NoData = ({ showNoData }: { showNoData: boolean }) => {
 
 const WeekPill = ({
   weekNumber,
-  showPill,
+  type,
 }: {
   weekNumber: number;
-  showPill: boolean;
+  type: "actual" | "permanent";
 }) => {
-  if (!showPill) {
-    return;
-  }
-
   // Weeknumber could be from -2 to 2 where 0 is current
   const humanize = (weekNumber: number) => {
     switch (weekNumber) {
@@ -145,7 +143,7 @@ const WeekPill = ({
         borderRadius={"$1"}
         marginBottom="$2"
       >
-        {humanize(weekNumber)}
+        {type == "actual" ? humanize(weekNumber) : "Stálý rozvrh"}
       </Text>
     </View>
   );

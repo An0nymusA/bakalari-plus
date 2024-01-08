@@ -3,7 +3,7 @@ import { useQueries } from "@tanstack/react-query";
 
 import useBakalariStore from "@utils/useBakalariStore";
 import { getMondayDate } from "@utils/utils";
-import useApiRequests from "@/src/hooks/useApiEndpoints";
+import useApiRequests from "@hooks/useApiEndpoints";
 
 const useApi = () => {
   const { api } = useBakalariStore();

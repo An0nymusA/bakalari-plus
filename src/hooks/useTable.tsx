@@ -1,20 +1,41 @@
-import React, { useState, useContext, createContext } from "react";
+import React, { useContext, createContext } from "react";
 
-// Step 1: Create the context
-const TableContext = createContext({
-  cols: {} as Record<number, number>,
+interface TableSharedProps {
+  cols: Record<number, number>;
+  activeDay: number | null;
+  activeHour: number | null;
+}
+
+interface TableContextProps extends TableSharedProps {
+  isActive: (hour: number, day: number) => boolean;
+}
+
+interface TableProviderProps extends TableSharedProps {
+  children: React.ReactNode;
+  type: "actual" | "permanent";
+}
+
+const TableContext = createContext<TableContextProps>({
+  cols: {},
+  activeDay: null,
+  activeHour: null,
+  isActive: () => false,
 });
 
 // Modified Provider Component
 export const TableProvider = ({
   children,
   cols,
-}: {
-  children: React.ReactNode;
-  cols: Record<number, number>;
-}) => {
+  activeDay,
+  activeHour,
+  type,
+}: TableProviderProps) => {
+  const isActive = (hour: number, day: number) => {
+    return type == "actual" && activeDay == day && activeHour == hour;
+  };
+
   return (
-    <TableContext.Provider value={{ cols: cols }}>
+    <TableContext.Provider value={{ cols, activeDay, activeHour, isActive }}>
       {children}
     </TableContext.Provider>
   );

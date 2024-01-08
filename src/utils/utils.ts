@@ -1,8 +1,7 @@
-import { FormattedTimetable } from "bakalari-ts-api";
 import toastHelper from "./toastHelper";
 import { onlineManager } from "@tanstack/react-query";
 
-const checkUrl = (url: string): boolean => {
+export const checkUrl = (url: string): boolean => {
   // const pattern =
   //   /^(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?$/g;
 
@@ -12,7 +11,10 @@ const checkUrl = (url: string): boolean => {
   return pattern.test(url);
 };
 
-const getMondayDate = (week: number = 0, originPoint?: string): string => {
+export const getMondayDate = (
+  week: number = 0,
+  originPoint?: string
+): string => {
   const currentDate = originPoint ? new Date(originPoint) : new Date();
   const currentDay = currentDate.getDay();
   const diff = currentDay === 0 ? -6 : 1 - currentDay;
@@ -25,14 +27,17 @@ const getMondayDate = (week: number = 0, originPoint?: string): string => {
   return `${year}-${month}-${day}`;
 };
 
-const getWeekNumber = (date: Date): number => {
+export const getWeekNumber = (date: Date): number => {
   const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
   const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
   return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
 };
 
-const formatDate = (date: Date | string, type: "date" | "weekday"): string => {
-  if (typeof date == "string") {
+export const formatDate = (
+  date: Date | string | number,
+  type: "date" | "weekday"
+): string => {
+  if (typeof date == "string" || typeof date == "number") {
     date = new Date(date);
   }
 
@@ -49,39 +54,9 @@ const formatDate = (date: Date | string, type: "date" | "weekday"): string => {
   return "";
 };
 
-const setOffline = (ignoreOnline: boolean = false) => {
+export const setOffline = (ignoreOnline: boolean = false) => {
   if (!ignoreOnline && onlineManager.isOnline())
     toastHelper.error("Nepodařilo se připojit k Bakalářům.");
 
   onlineManager.setOnline(false);
-};
-
-const getMaxHoursPerDay = (
-  formattedTimetable: FormattedTimetable
-): Record<number, number> => {
-  const maxHoursRecord: Record<number, number> = {};
-
-  Object.values(formattedTimetable.days).forEach((day) => {
-    Object.keys(day.hours).forEach((hourKey) => {
-      const hourNumber = parseInt(hourKey);
-      const hourArray = day.hours[hourNumber];
-
-      // Update maxHoursRecord with the maximum length found so far for this hour
-      maxHoursRecord[hourNumber] = Math.max(
-        maxHoursRecord[hourNumber] || 0,
-        hourArray?.length ?? 1
-      );
-    });
-  });
-
-  return maxHoursRecord;
-};
-
-export {
-  checkUrl,
-  getMondayDate,
-  setOffline,
-  getWeekNumber,
-  formatDate,
-  getMaxHoursPerDay,
 };

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { Slot } from "expo-router";
 
-import useLogger from "@/src/hooks/useLogger";
+import useLogger from "@hooks/useLogger";
 
 const { log } = useLogger("layout", "login");
 

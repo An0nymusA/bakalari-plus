@@ -41,6 +41,7 @@ const montserratFont = createFont({
   family: "Montserrat, Helvetica, Arial, sans-serif",
   size: {
     true: 12,
+    "0.5": 10,
     "1": 12,
     "1.5": 14,
     "2": 16,

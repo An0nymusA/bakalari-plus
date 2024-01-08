@@ -5,10 +5,10 @@ import useBakalariStore from "@utils/useBakalariStore";
 import useLogger from "@hooks/useLogger";
 
 import { View } from "tamagui";
-import Backdrop from "@/src/components/menu/MenuBackdrop";
-import StaticMenu from "@/src/components/menu/StaticMenu";
+import Backdrop from "@components/menu/MenuBackdrop";
+import StaticMenu from "@components/menu/StaticMenu";
 
-import useApi from "@/src/hooks/useApi";
+import useApi from "@hooks/useApi";
 
 const { log } = useLogger("layout", "modules");
 

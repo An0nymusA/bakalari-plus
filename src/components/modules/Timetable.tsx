@@ -1,22 +1,28 @@
-import { useRef, useEffect, useMemo, useState } from "react";
-import { FlatList } from "react-native";
+import { useRef, useEffect, useMemo } from "react";
 import { Text, styled, ScrollView, YStack, XStack, useMedia } from "tamagui";
 import {
   FormattedTimetable,
   FormattedTimetableDay,
   FormattedTimetableHour,
 } from "bakalari-ts-api";
-import { formatDate, getMaxHoursPerDay } from "@utils/utils";
+import { formatDate } from "@utils/utils";
 import { TableProvider, useTable } from "@hooks/useTable";
+import { useTime } from "@/src/hooks/useTime";
+import {
+  getCurrentOrOngoinHour,
+  getMaxNestedInColumn,
+  calculateColWidths,
+  isRowBlank,
+} from "@/src/moduleUtils/TimetableUtils";
 
 const minCellWidth = 80;
 
 export default function Timetable({
   data,
-  weekNumber,
+  type,
 }: {
   data: FormattedTimetable;
-  weekNumber: number;
+  type: "actual" | "permanent";
 }) {
   /**
    * Timetable -> Row (Head - Top|Side, Normal) -> Cell (Head - Top|Side, Normal)
@@ -24,31 +30,44 @@ export default function Timetable({
 
   const media = useMedia();
   const scrollViewRef = useRef<ScrollView>(null);
+  const now = useTime(5000);
 
   useEffect(() => {
     scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
   }, [data]);
 
-  const content = useMemo(() => {
-    const colWidth = Object.entries(getMaxHoursPerDay(data)).reduce(
-      (acc, [key, value]) => {
-        acc[Number(key)] = value * minCellWidth;
-        return acc;
-      },
-      {} as Record<number, number>
-    );
+  const activeDay = useMemo(() => {
+    const currentDay = now.getDay();
+    return currentDay <= 5 ? currentDay : null;
+  }, [now]);
 
+  const activeHour = useMemo(
+    () => getCurrentOrOngoinHour(data.HoursLabels, now),
+    [activeDay]
+  );
+
+  const colWidth = useMemo(
+    () => calculateColWidths(getMaxNestedInColumn(data), minCellWidth),
+    [data]
+  );
+
+  const content = useMemo(() => {
     return (
-      <TableProvider cols={colWidth}>
+      <TableProvider
+        cols={colWidth}
+        activeDay={activeDay}
+        activeHour={activeHour}
+        type={type}
+      >
         <YStack flex={1} width={"100%"}>
           <LabelsRow data={data} />
-          {Object.entries(data.days).map(([dayId, day]) => (
-            <DayRow key={dayId} day={day} />
+          {Object.entries(data.Days).map(([dayId, day]) => (
+            <DayRow key={dayId} dayId={Number(dayId)} day={day} />
           ))}
         </YStack>
       </TableProvider>
     );
-  }, [data]);
+  }, [colWidth, activeHour]);
 
   return (
     <ScrollView
@@ -71,50 +90,67 @@ const LabelsRow = ({ data }: { data: FormattedTimetable }) => {
   return (
     <Row>
       <XLabel />
-      {Object.values(data.hoursLabels).map((day) => (
+      {Object.values(data.HoursLabels).map((day) => (
         <YLabel key={day.Id} width={cols[day.Id]} minWidth={cols[day.Id]}>
           <Text color="$primary" fontWeight="$medium" fontSize="$3">
             {day.Caption}
           </Text>
+          <LabelTimeWrapper>
+            <LabelTime>{day.BeginTime}</LabelTime>
+            <LabelTime>{day.EndTime}</LabelTime>
+          </LabelTimeWrapper>
         </YLabel>
       ))}
     </Row>
   );
 };
-
-const DayRow = ({ day }: { day: FormattedTimetableDay }) => {
+const DayRow = ({
+  day,
+  dayId,
+}: {
+  day: FormattedTimetableDay;
+  dayId: number;
+}) => {
   return (
     <Row>
       <XLabel>
         <Text color="$primary" fontWeight="$medium" fontSize="$2">
-          {formatDate(day.dayInfo.date, "weekday")}
+          {formatDate(day.DayInfo.Date, "weekday")}
         </Text>
         <Text color="$grey0" fontWeight="$medium" fontSize="$1">
-          {formatDate(day.dayInfo.date, "date")}
+          {formatDate(day.DayInfo.Date, "date")}
         </Text>
       </XLabel>
-      <HoursRow day={day} />
+      <HoursRow dayId={dayId} day={day} />
     </Row>
   );
 };
 
-const HoursRow = ({ day }: { day: FormattedTimetableDay }) => {
-  const hours = Object.entries(day.hours).map(([hourId, hour]) => (
-    <HourCell key={hourId} hour={hour} hourIndex={Number(hourId)} />
+const HoursRow = ({
+  day,
+  dayId,
+}: {
+  day: FormattedTimetableDay;
+  dayId: number;
+}) => {
+  const { isActive } = useTable();
+
+  const hours = Object.entries(day.Hours).map(([hourId, hour]) => (
+    <HourCell
+      active={isActive(Number(hourId), dayId)}
+      key={hourId}
+      hour={hour}
+      hourIndex={Number(hourId)}
+    />
   ));
 
-  if (
-    day.hours == null ||
-    Object.keys(day.hours).length === 0 
-    ||
-    Object.values(day.hours).every((hour) => hour == null || hour.length === 0)
-  ) {
+  if (isRowBlank(day.Hours)) {
     return (
       <XStack flex={1}>
         {hours}
         <BlankRow>
           <Text color="$primary" fontWeight="$medium" fontSize="$3">
-            {day.dayInfo.description}
+            {day.DayInfo.Description}
           </Text>
         </BlankRow>
       </XStack>
@@ -127,19 +163,29 @@ const HoursRow = ({ day }: { day: FormattedTimetableDay }) => {
 const HourCell = ({
   hour,
   hourIndex,
+  active,
 }: {
   hour: FormattedTimetableHour[] | null;
   hourIndex: number;
+  active: boolean;
 }) => {
   const { cols } = useTable();
 
   if (hour == null || hour.length === 0)
     return (
-      <Cell minWidth={cols[hourIndex]} width={cols[hourIndex]} blank={true} />
+      <BlankCell
+        active={active}
+        minWidth={cols[hourIndex]}
+        width={cols[hourIndex]}
+      />
     );
 
   return (
-    <NormalCell minWidth={cols[hourIndex]} width={cols[hourIndex]}>
+    <NormalCell
+      active={active}
+      minWidth={cols[hourIndex]}
+      width={cols[hourIndex]}
+    >
       {hour.map((hourItem, index) => (
         <Cell
           borderLeftWidth={index > 0 ? 1 : 0}
@@ -147,17 +193,17 @@ const HourCell = ({
           key={index}
           change={!!hourItem.Change}
         >
-          <Text color="$primary" fontWeight="$medium" fontSize="$2">
+          <Text color="$primaryLight" fontWeight="$medium" fontSize="$2">
             {hour.length > 1 &&
               hourItem.CycleIds != null &&
-              `${hourItem.CycleIds[0]}:`}{" "}
+              `${hourItem.CycleIds[0]}:`}
             {hourItem.Subject}
           </Text>
           <XStack space="$1">
-            <Text color="$grey0" fontSize="$1">
+            <Text color="$grey60" fontSize="$1">
               {hourItem.Teacher}
             </Text>
-            <Text color="$grey60" fontSize="$1">
+            <Text color="$grey0" fontSize="$1">
               {hourItem.Room}
             </Text>
           </XStack>
@@ -176,7 +222,6 @@ const Row = styled(XStack, {
 });
 
 const BlankRow = styled(Row, {
-  // borderTopWidth: 0,
   alignItems: "center",
   paddingHorizontal: "$4",
   backgroundColor: "$grey80",
@@ -195,13 +240,15 @@ const Cell = styled(YStack, {
   width: minCellWidth,
   justifyContent: "center",
   alignItems: "center",
-  borderColor: "$grey80",
+  borderRightColor: "$grey80",
   borderLeftColor: "$cellTransparent",
   borderRightWidth: 1,
   variants: {
-    blank: {
+    active: {
       true: {
-        backgroundColor: "$background",
+        backgroundColor: "$primaryTransparent",
+        borderWidth: 1,
+        borderColor: "$primaryLight",
       },
     },
     change: {
@@ -222,11 +269,6 @@ const Cell = styled(YStack, {
   },
 });
 
-const NormalCell = styled(Cell, {
-  backgroundColor: "$transparent",
-  flexDirection: "row",
-});
-
 const YLabel = styled(Cell, {
   backgroundColor: "$grey100",
 });
@@ -234,5 +276,37 @@ const YLabel = styled(Cell, {
 const XLabel = styled(YLabel, {
   width: 60,
   minWidth: 60,
-  flex: "unset",
+  flex: 0,
+});
+
+const LabelTimeWrapper = styled(XStack, {
+  position: "absolute",
+  left: 0,
+  bottom: 0,
+  width: "100%",
+  justifyContent: "space-between",
+  paddingBottom: "$2.5",
+  paddingHorizontal: "$0.5",
+  $landscape: {
+    paddingBottom: "$2",
+  },
+});
+
+const LabelTime = styled(Text, {
+  fontWeight: "$medium",
+  fontSize: "$1.5",
+  color: "$grey40",
+  rotate: "-60deg",
+  $landscape: {
+    fontSize: "$0.5",
+  },
+});
+
+const BlankCell = styled(Cell, {
+  backgroundColor: "$background",
+});
+
+const NormalCell = styled(Cell, {
+  backgroundColor: "$transparent",
+  flexDirection: "row",
 });

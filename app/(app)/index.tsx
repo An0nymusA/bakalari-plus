@@ -1,5 +1,5 @@
 import { Redirect } from "expo-router";
-import useLogger from "@/src/hooks/useLogger";
+import useLogger from "@hooks/useLogger";
 import { useEffect } from "react";
 import * as ScreenOrientation from "expo-screen-orientation";
 

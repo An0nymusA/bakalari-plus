@@ -18,7 +18,7 @@ import useAuth from "@hooks/useAuth";
 import useLogger from "@hooks/useLogger";
 import useMyFonts from "@hooks/useMyFonts";
 import LoadingScreen from "@/src/pages/LoadingScreen";
-import { toastVisibilityTime } from "@/src/utils/toastHelper";
+import { toastVisibilityTime } from "@utils/toastHelper";
 
 const { log } = useLogger("layout", "root");
 
@@ -61,7 +61,11 @@ export default function App() {
           <Slot />
         </ImageBackground>
       )}
-      <Toast visibilityTime={toastVisibilityTime} config={toastConfig} onPress={() => Toast.hide()} />
+      <Toast
+        visibilityTime={toastVisibilityTime}
+        config={toastConfig}
+        onPress={() => Toast.hide()}
+      />
     </StyledSafeAreaView>
   );
 }

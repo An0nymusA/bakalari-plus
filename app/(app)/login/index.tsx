@@ -20,10 +20,10 @@ import { LoginInput } from "@components/form/LoginInput";
 import { HorizontalLine } from "@components/HorizontalLine";
 import { Button } from "@components/form/Button";
 
-import StorageWrapper from "@/src/utils/storage";
+import StorageWrapper from "@utils/storage";
 
 import useBakalariStore from "@utils/useBakalariStore";
-import useLogger from "@/src/hooks/useLogger";
+import useLogger from "@hooks/useLogger";
 
 const { log } = useLogger("login");
 
