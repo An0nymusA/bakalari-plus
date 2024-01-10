@@ -5,6 +5,7 @@ import {
   FormattedTimetableDay,
   FormattedTimetableHour,
 } from "bakalari-ts-api";
+
 import { formatDate } from "@utils/utils";
 import { TableProvider, useTable } from "@hooks/useTable";
 import { useTime } from "@/src/hooks/useTime";
@@ -14,8 +15,6 @@ import {
   calculateColWidths,
   isRowBlank,
 } from "@/src/moduleUtils/TimetableUtils";
-
-const minCellWidth = 80;
 
 export default function Timetable({
   data,
@@ -47,7 +46,7 @@ export default function Timetable({
   );
 
   const colWidth = useMemo(
-    () => calculateColWidths(getMaxNestedInColumn(data), minCellWidth),
+    () => calculateColWidths(getMaxNestedInColumn(data), media.xs ? 80 : 100),
     [data]
   );
 
@@ -135,19 +134,20 @@ const HoursRow = ({
 }) => {
   const { isActive } = useTable();
 
-  const hours = Object.entries(day.Hours).map(([hourId, hour]) => (
-    <HourCell
-      active={isActive(Number(hourId), dayId)}
-      key={hourId}
-      hour={hour}
-      hourIndex={Number(hourId)}
-    />
-  ));
+  const getHours = (isRowBlank: boolean = false) =>
+    Object.entries(day.Hours).map(([hourId, hour]) => (
+      <HourCell
+        active={!isRowBlank && isActive(Number(hourId), dayId)}
+        key={`${hourId}:${dayId}`}
+        hour={hour}
+        hourIndex={Number(hourId)}
+      />
+    ));
 
   if (isRowBlank(day.Hours)) {
     return (
       <XStack flex={1}>
-        {hours}
+        {getHours(true)}
         <BlankRow>
           <Text color="$primary" fontWeight="$medium" fontSize="$3">
             {day.DayInfo.Description}
@@ -157,7 +157,7 @@ const HoursRow = ({
     );
   }
 
-  return hours;
+  return getHours();
 };
 
 const HourCell = ({
@@ -187,10 +187,9 @@ const HourCell = ({
       width={cols[hourIndex]}
     >
       {hour.map((hourItem, index) => (
-        <Cell
+        <NestedCell
+          key={`${hourIndex}:${index}`}
           borderLeftWidth={index > 0 ? 1 : 0}
-          nested={true}
-          key={index}
           change={!!hourItem.Change}
         >
           <Text color="$primaryLight" fontWeight="$medium" fontSize="$2">
@@ -207,7 +206,7 @@ const HourCell = ({
               {hourItem.Room}
             </Text>
           </XStack>
-        </Cell>
+        </NestedCell>
       ))}
     </NormalCell>
   );
@@ -217,7 +216,7 @@ const Row = styled(XStack, {
   name: "Row",
   flex: 1,
   borderColor: "$grey80",
-  borderBottomWidth: 1,
+  borderBottomWidth: 1.5,
   backgroundColor: "$background",
 });
 
@@ -236,13 +235,13 @@ const BlankRow = styled(Row, {
 const Cell = styled(YStack, {
   name: "Cell",
   flex: 1,
-  minWidth: minCellWidth,
-  width: minCellWidth,
+  minWidth: 80,
+  width: 80,
   justifyContent: "center",
   alignItems: "center",
   borderRightColor: "$grey80",
   borderLeftColor: "$cellTransparent",
-  borderRightWidth: 1,
+  borderRightWidth: 1.5,
   variants: {
     active: {
       true: {
@@ -254,16 +253,6 @@ const Cell = styled(YStack, {
     change: {
       true: {
         backgroundColor: "$redTransparent",
-      },
-    },
-    nested: {
-      true: {
-        borderRightWidth: 0,
-        flex: 1,
-        height: "100%",
-        $landscape: {
-          width: "100%",
-        },
       },
     },
   },
@@ -287,6 +276,12 @@ const LabelTimeWrapper = styled(XStack, {
   justifyContent: "space-between",
   paddingBottom: "$2.5",
   paddingHorizontal: "$0.5",
+  $gtXs: {
+    paddingHorizontal: "$1",
+    $landscape: {
+      paddingBottom: "$3",
+    },
+  },
   $landscape: {
     paddingBottom: "$2",
   },
@@ -294,10 +289,13 @@ const LabelTimeWrapper = styled(XStack, {
 
 const LabelTime = styled(Text, {
   fontWeight: "$medium",
-  fontSize: "$1.5",
   color: "$grey40",
   rotate: "-60deg",
-  $landscape: {
+  fontSize: "$1.5",
+  $gtXsLandscape: {
+    fontSize: "$1.5",
+  },
+  $xsLandscape: {
     fontSize: "$0.5",
   },
 });
@@ -309,4 +307,13 @@ const BlankCell = styled(Cell, {
 const NormalCell = styled(Cell, {
   backgroundColor: "$transparent",
   flexDirection: "row",
+});
+
+const NestedCell = styled(Cell, {
+  borderRightWidth: 0,
+  flex: 1,
+  height: "100%",
+  $landscape: {
+    width: "100%",
+  },
 });

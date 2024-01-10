@@ -1,7 +1,5 @@
-// import '@tamagui/core/reset.css'
-
 import { useEffect } from "react";
-import { useMedia } from "tamagui";
+import { useMedia, ZStack } from "tamagui";
 import { ImageBackground } from "react-native";
 
 import { Slot, usePathname, useRouter } from "expo-router";
@@ -52,20 +50,25 @@ export default function App() {
 
   return (
     <StyledSafeAreaView>
-      <LoadingScreen />
-      {everyThingLoaded && (
-        <ImageBackground
-          source={media.landscape ? 0 : require("@images/Background-Login.png")}
-          style={{ flex: 1 }}
-        >
-          <Slot />
-        </ImageBackground>
-      )}
-      <Toast
-        visibilityTime={toastVisibilityTime}
-        config={toastConfig}
-        onPress={() => Toast.hide()}
-      />
+      <ZStack flex={1} overflow="hidden">
+        {everyThingLoaded && (
+          <ImageBackground
+            source={
+              media.landscape ? 0 : require("@images/Background-Login.png")
+            }
+            style={{ flex: 1 }}
+          >
+            <Slot />
+          </ImageBackground>
+        )}
+        <LoadingScreen />
+        <Toast
+          visibilityTime={toastVisibilityTime}
+          config={toastConfig}
+          onPress={() => Toast.hide()}
+          topOffset={0}
+        />
+      </ZStack>
     </StyledSafeAreaView>
   );
 }

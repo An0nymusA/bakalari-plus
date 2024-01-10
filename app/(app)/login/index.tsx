@@ -1,18 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { TextInput } from "react-native";
 import { useRouter, SplashScreen } from "expo-router";
-
-import { View } from "tamagui";
-import { useMutation, onlineManager } from "@tanstack/react-query";
-
-import { BakalariApi } from "bakalari-ts-api";
+import * as ScreenOrientation from "expo-screen-orientation";
 import { AxiosError } from "axios";
-
+import { View, useMedia } from "tamagui";
+import { useMutation, onlineManager } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 
-import { HouseSearch, Key, User } from "@images/index";
+import { BakalariApi } from "bakalari-ts-api";
 
-import { checkUrl } from "@utils/utils";
-import toastHelper from "@utils/toastHelper";
+import { HouseSearch, Key, User } from "@images/index";
 
 import { useFormInputs } from "@hooks/useFormInputs";
 
@@ -20,25 +17,40 @@ import { LoginInput } from "@components/form/LoginInput";
 import { HorizontalLine } from "@components/HorizontalLine";
 import { Button } from "@components/form/Button";
 
+import { checkUrl } from "@utils/utils";
+import toastHelper from "@utils/toastHelper";
 import StorageWrapper from "@utils/storage";
-
 import useBakalariStore from "@utils/useBakalariStore";
 import useLogger from "@hooks/useLogger";
 
 const { log } = useLogger("login");
 
-//TODO: implement error message when network error happens in useAuth
 export default function Page() {
   const { setApi, setLoaderVisible } = useBakalariStore();
   const [disabled, setDisabled] = useState(false);
+  const urlInputRef = useRef<TextInput>(null);
   const router = useRouter();
+  const media = useMedia();
 
   useEffect(() => {
     SplashScreen.hideAsync();
 
-    // updateInput("url", "adamz.cz/bakapi");
-    // updateInput("username", "test");
-    // updateInput("password", "test");
+    (async () => {
+      const lastUrl = await StorageWrapper.get("lastUrl");
+
+      if (lastUrl) {
+        updateInput("url", lastUrl.baseUrl);
+        urlInputRef.current?.setNativeProps({ text: lastUrl.baseUrl });
+      }
+    })();
+
+    if (media.xs) {
+      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+    }
+
+    return () => {
+      ScreenOrientation.unlockAsync();
+    };
   }, []);
 
   /**
@@ -76,6 +88,9 @@ export default function Page() {
         username: authOptions.username,
         token: authOptions.token,
         refreshToken: authOptions.refreshToken,
+      });
+      await StorageWrapper.set("lastUrl", {
+        baseUrl: authOptions.baseUrl.replace("https://", ""),
       });
 
       // Saving api to global state
@@ -153,8 +168,7 @@ export default function Page() {
             <HouseSearch />
           </LoginInput.Icon>
           <LoginInput.Input
-            //TODO: remove
-            // value="adamz.cz/bakapi"
+            ref={urlInputRef}
             elementDisabled={disabled}
             autoComplete="url"
             textContentType="URL"
@@ -178,8 +192,6 @@ export default function Page() {
             <User />
           </LoginInput.Icon>
           <LoginInput.Input
-            //TODO: remove
-            // value="test"
             elementDisabled={disabled}
             autoComplete="username"
             textContentType="username"
@@ -194,8 +206,6 @@ export default function Page() {
             <Key />
           </LoginInput.Icon>
           <LoginInput.Input
-            //TODO: remove
-            // value="test"
             elementDisabled={disabled}
             autoComplete="password"
             textContentType="password"

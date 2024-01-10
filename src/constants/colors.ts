@@ -10,7 +10,7 @@ export default {
   primaryTransparent: "#246CF91A",
   background: "#141518",
   backgroundTransparent: "#141518B3",
-  transparent: "#27293580",
+  transparent: "#272935B3",
   cellTransparent: "#27293566",
   grey050: "#FFFFFF80",
   grey0: "#D9D9D9",

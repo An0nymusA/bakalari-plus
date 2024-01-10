@@ -16,8 +16,14 @@ class StorageWrapper {
     return AsyncStorage.removeItem(key);
   }
 
-  static clear(): Promise<void> {
-    return AsyncStorage.clear();
+  static async clear(...excludeKeys: string[]): Promise<void> {
+    if (excludeKeys.length == 0) return AsyncStorage.clear();
+
+    const keys = await AsyncStorage.getAllKeys();
+
+    return AsyncStorage.multiRemove(
+      keys.filter((key) => !excludeKeys.includes(key))
+    );
   }
 }
 

@@ -5,11 +5,11 @@ import { FC } from "react";
 
 const ErrorToast: FC<{ text: string }> = ({ text }) => {
   return (
-    <BaseToast borderColor="$red">
+    <BaseToast>
       <BaseToast.Icon>
         <ProgressError />
       </BaseToast.Icon>
-      <BaseToast.Text>{text}</BaseToast.Text>
+      <BaseToast.Text color={"$grey40"}>{text}</BaseToast.Text>
     </BaseToast>
   );
 };

@@ -14,28 +14,33 @@ export const BaseToastContext = createStyledContext({
 const BaseToastFrame = styled(XStack, {
   name: "ToastFrame",
   context: BaseToastContext,
+  // borderBottomLeftRadius: "$2",
+  // borderBottomRightRadius: "$2",
   borderRadius: "$2",
-  backgroundColor: "$grey100",
-  padding: 15,
+  backgroundColor: "$grey80",
+  paddingHorizontal: 15,
   paddingVertical: 10,
-  space: 15,
+  space: 10,
   alignItems: "center",
-  borderWidth: 1,
+  justifyContent: "center",
+  width: "100%",
+  maxWidth: 350,
 });
 
 const BaseToastText = styled(Text, {
   name: "ToastText",
   context: BaseToastContext,
-  fontSize: "$1",
+  fontSize: "$2",
   color: "$grey0",
-  textAlign: "left",
-  maxWidth: 180,
+  textAlign: "center",
+  alignSelf: "center",
+  paddingBottom: 2,
 });
 
 const BaseToastIcon = (props: { children: React.ReactNode }): ReactElement => {
   return React.cloneElement(props.children as ReactElement, {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
   });
 };
 

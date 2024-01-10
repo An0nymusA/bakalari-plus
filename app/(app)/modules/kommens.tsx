@@ -5,7 +5,6 @@ import { useEffect } from "react";
 const { log } = useLogger("kommens", "modules");
 
 export default function Page() {
-  // logout();
 
   useEffect(() => {
     log.navigation("opened");

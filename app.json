@@ -21,7 +21,7 @@
       "package": "com.anonymous.bakalariplus"
     },
     "androidStatusBar": {
-      "backgroundColor": "#1E1F25",
+      "backgroundColor": "#303346",
       "barStyle": "light-content"
     },
     "web": {

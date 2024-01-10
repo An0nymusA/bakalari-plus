@@ -7,9 +7,10 @@ import { BakalariApi, BakalariAuthOptions } from "bakalari-ts-api";
 
 import StorageWrapper from "@utils/storage";
 import useBakalariStore from "@utils/useBakalariStore";
-import { setOffline } from "@utils/utils";
+import { setOffline, setOnline } from "@utils/utils";
 import useLogger from "./useLogger";
 import queryClient from "../api/queryClient";
+import toastHelper from "../utils/toastHelper";
 
 const { log } = useLogger("authHook", "hooks");
 
@@ -61,7 +62,7 @@ const useAuth = () => {
           onLogin: refreshStorage,
         });
 
-        onlineManager.setOnline(true);
+        setOnline();
         setApi(api);
       } catch (e) {
         // If the API is unreachable, continue in offline mode
@@ -97,7 +98,7 @@ const useLogout = () => {
     onlineManager.setOnline(false);
 
     setApi(null);
-    await StorageWrapper.clear();
+    await StorageWrapper.clear("lastUrl");
     queryClient.clear();
 
     router.replace("/login");

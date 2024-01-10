@@ -1,6 +1,5 @@
 import {
   FormattedTimetable,
-  FormattedTimetableDay,
   FormattedTimetableHour,
 } from "bakalari-ts-api";
 

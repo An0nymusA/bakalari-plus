@@ -42,7 +42,7 @@ const useApiRequests = (api: BakalariApi | null) => ({
       queryFn: async () => {
         log.debug(`timetable:${logKey}`);
 
-        const data = await api?.timetable({date, type});
+        const data = await api?.timetable({ date, type });
 
         if (!data) {
           log.debug(`timetable:${logKey}`, "blank");
@@ -55,6 +55,9 @@ const useApiRequests = (api: BakalariApi | null) => ({
       },
       ...(type == "actual" && {
         gcTime: 2 * 24 * 60 * 60 * 1000,
+      }),
+      ...(date != getMondayDate(0) && {
+        refetchInterval: Infinity,
       }),
     };
   },

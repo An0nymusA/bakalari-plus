@@ -60,3 +60,10 @@ export const setOffline = (ignoreOnline: boolean = false) => {
 
   onlineManager.setOnline(false);
 };
+
+export const setOnline = (ignoreOffline: boolean = false) => {
+  if (!ignoreOffline && !onlineManager.isOnline())
+    toastHelper.success("Zpět online");
+
+  onlineManager.setOnline(true);
+};

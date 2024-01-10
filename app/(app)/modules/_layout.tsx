@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-
 import { Slot, SplashScreen } from "expo-router";
+import * as ScreenOrientation from "expo-screen-orientation";
+
 import useBakalariStore from "@utils/useBakalariStore";
 import useLogger from "@hooks/useLogger";
 
@@ -20,6 +21,7 @@ export default function App() {
     log.navigation("opened");
     setLoaderVisible(true);
 
+    ScreenOrientation.unlockAsync();
     SplashScreen.hideAsync();
   }, []);
 

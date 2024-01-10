@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { EventEmitter } from "events";
-import { View, AnimatePresence } from "tamagui";
+import { View } from "tamagui";
 
 import PopupMenu from "./PopupMenu";
 

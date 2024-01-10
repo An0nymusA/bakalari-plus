@@ -27,13 +27,20 @@ const LoadingToast: FC<{ text: string }> = ({ text }) => {
   });
 
   return (
-    <BaseToast borderColor="$grey050">
+    <BaseToast>
       <BaseToast.Icon>
-        <Animated.View style={{ transform: [{ rotate: spin }] }}>
+        <Animated.View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            transform: [{ rotate: spin }],
+          }}
+        >
           <ProgressLoading />
         </Animated.View>
       </BaseToast.Icon>
-      <BaseToast.Text>{text}</BaseToast.Text>
+      <BaseToast.Text color={"$grey40"}>{text}</BaseToast.Text>
     </BaseToast>
   );
 };

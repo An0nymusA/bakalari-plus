@@ -6,7 +6,6 @@ import { onlineManager } from "@tanstack/react-query";
 
 import {
   NoSignal,
-  ProgressError,
   Refresh,
   Settings,
   SettingsActive,
@@ -16,15 +15,17 @@ import colors from "@/src/constants/colors";
 import queryClient from "@/src/api/queryClient";
 import { toggleVisibility } from "./MenuBackdrop";
 import useBakalariStore from "@utils/useBakalariStore";
+import { invalidateQueries } from "@/src/hooks/useApi";
+import { PopupMenuButtons } from "./PopupMenu";
 
 const StaticMenu = () => {
   const media = useMedia();
   const pathname = usePathname();
   const [dataLoading, setDataLoading] = useState(false);
-  const { setLoaderVisible, loaderVisible } = useBakalariStore();
+  const { loaderVisible } = useBakalariStore();
   const isOnline = onlineManager.isOnline();
 
-  const iconSize = media.sm ? 35 : 40;
+  const iconSize = 35;
 
   return (
     <View
@@ -50,16 +51,19 @@ const StaticMenu = () => {
           )}
         </Button>
 
-        {/* Menu Button */}
-        <Button
-          backgroundColor="transparent"
-          onPress={() => toggleVisibility()}
-        >
-          <Menu
-            width={45 + (media.sm ? 0 : 5)}
-            height={45 + (media.sm ? 0 : 5)}
-          />
-        </Button>
+        {media.xs ? (
+          // Menu Button
+          <Button
+            backgroundColor="transparent"
+            onPress={() => toggleVisibility()}
+          >
+            <Menu width={45} height={45} />
+          </Button>
+        ) : (
+          <View>
+            <PopupMenuButtons />
+          </View>
+        )}
 
         {/* Sync Button / Indicator */}
         <Button
@@ -77,7 +81,7 @@ const StaticMenu = () => {
               return;
             }
 
-            await queryClient.invalidateQueries({ queryKey: ["module"] });
+            await invalidateQueries();
             setDataLoading(false);
           }}
         >

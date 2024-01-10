@@ -7,6 +7,7 @@ interface PageButtonProp {
   onPress: () => void;
   text: string;
   disabled?: boolean;
+  highlighted?: boolean;
 }
 interface PageButtonProps {
   buttons: PageButtonProp[];

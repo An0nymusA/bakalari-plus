@@ -4,12 +4,13 @@ import { View, Text } from "tamagui";
 import { useQuery } from "@tanstack/react-query";
 
 import useApiRequests from "@hooks/useApiEndpoints";
+import { isInCache } from "@/src/hooks/useApi";
 import useBakalariStore from "@utils/useBakalariStore";
 
 import useLogger from "@hooks/useLogger";
 import PageMenu from "@components/menu/PageMenu";
 import Timetable from "@components/modules/Timetable";
-import { getMondayDate, getWeekNumber } from "@utils/utils";
+import { getMondayDate } from "@utils/utils";
 import { Empty } from "@src/assets/images";
 
 const { log } = useLogger("timetable", "modules");
@@ -18,11 +19,11 @@ export default function Page() {
   const { api, setLoaderVisible } = useBakalariStore();
   const ApiRequests = useApiRequests(api);
 
+  // Args for timetable query
   const [dateModifier, setDateModifier] = useState(0);
   const date = getMondayDate(dateModifier);
 
   const [type, setType] = useState<"actual" | "permanent">("actual");
-
   const { data, isFetching } = useQuery(ApiRequests.timetable({ type, date }));
 
   useEffect(() => {
@@ -34,18 +35,14 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    if (data) {
-      setLoaderVisible(false);
-      return;
-    }
-
-    setLoaderVisible(isFetching ? "simple" : false);
-  }, [isFetching]);
+    setLoaderVisible(data == null && isFetching ? "simple" : false);
+  }, [isFetching, data]);
 
   return (
     <View flex={1}>
       <View flex={1}>
-        {data == null ? (
+        {data == null ||
+        Object.values(data.Days).some((day) => day.DayInfo == null) ? (
           <NoData showNoData={!isFetching} />
         ) : (
           <Timetable
@@ -59,11 +56,20 @@ export default function Page() {
         buttons={[
           {
             onPress: () => {
+              setLoaderVisible(
+                !!isInCache(
+                  "module",
+                  "timetable",
+                  getMondayDate(dateModifier - 1)
+                )
+                  ? false
+                  : "simple"
+              );
+
               setType("actual");
               setDateModifier((current) => --current);
             },
             text: "Předchozí",
-            disabled: dateModifier < 0 && Math.abs(dateModifier) >= 2,
           },
           {
             onPress: () => {
@@ -79,11 +85,20 @@ export default function Page() {
           },
           {
             onPress: () => {
+              setLoaderVisible(
+                !!isInCache(
+                  "module",
+                  "timetable",
+                  getMondayDate(dateModifier + 1)
+                )
+                  ? false
+                  : "simple"
+              );
+
               setType("actual");
               setDateModifier((current) => ++current);
             },
             text: "Další",
-            disabled: dateModifier > 0 && Math.abs(dateModifier) >= 2,
           },
         ]}
       />
@@ -111,17 +126,19 @@ const WeekPill = ({
   // Weeknumber could be from -2 to 2 where 0 is current
   const humanize = (weekNumber: number) => {
     switch (weekNumber) {
-      case -2:
-        return "2 týdny zpět";
       case -1:
         return "Minulý týden";
       case 0:
         return "Tento týden";
       case 1:
         return "Příští týden";
-      case 2:
-        return "2 týdny dopředu";
     }
+
+    // Localized order and weeke strings
+    const weekStr = Math.abs(weekNumber) >= 5 ? "týdnů" : "týdny";
+    const directionStr = weekNumber < 0 ? "zpět" : "dopředu";
+
+    return `${Math.abs(weekNumber)} ${weekStr} ${directionStr}`;
   };
 
   return (
@@ -142,6 +159,11 @@ const WeekPill = ({
         paddingVertical="$1"
         borderRadius={"$1"}
         marginBottom="$2"
+        $gtXs={{
+          fontSize: "$2",
+          paddingHorizontal: "$2.5",
+          paddingVertical: "$1.5",
+        }}
       >
         {type == "actual" ? humanize(weekNumber) : "Stálý rozvrh"}
       </Text>

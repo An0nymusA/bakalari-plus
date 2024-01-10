@@ -1,4 +1,4 @@
-import { View, useMedia } from "tamagui";
+import { View, Stack, styled, XStack } from "tamagui";
 import { usePathname, useRouter } from "expo-router";
 
 import { useLogout } from "@hooks/useAuth";
@@ -8,31 +8,14 @@ import { Kommens, KommensActive } from "@/src/assets/images";
 import { Marks, MarksActive } from "@/src/assets/images";
 import { Timetable, TimetableActive } from "@/src/assets/images";
 import { VerticalLine } from "../VerticalLine";
-import PopupMenuButton from "./PopupMenuButton";
 import { setVisibility } from "./MenuBackdrop";
 
 const PopupMenu = () => {
-  const pathname = usePathname();
-  const router = useRouter();
-  const media = useMedia();
-  const logout = useLogout();
-
-  const redirect = (module: string) => {
-    if (!pathname.includes(module)) router.push(`/modules/${module}`);
-
-    setVisibility(false);
-  };
-
-  const iconSize = media.sm ? 32 : 40;
-
   return (
     <View
       padding="$2.5"
       borderRadius="$4"
       backgroundColor="$grey100"
-      display="flex"
-      flexDirection="row"
-      gap="$5"
       animation="spring"
       marginBottom="$3"
       enterStyle={{
@@ -42,6 +25,25 @@ const PopupMenu = () => {
         y: 100,
       }}
     >
+      <PopupMenuButtons />
+    </View>
+  );
+};
+
+export const PopupMenuButtons = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+  const logout = useLogout();
+
+  const redirect = (module: string) => {
+    if (!pathname.includes(module)) router.push(`/modules/${module}`);
+
+    setVisibility(false);
+  };
+  const iconSize = 32;
+
+  return (
+    <XStack display="flex" gap="$5">
       <PopupMenuButton type="red" onPress={() => logout()}>
         <Logout width={iconSize} height={iconSize} />
       </PopupMenuButton>
@@ -73,8 +75,27 @@ const PopupMenu = () => {
           <Kommens width={iconSize} height={iconSize} />
         )}
       </PopupMenuButton>
-    </View>
+    </XStack>
   );
 };
+
+const PopupMenuButton = styled(Stack, {
+  name: "PopupMenuButton",
+  backgroundColor: "$transparent",
+  borderRadius: "$2",
+  padding: "$1",
+  shadowRadius: "$2",
+
+  variants: {
+    type: {
+      normal: {
+        backgroundColor: "$transparent",
+      },
+      red: {
+        backgroundColor: "$redTransparent",
+      },
+    },
+  },
+});
 
 export default PopupMenu;

@@ -13,9 +13,10 @@ export default function Page() {
   useEffect(() => {
     log.navigation("opened");
 
-    media.sm &&
+    if (media.xs) {
       ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
-
+    }
+    
     return () => {
       ScreenOrientation.unlockAsync();
     };
