@@ -1,7 +1,4 @@
-import {
-  FormattedTimetable,
-  FormattedTimetableHour,
-} from "bakalari-ts-api";
+import { FormattedTimetable, FormattedTimetableHour } from "bakalari-ts-api";
 
 /**
  * Get the current or ongoing hour
@@ -108,10 +105,27 @@ export const calculateColWidths = (
   rawWidths: Record<number, number>,
   colWidth: number
 ): Record<number, number> => {
-  return Object.entries(rawWidths).reduce((acc, [key, value]) => {
-    acc[Number(key)] = value * colWidth;
-    return acc;
-  }, {} as Record<number, number>);
+  const reducedWidths = Object.entries(rawWidths).reduce(
+    (acc, [key, value]) => {
+      acc[Number(key)] = value * colWidth;
+      return acc;
+    },
+    {} as Record<number, number>
+  );
+
+  return reducedWidths;
+};
+
+export const getColOffset = (cols: Record<number, number>, colKey: number): number => {
+  return Object.keys(cols)
+    .sort()
+    .reduce((acc, key) => {
+      if (Number(key) < colKey) {
+        acc += cols[Number(key)];
+      }
+
+      return acc;
+    }, 0);
 };
 
 export const isRowBlank = (

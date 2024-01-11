@@ -6,7 +6,7 @@ import {
   FormattedTimetableHour,
 } from "bakalari-ts-api";
 
-import { formatDate } from "@utils/utils";
+import { formatDate, isToday } from "@utils/utils";
 import { TableProvider, useTable } from "@hooks/useTable";
 import { useTime } from "@/src/hooks/useTime";
 import {
@@ -14,6 +14,7 @@ import {
   getMaxNestedInColumn,
   calculateColWidths,
   isRowBlank,
+  getColOffset,
 } from "@/src/moduleUtils/TimetableUtils";
 
 export default function Timetable({
@@ -31,24 +32,36 @@ export default function Timetable({
   const scrollViewRef = useRef<ScrollView>(null);
   const now = useTime(5000);
 
-  useEffect(() => {
-    scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
-  }, [data]);
-
   const activeDay = useMemo(() => {
     const currentDay = now.getDay();
     return currentDay <= 5 ? currentDay : null;
-  }, [now]);
+  }, [data, now]);
 
   const activeHour = useMemo(
     () => getCurrentOrOngoinHour(data.HoursLabels, now),
-    [activeDay]
+    [data, now]
   );
 
   const colWidth = useMemo(
     () => calculateColWidths(getMaxNestedInColumn(data), media.xs ? 80 : 100),
     [data]
   );
+
+  useEffect(() => {
+    scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
+  }, [data]);
+
+  useEffect(() => {
+    if (activeHour == null || type == "permanent") return;
+    if (!Object.values(data.Days).some((day) => isToday(day.DayInfo?.Date)))
+      return;
+
+    scrollViewRef.current?.scrollTo({
+      x: getColOffset(colWidth, activeHour),
+      y: 0,
+      animated: true,
+    });
+  }, [data, activeHour]);
 
   const content = useMemo(() => {
     return (
@@ -137,7 +150,10 @@ const HoursRow = ({
   const getHours = (isRowBlank: boolean = false) =>
     Object.entries(day.Hours).map(([hourId, hour]) => (
       <HourCell
-        active={!isRowBlank && isActive(Number(hourId), dayId)}
+        active={
+          !isRowBlank && isActive(Number(hourId), dayId, day.DayInfo.Date)
+        }
+        dayId={dayId}
         key={`${hourId}:${dayId}`}
         hour={hour}
         hourIndex={Number(hourId)}
@@ -164,10 +180,12 @@ const HourCell = ({
   hour,
   hourIndex,
   active,
+  dayId,
 }: {
   hour: FormattedTimetableHour[] | null;
   hourIndex: number;
   active: boolean;
+  dayId: number;
 }) => {
   const { cols } = useTable();
 
@@ -188,7 +206,7 @@ const HourCell = ({
     >
       {hour.map((hourItem, index) => (
         <NestedCell
-          key={`${hourIndex}:${index}`}
+          key={`${dayId}:${hourIndex}:${index}`}
           borderLeftWidth={index > 0 ? 1 : 0}
           change={!!hourItem.Change}
         >

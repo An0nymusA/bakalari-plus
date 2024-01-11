@@ -22,8 +22,7 @@ const StaticMenu = () => {
   const media = useMedia();
   const pathname = usePathname();
   const [dataLoading, setDataLoading] = useState(false);
-  const { loaderVisible } = useBakalariStore();
-  const isOnline = onlineManager.isOnline();
+  const { loaderVisible, onlineStatus } = useBakalariStore();
 
   const iconSize = 35;
 
@@ -72,11 +71,11 @@ const StaticMenu = () => {
             if (dataLoading || loaderVisible) return;
 
             setDataLoading(true);
-            if (!isOnline) {
+            if (!onlineStatus) {
               await queryClient.invalidateQueries({ queryKey: ["auth"] });
             }
 
-            if (!isOnline) {
+            if (!onlineStatus) {
               setDataLoading(false);
               return;
             }
@@ -87,7 +86,7 @@ const StaticMenu = () => {
         >
           <RefreshButtonIcon
             dataLoading={dataLoading}
-            isOnline={isOnline}
+            isOnline={onlineStatus}
             iconSize={iconSize}
           />
         </Button>

@@ -3,15 +3,14 @@ import { View, Text } from "tamagui";
 
 import { useQuery } from "@tanstack/react-query";
 
-import useApiRequests from "@hooks/useApiEndpoints";
-import { isInCache } from "@/src/hooks/useApi";
-import useBakalariStore from "@utils/useBakalariStore";
-
-import useLogger from "@hooks/useLogger";
 import PageMenu from "@components/menu/PageMenu";
 import Timetable from "@components/modules/Timetable";
+import NoData from "@components/modules/NoData";
+import useBakalariStore from "@utils/useBakalariStore";
 import { getMondayDate } from "@utils/utils";
-import { Empty } from "@src/assets/images";
+import useApiRequests from "@hooks/useApiEndpoints";
+import useLogger from "@hooks/useLogger";
+import { isInCache } from "@hooks/useApi";
 
 const { log } = useLogger("timetable", "modules");
 
@@ -105,16 +104,6 @@ export default function Page() {
     </View>
   );
 }
-
-const NoData = ({ showNoData }: { showNoData: boolean }) => {
-  if (!showNoData) return;
-
-  return (
-    <View flex={1} justifyContent="center" alignItems="center">
-      <Empty width={100} height={100} />
-    </View>
-  );
-};
 
 const WeekPill = ({
   weekNumber,

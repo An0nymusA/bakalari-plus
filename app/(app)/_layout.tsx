@@ -7,7 +7,6 @@ import { Slot, usePathname, useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
 
 import NetInfo from "@react-native-community/netinfo";
-import { onlineManager } from "@tanstack/react-query";
 
 import toastConfig from "@constants/toastConfig";
 import { StyledSafeAreaView } from "@components/general/StyledSafeAreaView";
@@ -17,10 +16,14 @@ import useLogger from "@hooks/useLogger";
 import useMyFonts from "@hooks/useMyFonts";
 import LoadingScreen from "@/src/pages/LoadingScreen";
 import { toastVisibilityTime } from "@utils/toastHelper";
+import { setOffline, setOnline } from "@/src/utils/utils";
+import useBakalariStore from "@/src/utils/useBakalariStore";
+import { onlineManager } from "@tanstack/react-query";
 
 const { log } = useLogger("layout", "root");
 
 export default function App() {
+  const { setOnlineStatus } = useBakalariStore();
   const { data, isLoading } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
@@ -32,12 +35,16 @@ export default function App() {
 
   useEffect(() => {
     log.space();
-
-    onlineManager.setEventListener((setOnline) =>
-      NetInfo.addEventListener((state) => {
-        setOnline(!!state.isConnected);
-      })
-    );
+    NetInfo.addEventListener((state) => {
+      if (!!state.isConnected) {
+        setOnline();
+      } else {
+        setOffline();
+      }
+    });
+    onlineManager.subscribe((isOnline) => {
+      setOnlineStatus(isOnline);
+    });
   }, []);
 
   useEffect(() => {

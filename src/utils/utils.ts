@@ -35,7 +35,7 @@ export const getWeekNumber = (date: Date): number => {
 
 export const formatDate = (
   date: Date | string | number,
-  type: "date" | "weekday"
+  type: "date" | "weekday" | "fulldate"
 ): string => {
   if (typeof date == "string" || typeof date == "number") {
     date = new Date(date);
@@ -45,6 +45,11 @@ export const formatDate = (
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     return `${day}.${month}`;
+  } else if (type === "fulldate") {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = String(date.getFullYear());
+    return `${day}.${month}. ${year}`;
   } else if (type === "weekday") {
     const weekdays = ["po", "út", "st", "čt", "pá", "so", "ne"];
     const weekdayNumber = date.getDay();
@@ -66,4 +71,20 @@ export const setOnline = (ignoreOffline: boolean = false) => {
     toastHelper.success("Zpět online");
 
   onlineManager.setOnline(true);
+};
+
+export const isToday = (targetDate: Date | string): boolean => {
+  if (typeof targetDate == "string") targetDate = new Date(targetDate);
+
+  const currentDate = new Date();
+
+  return (
+    currentDate.getDate() === targetDate.getDate() &&
+    currentDate.getMonth() === targetDate.getMonth() &&
+    currentDate.getFullYear() === targetDate.getFullYear()
+  );
+};
+
+export const capitalize = (str: string): string => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 };

@@ -1,4 +1,5 @@
 import React, { useContext, createContext } from "react";
+import { isToday } from "../utils/utils";
 
 interface TableSharedProps {
   cols: Record<number, number>;
@@ -7,7 +8,7 @@ interface TableSharedProps {
 }
 
 interface TableContextProps extends TableSharedProps {
-  isActive: (hour: number, day: number) => boolean;
+  isActive: (hour: number, day: number, dayDate: string) => boolean;
 }
 
 interface TableProviderProps extends TableSharedProps {
@@ -30,8 +31,13 @@ export const TableProvider = ({
   activeHour,
   type,
 }: TableProviderProps) => {
-  const isActive = (hour: number, day: number) => {
-    return type == "actual" && activeDay == day && activeHour == hour;
+  const isActive = (hour: number, day: number, dayDate: string) => {
+    return (
+      type === "actual" &&
+      activeDay === day &&
+      activeHour === hour &&
+      isToday(dayDate)
+    );
   };
 
   return (

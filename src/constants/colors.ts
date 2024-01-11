@@ -2,6 +2,7 @@ export default {
   orange: "#FFDB1D",
   orangeTransparent: "#FFDB1D1A",
   red: "#FF1D44",
+  lightRed: "#CE3C3C",
   redTransparent: "#FF1D441A",
   green: "#30E076",
   greenTransparent: "#30E0761A",

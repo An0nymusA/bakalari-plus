@@ -27,3 +27,6 @@ export { default as Refresh } from "./Refresh.svg";
 
 export { default as Empty } from "./Empty.svg";
 export { default as NoSignal } from "./No-Signal.svg";
+
+export { default as Chevron } from "./Chevron.svg";
+export { default as Weight } from "./Weight.svg";
