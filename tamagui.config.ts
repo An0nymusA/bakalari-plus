@@ -37,8 +37,8 @@ const animations = createAnimations({
   },
 });
 
-const montserratFont = createFont({
-  family: "Montserrat, Helvetica, Arial, sans-serif",
+const baseFont = createFont({
+  family: "sans-serif",
   size: {
     true: 12,
     "0.5": 10,
@@ -54,11 +54,11 @@ const montserratFont = createFont({
     medium: "500",
     bold: "700",
   },
-  face: {
-    400: { normal: "MontserratRegular" },
-    500: { normal: "MontserratMedium" },
-    700: { normal: "MontserratBold" },
-  },
+  // face: {
+  //   400: { normal: "MontserratRegular" },
+  //   500: { normal: "MontserratMedium" },
+  //   700: { normal: "MontserratBold" },
+  // },
 });
 
 const config = createTamagui({
@@ -68,8 +68,8 @@ const config = createTamagui({
   themeClassNameOnRoot: false,
   shorthands,
   fonts: {
-    heading: montserratFont,
-    body: montserratFont,
+    heading: baseFont,
+    body: baseFont,
   },
   themes: {
     dark: colors,

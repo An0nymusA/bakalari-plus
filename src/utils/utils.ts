@@ -88,3 +88,15 @@ export const isToday = (targetDate: Date | string): boolean => {
 export const capitalize = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+export const roundPlaces = (num: number, places: number): number => {
+  const multiplier = Math.pow(10, places);
+  return Math.round(num * multiplier) / multiplier;
+};
+
+export const getLastNumericKey = <T>(obj: Record<number, T>): number => {
+  const keys = Object.keys(obj);
+  const lastKey = keys[keys.length - 1];
+
+  return Number(lastKey);
+}

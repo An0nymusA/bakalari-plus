@@ -12,6 +12,7 @@ import {
 import { Chevron, Weight } from "@/src/assets/images";
 import { formatDate, capitalize } from "@/src/utils/utils";
 import { HorizontalLine } from "../HorizontalLine";
+import MarkPredictor from "./MarkPredictor";
 
 const Marks = ({
   data,
@@ -20,10 +21,15 @@ const Marks = ({
   data: FormattedMarks;
   type: "date" | "subject";
 }) => {
-  return type == "date" ? (
-    <MarksByDate data={data.Date} />
-  ) : (
-    <MarksBySubject data={data.Subject} />
+  return (
+    <>
+      <MarkPredictor marks={data.Subject} />
+      {type == "date" ? (
+        <MarksByDate data={data.Date} />
+      ) : (
+        <MarksBySubject data={data.Subject} />
+      )}
+    </>
   );
 };
 

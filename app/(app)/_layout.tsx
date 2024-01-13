@@ -31,7 +31,7 @@ export default function App() {
   const media = useMedia();
 
   // Setting up fonts
-  const fontsLoaded = useMyFonts();
+  // const fontsLoaded = useMyFonts();
 
   useEffect(() => {
     log.space();
@@ -53,12 +53,13 @@ export default function App() {
     router.replace("/login");
   }, [data]);
 
-  const everyThingLoaded = fontsLoaded && !isLoading;
+  const everythingLoaded = !isLoading;
+  // const everyThingLoaded = fontsLoaded && !isLoading;
 
   return (
     <StyledSafeAreaView>
       <ZStack flex={1} overflow="hidden">
-        {everyThingLoaded && (
+        {everythingLoaded && (
           <ImageBackground
             source={
               media.landscape ? 0 : require("@images/Background-Login.png")

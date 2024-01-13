@@ -30,3 +30,7 @@ export { default as NoSignal } from "./No-Signal.svg";
 
 export { default as Chevron } from "./Chevron.svg";
 export { default as Weight } from "./Weight.svg";
+export { default as Check } from "./Check.svg";
+export { default as Cancel } from "./Cancel.svg";
+export { default as Remove } from "./Remove.svg";
+export { default as Add } from "./Add.svg";
