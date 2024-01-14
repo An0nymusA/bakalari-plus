@@ -3,7 +3,7 @@ import { usePathname, useRouter } from "expo-router";
 
 import { useLogout } from "@hooks/useAuth";
 
-import { Logout } from "@/src/assets/images";
+import { Absence, AbsenceActive, Logout } from "@/src/assets/images";
 import { Kommens, KommensActive } from "@/src/assets/images";
 import { Marks, MarksActive } from "@/src/assets/images";
 import { Timetable, TimetableActive } from "@/src/assets/images";
@@ -16,6 +16,8 @@ const PopupMenu = () => {
       padding="$2.5"
       borderRadius="$4"
       backgroundColor="$grey100"
+      borderWidth={1}
+      borderColor={"$transparent"}
       animation="spring"
       marginBottom="$3"
       enterStyle={{
@@ -73,6 +75,15 @@ export const PopupMenuButtons = () => {
           <KommensActive width={iconSize} height={iconSize} />
         ) : (
           <Kommens width={iconSize} height={iconSize} />
+        )}
+      </PopupMenuButton>
+
+      {/* Absence Button */}
+      <PopupMenuButton onPress={() => redirect("absence")}>
+        {pathname.includes("absence") ? (
+          <AbsenceActive width={iconSize} height={iconSize} />
+        ) : (
+          <Absence width={iconSize} height={iconSize} />
         )}
       </PopupMenuButton>
     </XStack>

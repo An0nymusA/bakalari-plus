@@ -10,7 +10,7 @@ export const calculateAverage = (
   let weightSum = 0;
 
   Object.entries(marks).forEach(([, mark]) => {
-    const markText = Number(mark.MarkText);
+    const markText = Number(mark.MarkText.replace("-", ".5"));
 
     if (isNaN(markText)) return;
 

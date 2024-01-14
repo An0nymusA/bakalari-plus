@@ -8,7 +8,7 @@ import queryClient from "@src/api/queryClient";
 
 const useApi = () => {
   const { api } = useBakalariStore();
-  const { marks, komens, timetable } = useApiRequests(api!);
+  const { marks, komens, timetable, absence } = useApiRequests(api!);
 
   const [isFetching, setIsFetching] = useState(true);
 
@@ -16,6 +16,7 @@ const useApi = () => {
     queries: [
       marks(),
       komens(),
+      absence(),
       timetable({ type: "permanent" }),
       timetable({ type: "actual", date: getMondayDate(0) }),
     ],

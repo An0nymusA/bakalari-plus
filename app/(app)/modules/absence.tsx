@@ -6,15 +6,15 @@ import useBakalariStore from "@utils/useBakalariStore";
 import useLogger from "@hooks/useLogger";
 import useApiRequests from "@hooks/useApiEndpoints";
 import PageMenu from "@components/menu/PageMenu";
-import Marks from "@components/modules/Marks";
 import NoData from "@components/modules/NoData";
+import Absence from "@components/modules/Absence";
 
 const { log } = useLogger("marks", "modules");
 
 export default function Page() {
   const { api } = useBakalariStore();
   const ApiRequests = useApiRequests(api);
-  const { data, isFetching } = useQuery(ApiRequests.marks());
+  const { data, isFetching } = useQuery(ApiRequests.absence());
 
   const [type, setType] = useState<"date" | "subject">("subject");
 
@@ -28,7 +28,7 @@ export default function Page() {
         {data == null ? (
           <NoData showNoData={!isFetching} />
         ) : (
-          <Marks data={data} type={type} />
+          <Absence data={data} type={type} />
         )}
       </View>
       <PageMenu

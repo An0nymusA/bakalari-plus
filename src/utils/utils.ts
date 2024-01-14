@@ -35,25 +35,40 @@ export const getWeekNumber = (date: Date): number => {
 
 export const formatDate = (
   date: Date | string | number,
-  type: "date" | "weekday" | "fulldate"
+  type: "date" | "weekday" | "fulldate" | "weekday-date"
 ): string => {
-  if (typeof date == "string" || typeof date == "number") {
-    date = new Date(date);
-  }
+  const parsedDate =
+    typeof date == "string" || typeof date == "number" ? new Date(date) : date;
+
+  const getParsedDate = () => {
+    const day = String(parsedDate.getDate()).padStart(2, "0");
+    const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+    return `${day}.${month}.`;
+  };
 
   if (type === "date") {
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    return `${day}.${month}`;
+    return getParsedDate();
   } else if (type === "fulldate") {
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = String(date.getFullYear());
+    const day = String(parsedDate.getDate()).padStart(2, "0");
+    const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+    const year = String(parsedDate.getFullYear());
     return `${day}.${month}. ${year}`;
   } else if (type === "weekday") {
     const weekdays = ["po", "út", "st", "čt", "pá", "so", "ne"];
-    const weekdayNumber = date.getDay();
+    const weekdayNumber = parsedDate.getDay();
     return weekdays[weekdayNumber - 1];
+  } else if (type === "weekday-date") {
+    const weekdays = [
+      "Pondělí",
+      "Úterý",
+      "Středa",
+      "Čtvrtek",
+      "Pátek",
+      "Sobota",
+      "Neděle",
+    ];
+    const weekday = weekdays[parsedDate.getDay()];
+    return `${weekday} ${getParsedDate()}`;
   }
 
   return "";
@@ -99,4 +114,4 @@ export const getLastNumericKey = <T>(obj: Record<number, T>): number => {
   const lastKey = keys[keys.length - 1];
 
   return Number(lastKey);
-}
+};

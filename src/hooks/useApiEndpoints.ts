@@ -81,6 +81,25 @@ const useApiRequests = (api: BakalariApi | null) => ({
       return formatKomens(received, noticeboard);
     },
   }),
+
+  // Function to fetch absence data
+  absence: () => ({
+    queryKey: ["module", "absence"],
+    queryFn: async () => {
+      log.debug("absence");
+
+      const data = await api?.absence();
+
+      if (!data) {
+        log.debug("absence", "blank");
+        setOffline();
+        return null;
+      }
+      log.debug("absence", "done");
+
+      return data;
+    },
+  }),
 });
 
 export default useApiRequests;

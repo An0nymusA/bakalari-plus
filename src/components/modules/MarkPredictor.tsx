@@ -9,6 +9,7 @@ import {
   YStack,
   styled,
   Input,
+  Button,
 } from "tamagui";
 import { FormattedMarksBySubject } from "bakalari-ts-api";
 
@@ -18,7 +19,7 @@ import {
   calculateAverage,
   getValidMarksNumber,
 } from "@/src/moduleUtils/MarksUtils";
-import { Check, Chevron, Weight } from "@/src/assets/images";
+import { Check, Chevron, Remove, Weight } from "@/src/assets/images";
 import useAddedMarks from "@hooks/useAddedMarks";
 
 const MarkPredictor = ({ marks }: { marks: FormattedMarksBySubject }) => {
@@ -76,7 +77,9 @@ const MarkPredictor = ({ marks }: { marks: FormattedMarksBySubject }) => {
                 <Text fontSize="$1.5" color="$grey60">
                   průměr:{" "}
                   <Text color="$grey40">
-                    {calculateAverage(subject.Marks, addedMarks)}
+                    {calculateAverage(subject.Marks, addedMarks)
+                      .toString()
+                      .replace(".", ",")}
                   </Text>
                 </Text>
               </View>
@@ -104,7 +107,7 @@ const MarkPredictor = ({ marks }: { marks: FormattedMarksBySubject }) => {
           borderBottomRightRadius={"$3"}
         >
           {Object.keys(addedMarks).map((key) => (
-            <YStack key={key} paddingHorizontal={"$1"}>
+            <YStack key={`${value}-${key}`} paddingHorizontal={"$1"}>
               <XStack justifyContent="space-between" alignItems="center">
                 <XStack alignItems="center">
                   <MarkInput
@@ -119,13 +122,15 @@ const MarkPredictor = ({ marks }: { marks: FormattedMarksBySubject }) => {
                     />
                   </XStack>
                 </XStack>
-                {/* {getLastNumericKey(addedMarks) != Number(key) && (
-                  <Remove
-                    width={24}
-                    height={24}
-                    onPress={() => removeMark(key)}
-                  />
-                )} */}
+                {getLastNumericKey(addedMarks) != Number(key) && (
+                  <Button unstyled={true} backgroundColor={"transparent"} paddingHorizontal={"$1"}>
+                    <Remove
+                      width={24}
+                      height={24}
+                      onPress={() => removeMark(key)}
+                    />
+                  </Button>
+                )}
               </XStack>
               {Number(key) < getLastNumericKey(addedMarks) && (
                 <HorizontalLine

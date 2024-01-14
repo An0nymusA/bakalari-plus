@@ -15,7 +15,7 @@ export default {
   cellTransparent: "#27293566",
   grey050: "#FFFFFF80",
   grey0: "#D9D9D9",
-  grey20: "#E5E6ED",
+  grey20: "#D1D3E0",
   grey40: "#A5ADCF",
   grey60: "#5D6588",
   grey80: "#303346",

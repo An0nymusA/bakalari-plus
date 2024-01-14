@@ -17,6 +17,8 @@ export { default as Marks } from "./Marks.svg";
 export { default as MarksActive } from "./Marks-Active.svg";
 export { default as Timetable } from "./Timetable.svg";
 export { default as TimetableActive } from "./Timetable-Active.svg";
+export { default as Absence } from "./Absence.svg";
+export { default as AbsenceActive } from "./Absence-Active.svg";
 
 export { default as Settings } from "./Settings.svg";
 export { default as SettingsActive } from "./Settings-Active.svg";
