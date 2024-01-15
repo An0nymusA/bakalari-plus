@@ -10,7 +10,6 @@ import useBakalariStore from "@utils/useBakalariStore";
 import { setOffline, setOnline } from "@utils/utils";
 import useLogger from "./useLogger";
 import queryClient from "../api/queryClient";
-import toastHelper from "../utils/toastHelper";
 
 const { log } = useLogger("authHook", "hooks");
 
@@ -49,21 +48,20 @@ const useAuth = () => {
         return "no-credentials";
       }
 
-      let api: BakalariApi;
-
       try {
         log.debug("trying-login");
 
         // Initialize the Bakalari API with the provided credentials
-        api = await BakalariApi.initialize({
-          baseUrl: credentials.baseUrl,
-          token: credentials.token,
-          refreshToken: credentials.refreshToken,
-          onLogin: refreshStorage,
-        });
+        setApi(
+          await BakalariApi.initialize({
+            baseUrl: credentials.baseUrl,
+            token: credentials.token,
+            refreshToken: credentials.refreshToken,
+            onLogin: refreshStorage,
+          })
+        );
 
         setOnline();
-        setApi(api);
       } catch (e) {
         // If the API is unreachable, continue in offline mode
         if (e instanceof AxiosError && isApiUnreachable(e)) {
@@ -98,10 +96,11 @@ const useLogout = () => {
     onlineManager.setOnline(false);
 
     setApi(null);
-    await StorageWrapper.clear("lastUrl");
-    queryClient.clear();
-
     router.replace("/login");
+    
+    await StorageWrapper.clear("lastUrl", "REACT_QUERY_OFFLINE_CACHE");
+    queryClient.removeQueries();
+    
   };
 };
 

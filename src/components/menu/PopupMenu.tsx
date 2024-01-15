@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "expo-router";
 import { useLogout } from "@hooks/useAuth";
 
 import { Absence, AbsenceActive, Logout } from "@/src/assets/images";
-import { Kommens, KommensActive } from "@/src/assets/images";
+import { Komens, KomensActive } from "@/src/assets/images";
 import { Marks, MarksActive } from "@/src/assets/images";
 import { Timetable, TimetableActive } from "@/src/assets/images";
 import { VerticalLine } from "../VerticalLine";
@@ -69,12 +69,12 @@ export const PopupMenuButtons = () => {
         )}
       </PopupMenuButton>
 
-      {/* Kommens Button */}
-      <PopupMenuButton onPress={() => redirect("kommens")}>
-        {pathname.includes("kommens") ? (
-          <KommensActive width={iconSize} height={iconSize} />
+      {/* Komens Button */}
+      <PopupMenuButton onPress={() => redirect("komens")}>
+        {pathname.includes("komens") ? (
+          <KomensActive width={iconSize} height={iconSize} />
         ) : (
-          <Kommens width={iconSize} height={iconSize} />
+          <Komens width={iconSize} height={iconSize} />
         )}
       </PopupMenuButton>
 

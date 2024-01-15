@@ -8,15 +8,15 @@ import Timetable from "@components/modules/Timetable";
 import NoData from "@components/modules/NoData";
 import useBakalariStore from "@utils/useBakalariStore";
 import { getMondayDate } from "@utils/utils";
-import useApiRequests from "@hooks/useApiEndpoints";
+import useApiEndpoints from "@hooks/useApiEndpoints";
 import useLogger from "@hooks/useLogger";
 import { isInCache } from "@hooks/useApi";
 
 const { log } = useLogger("timetable", "modules");
 
 export default function Page() {
-  const { api, setLoaderVisible } = useBakalariStore();
-  const ApiRequests = useApiRequests(api);
+  const { setLoaderVisible } = useBakalariStore();
+  const ApiRequests = useApiEndpoints();
 
   // Args for timetable query
   const [dateModifier, setDateModifier] = useState(0);

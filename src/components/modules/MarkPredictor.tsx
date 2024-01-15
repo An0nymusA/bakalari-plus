@@ -123,7 +123,11 @@ const MarkPredictor = ({ marks }: { marks: FormattedMarksBySubject }) => {
                   </XStack>
                 </XStack>
                 {getLastNumericKey(addedMarks) != Number(key) && (
-                  <Button unstyled={true} backgroundColor={"transparent"} paddingHorizontal={"$1"}>
+                  <Button
+                    unstyled={true}
+                    backgroundColor={"transparent"}
+                    paddingHorizontal={"$1"}
+                  >
                     <Remove
                       width={24}
                       height={24}
@@ -202,7 +206,7 @@ const SubjectSelect = ({
         <Chevron width={24} height={24} />
       </Select.Trigger>
 
-      <Adapt when="sm" platform="touch">
+      <Adapt platform="touch">
         <Sheet native={true} modal dismissOnSnapToBottom animation={"quick"}>
           <Sheet.Frame>
             <Sheet.ScrollView>

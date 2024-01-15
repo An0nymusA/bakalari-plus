@@ -170,7 +170,7 @@ export default function Page() {
           <LoginInput.Input
             ref={urlInputRef}
             elementDisabled={disabled}
-            autoComplete="url"
+            autoComplete="off"
             textContentType="URL"
             onChangeText={(newText) => {
               newText = newText

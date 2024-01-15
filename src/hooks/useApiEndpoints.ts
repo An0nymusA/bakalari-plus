@@ -1,5 +1,4 @@
 import {
-  BakalariApi,
   TimetableOptions,
   formatKomens,
   formatMarks,
@@ -8,26 +7,32 @@ import {
 
 import useLogger from "@hooks/useLogger";
 import { getMondayDate, setOffline } from "@utils/utils";
+import useBakalariStore from "../utils/useBakalariStore";
 
 const { log } = useLogger("queries", "api");
 
-const useApiRequests = (api: BakalariApi | null) => ({
+const checkData = (context: string, ...data: (object | undefined)[]) => {
+  if (data.some((d) => !d)) {
+    log.debug(context, "blank");
+    setOffline();
+    throw new Error("blank");
+  }
+
+  log.debug(context, "done");
+};
+
+const useApiEndpoints = () => ({
   // Function to fetch marks data
   marks: () => ({
     queryKey: ["module", "marks"],
     queryFn: async () => {
       log.debug("marks");
 
-      const data = await api?.marks();
+      const data = await useBakalariStore.getState().api?.marks();
 
-      if (!data) {
-        log.debug("marks", "blank");
-        setOffline();
-        return null;
-      }
-      log.debug("marks", "done");
+      checkData("marks", data);
 
-      return formatMarks(data);
+      return formatMarks(data!);
     },
   }),
 
@@ -42,16 +47,13 @@ const useApiRequests = (api: BakalariApi | null) => ({
       queryFn: async () => {
         log.debug(`timetable:${logKey}`);
 
-        const data = await api?.timetable({ date, type });
+        const data = await useBakalariStore
+          .getState()
+          .api?.timetable({ date, type });
 
-        if (!data) {
-          log.debug(`timetable:${logKey}`, "blank");
-          setOffline();
-          return null;
-        }
-        log.debug(`timetable:${logKey}`, "done");
+        checkData(`timetable:${logKey}`, data);
 
-        return formatTimetable(data);
+        return formatTimetable(data!);
       },
       ...(type == "actual" && {
         gcTime: 2 * 24 * 60 * 60 * 1000,
@@ -62,21 +64,17 @@ const useApiRequests = (api: BakalariApi | null) => ({
     };
   },
 
-  // Function to fetch kommens data
+  // Function to fetch komens data
   komens: () => ({
-    queryKey: ["module", "kommens"],
+    queryKey: ["module", "komens"],
     queryFn: async () => {
-      log.debug("kommens");
+      log.debug("komens");
 
+      const api = await useBakalariStore.getState().api;
       const received: any = await api?.komens();
       const noticeboard = await api?.komens({ noticeboard: true });
 
-      if (!received || !noticeboard) {
-        log.debug("kommens", "blank");
-        setOffline();
-        return null;
-      }
-      log.debug("kommens", "done");
+      checkData("komens", received, noticeboard);
 
       return formatKomens(received, noticeboard);
     },
@@ -88,18 +86,13 @@ const useApiRequests = (api: BakalariApi | null) => ({
     queryFn: async () => {
       log.debug("absence");
 
-      const data = await api?.absence();
+      const data = await useBakalariStore.getState().api?.absence();
 
-      if (!data) {
-        log.debug("absence", "blank");
-        setOffline();
-        return null;
-      }
-      log.debug("absence", "done");
+      checkData("absence", data);
 
       return data;
     },
   }),
 });
 
-export default useApiRequests;
+export default useApiEndpoints;

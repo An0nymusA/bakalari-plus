@@ -2,18 +2,16 @@ import { useEffect, useState } from "react";
 import { View } from "tamagui";
 import { useQuery } from "@tanstack/react-query";
 
-import useBakalariStore from "@utils/useBakalariStore";
 import useLogger from "@hooks/useLogger";
-import useApiRequests from "@hooks/useApiEndpoints";
+import useApiEndpoints from "@hooks/useApiEndpoints";
 import PageMenu from "@components/menu/PageMenu";
 import NoData from "@components/modules/NoData";
 import Absence from "@components/modules/Absence";
 
-const { log } = useLogger("marks", "modules");
+const { log } = useLogger("absence", "modules");
 
 export default function Page() {
-  const { api } = useBakalariStore();
-  const ApiRequests = useApiRequests(api);
+  const ApiRequests = useApiEndpoints();
   const { data, isFetching } = useQuery(ApiRequests.absence());
 
   const [type, setType] = useState<"date" | "subject">("subject");

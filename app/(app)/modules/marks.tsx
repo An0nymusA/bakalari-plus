@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import useBakalariStore from "@utils/useBakalariStore";
 import useLogger from "@hooks/useLogger";
-import useApiRequests from "@hooks/useApiEndpoints";
+import useApiEndpoints from "@hooks/useApiEndpoints";
 import PageMenu from "@components/menu/PageMenu";
 import Marks from "@components/modules/Marks";
 import NoData from "@components/modules/NoData";
@@ -12,8 +12,7 @@ import NoData from "@components/modules/NoData";
 const { log } = useLogger("marks", "modules");
 
 export default function Page() {
-  const { api } = useBakalariStore();
-  const ApiRequests = useApiRequests(api);
+  const ApiRequests = useApiEndpoints();
   const { data, isFetching } = useQuery(ApiRequests.marks());
 
   const [type, setType] = useState<"date" | "subject">("subject");

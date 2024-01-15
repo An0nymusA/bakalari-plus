@@ -9,7 +9,7 @@ const ErrorToast: FC<{ text: string }> = ({ text }) => {
       <BaseToast.Icon>
         <ProgressError />
       </BaseToast.Icon>
-      <BaseToast.Text color={"$grey20"}>{text}</BaseToast.Text>
+      <BaseToast.Text color={"white"}>{text}</BaseToast.Text>
     </BaseToast>
   );
 };

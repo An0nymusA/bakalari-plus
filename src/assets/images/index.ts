@@ -11,8 +11,8 @@ export { default as Logo } from "./Logo.svg";
 
 export { default as Logout } from "./Logout.svg";
 
-export { default as Kommens } from "./Kommens.svg";
-export { default as KommensActive } from "./Kommens-Active.svg";
+export { default as Komens } from "./Komens.svg";
+export { default as KomensActive } from "./Komens-Active.svg";
 export { default as Marks } from "./Marks.svg";
 export { default as MarksActive } from "./Marks-Active.svg";
 export { default as Timetable } from "./Timetable.svg";
@@ -36,3 +36,5 @@ export { default as Check } from "./Check.svg";
 export { default as Cancel } from "./Cancel.svg";
 export { default as Remove } from "./Remove.svg";
 export { default as Add } from "./Add.svg";
+
+export { default as File } from "./File.svg";

@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { useQueries, Query } from "@tanstack/react-query";
 
-import useBakalariStore from "@utils/useBakalariStore";
 import { getMondayDate } from "@utils/utils";
-import useApiRequests from "@hooks/useApiEndpoints";
+import useApiEndpoints from "@hooks/useApiEndpoints";
 import queryClient from "@src/api/queryClient";
 
 const useApi = () => {
-  const { api } = useBakalariStore();
-  const { marks, komens, timetable, absence } = useApiRequests(api!);
+  const { marks, komens, timetable, absence } = useApiEndpoints();
 
   const [isFetching, setIsFetching] = useState(true);
 

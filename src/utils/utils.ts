@@ -35,7 +35,7 @@ export const getWeekNumber = (date: Date): number => {
 
 export const formatDate = (
   date: Date | string | number,
-  type: "date" | "weekday" | "fulldate" | "weekday-date"
+  type: "date" | "weekday" | "fulldate" | "weekday-date" | "relative"
 ): string => {
   const parsedDate =
     typeof date == "string" || typeof date == "number" ? new Date(date) : date;
@@ -46,13 +46,21 @@ export const formatDate = (
     return `${day}.${month}.`;
   };
 
+  const getFullDate = () => {
+    const year = String(parsedDate.getFullYear());
+    return `${getParsedDate()} ${year}`;
+  };
+
+  const getTime = () => {
+    const hours = String(parsedDate.getHours()).padStart(2, "0");
+    const minutes = String(parsedDate.getMinutes()).padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
   if (type === "date") {
     return getParsedDate();
   } else if (type === "fulldate") {
-    const day = String(parsedDate.getDate()).padStart(2, "0");
-    const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
-    const year = String(parsedDate.getFullYear());
-    return `${day}.${month}. ${year}`;
+    return getFullDate();
   } else if (type === "weekday") {
     const weekdays = ["po", "út", "st", "čt", "pá", "so", "ne"];
     const weekdayNumber = parsedDate.getDay();
@@ -69,6 +77,8 @@ export const formatDate = (
     ];
     const weekday = weekdays[parsedDate.getDay()];
     return `${weekday} ${getParsedDate()}`;
+  } else if (type == "relative") {
+    return isToday(parsedDate) ? getTime() : getFullDate();
   }
 
   return "";
@@ -115,3 +125,11 @@ export const getLastNumericKey = <T>(obj: Record<number, T>): number => {
 
   return Number(lastKey);
 };
+
+export const stripHTMLTags = (str: string): string =>
+  str
+    .replace(/<br[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .replace(/<[^>]*>/g, "")
+    .replace(/^\s+/, "");

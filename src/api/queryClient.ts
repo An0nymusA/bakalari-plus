@@ -18,7 +18,6 @@ const queryClient = new QueryClient({
       refetchInterval: 2.5 * 60 * 1000, // 2.5 minutes
       staleTime: 2.5 * 60 * 1000 - 1,
       gcTime: Infinity,
-      // networkMode: "offlineFirst",
     },
   },
   queryCache: new QueryCache({
