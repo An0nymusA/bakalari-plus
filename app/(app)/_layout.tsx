@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useMedia, ZStack } from "tamagui";
-import { ImageBackground } from "react-native";
+import { AppState, ImageBackground } from "react-native";
 
 import { Slot, usePathname, useRouter } from "expo-router";
 
@@ -18,7 +18,7 @@ import LoadingScreen from "@/src/pages/LoadingScreen";
 import { toastVisibilityTime } from "@utils/toastHelper";
 import { setOffline, setOnline } from "@/src/utils/utils";
 import useBakalariStore from "@/src/utils/useBakalariStore";
-import { onlineManager } from "@tanstack/react-query";
+import { focusManager, onlineManager } from "@tanstack/react-query";
 
 const { log } = useLogger("layout", "root");
 
@@ -45,6 +45,10 @@ export default function App() {
     onlineManager.subscribe((isOnline) => {
       setOnlineStatus(isOnline);
     });
+
+    AppState.addEventListener("change", (status) =>
+      focusManager.setFocused(status === "active")
+    );
   }, []);
 
   useEffect(() => {

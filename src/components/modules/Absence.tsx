@@ -41,6 +41,7 @@ const AbsencesByDate = ({ data }: { data: ApiAbsence[] }) => {
       data={Object.values(data)}
       keyExtractor={(value) => value.Date}
       renderItem={({ item }) => <AbsencesByDateItem data={item} />}
+      contentContainerStyle={{ marginHorizontal: 10 }}
     />
   );
 };
@@ -49,10 +50,11 @@ const AbsencesByDateItem = ({ data }: { data: ApiAbsence }) => {
 
   return (
     <Accordion
-      overflow="hidden"
       width="100%"
       type="multiple"
       marginBottom={"$4"}
+      borderRadius={"$3"}
+      overflow="hidden"
     >
       <Accordion.Item value="a1">
         <Accordion.Trigger unstyled={true}>
@@ -62,9 +64,6 @@ const AbsencesByDateItem = ({ data }: { data: ApiAbsence }) => {
               alignItems="center"
               justifyContent="space-between"
               padding="$3"
-              borderRadius={"$3"}
-              borderBottomLeftRadius={open ? 0 : "$3"}
-              borderBottomRightRadius={open ? 0 : "$3"}
             >
               <YStack gap="$1.5">
                 <Text color={missed > 0 ? "$red" : "$grey0"} fontSize="$2.5">
@@ -94,8 +93,6 @@ const AbsencesByDateItem = ({ data }: { data: ApiAbsence }) => {
           paddingTop={"$2"}
           paddingBottom={"$2.5"}
           backgroundColor={"$transparent"}
-          borderBottomLeftRadius={"$3"}
-          borderBottomRightRadius={"$3"}
         >
           <YStack>
             {parsed.map((item, index) => (
@@ -144,6 +141,7 @@ const AbsencesBySubject = ({
       renderItem={({ item }) => (
         <AbsencesBySubjectItem treshold={treshold} data={item} />
       )}
+      contentContainerStyle={{ marginHorizontal: 10 }}
     />
   );
 };

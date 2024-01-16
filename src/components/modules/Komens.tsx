@@ -12,6 +12,7 @@ const Komens = ({ data }: { data: FormattedKomensMessage[] }) => {
       data={Object.values(data)}
       keyExtractor={(value) => value.Id}
       renderItem={({ item }) => <KomensItem data={item} />}
+      contentContainerStyle={{ marginHorizontal: 10 }}
     />
   );
 };

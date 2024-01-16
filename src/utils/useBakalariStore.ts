@@ -4,8 +4,8 @@ import { create } from "zustand";
 interface BakakalariStore {
   api: BakalariApi | null;
   setApi: (api: BakalariApi | null) => void;
-  loaderVisible: true | false | "simple";
-  setLoaderVisible: (loaderVisible: true | false | "simple") => void;
+  loaderVisible: boolean | "simple" | "transparent";
+  setLoaderVisible: (loaderVisible: boolean | "simple" | "transparent") => void;
   onlineStatus: boolean;
   setOnlineStatus: (online: boolean) => void;
 }
@@ -18,7 +18,7 @@ const useBakalariStore = create<BakakalariStore>((set) => ({
       api,
     })),
   loaderVisible: false,
-  setLoaderVisible: (loaderVisible: true | false | "simple") =>
+  setLoaderVisible: (loaderVisible: boolean | "simple" | "transparent") =>
     set((state) => ({
       ...state,
       loaderVisible,

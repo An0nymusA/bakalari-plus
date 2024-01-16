@@ -70,7 +70,7 @@ const useApiEndpoints = () => ({
     queryFn: async () => {
       log.debug("komens");
 
-      const api = await useBakalariStore.getState().api;
+      const api = useBakalariStore.getState().api;
       const received: any = await api?.komens();
       const noticeboard = await api?.komens({ noticeboard: true });
 

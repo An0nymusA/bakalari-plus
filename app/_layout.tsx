@@ -3,10 +3,7 @@ import { Slot, SplashScreen } from "expo-router";
 import { TamaguiProvider, Theme } from "tamagui";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 
-import queryClient, {
-  asyncStoragePersister,
-  dehydrateOptions,
-} from "@/src/api/queryClient";
+import queryClient, { persistOptions } from "@/src/api/queryClient";
 import StorageWrapper from "@utils/storage";
 import config from "@/tamagui.config";
 
@@ -69,7 +66,7 @@ export default function RootLayout() {
   return (
     <PersistQueryClientProvider
       client={queryClient}
-      persistOptions={{ persister: asyncStoragePersister, dehydrateOptions }}
+      persistOptions={persistOptions}
     >
       <TamaguiProvider config={config}>
         <Theme name={"dark"}>

@@ -40,16 +40,18 @@ const MarksBySubject = ({ data }: { data: FormattedMarksBySubject }) => {
       data={Object.entries(data)}
       keyExtractor={([key]) => key}
       renderItem={({ item: [, marks] }) => <MarkSubject data={marks} />}
+      contentContainerStyle={{ marginHorizontal: 10 }}
     />
   );
 };
 const MarkSubject = ({ data }: { data: FormattedMarkBySubject }) => {
   return (
     <Accordion
-      overflow="hidden"
       width="100%"
       type="multiple"
       marginBottom={"$4"}
+      borderRadius={"$3"}
+      overflow="hidden"
     >
       <Accordion.Item value="a1">
         <Accordion.Trigger unstyled={true}>
@@ -59,9 +61,6 @@ const MarkSubject = ({ data }: { data: FormattedMarkBySubject }) => {
               alignItems="center"
               justifyContent="space-between"
               padding="$3"
-              borderRadius={"$3"}
-              borderBottomLeftRadius={open ? 0 : "$3"}
-              borderBottomRightRadius={open ? 0 : "$3"}
             >
               <YStack gap="$1.5">
                 <Text color="$grey0" fontSize="$2.5">
@@ -94,8 +93,6 @@ const MarkSubject = ({ data }: { data: FormattedMarkBySubject }) => {
           paddingTop={"$2"}
           paddingBottom={"$2.5"}
           backgroundColor={"$transparent"}
-          borderBottomLeftRadius={"$3"}
-          borderBottomRightRadius={"$3"}
         >
           <YStack>
             {Object.values(data.Marks).map((mark, index) => (
@@ -152,6 +149,7 @@ const MarksByDate = ({ data }: { data: FormattedMarksByDate }) => {
       data={Object.entries(data)}
       keyExtractor={([key]) => key}
       renderItem={({ item: [, mark] }) => <MarkDate mark={mark} />}
+      contentContainerStyle={{ marginHorizontal: 10 }}
     />
   );
 };

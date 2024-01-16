@@ -39,6 +39,9 @@ const toastHelper = {
   loading: (message: string) => {
     dispatchToast({ type: "loading", text1: message, autoHide: false });
   },
+  hide: () => {
+    Toast.hide();
+  },
 };
 
 export default toastHelper;

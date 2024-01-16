@@ -39,7 +39,7 @@ export default function Page() {
         buttons={[
           {
             onPress: () => {
-              router.back();
+              router.push("/modules/komens");
             },
             text: "Zpět",
           },

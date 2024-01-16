@@ -45,15 +45,19 @@ const MarkPredictor = ({ marks }: { marks: FormattedMarksBySubject }) => {
   );
 
   return (
-    <YStack marginBottom={"$4"}>
+    <YStack
+      marginBottom={"$4"}
+      marginHorizontal={"$2.5"}
+      borderColor={"$grey80"}
+      borderWidth={1}
+      borderRadius={"$3"}
+      overflow="hidden"
+    >
       <XStack
         backgroundColor="$grey100"
         alignItems="center"
         justifyContent="space-between"
         padding="$3"
-        borderRadius={"$3"}
-        borderBottomLeftRadius={value == "" ? "$3" : 0}
-        borderBottomRightRadius={value == "" ? "$3" : 0}
       >
         <YStack flex={1}>
           <Text

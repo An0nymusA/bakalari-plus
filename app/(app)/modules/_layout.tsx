@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useDeferredValue, useEffect, useState } from "react";
 import { Slot, SplashScreen } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
 
@@ -25,7 +25,7 @@ export default function App() {
     SplashScreen.hideAsync();
   }, []);
 
-  const isFetching = useApi();
+  const isFetching = useDeferredValue(useApi());
 
   useEffect(() => {
     if (!firstFetch) return;

@@ -22,7 +22,7 @@ export default function Page() {
 
   return (
     <View flex={1}>
-      <View flex={1} padding="$2.5" paddingBottom={0}>
+      <View flex={1} paddingTop="$2.5">
         {data == null ? (
           <NoData showNoData={!isFetching} />
         ) : (

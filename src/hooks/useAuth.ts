@@ -22,6 +22,21 @@ const refreshStorage = async (token: string, refreshToken: string) => {
   });
 };
 
+export const setupApi = async (): Promise<BakalariApi | null> => {
+  const credentials: BakalariAuthOptions = await StorageWrapper.get(
+    "loginData"
+  );
+
+  if (credentials == null) return null;
+
+  return await BakalariApi.initialize({
+    baseUrl: credentials.baseUrl,
+    token: credentials.token,
+    refreshToken: credentials.refreshToken,
+    onLogin: refreshStorage,
+  });
+};
+
 // Custom hook for handling authentication logic
 const useAuth = () => {
   const { setApi } = useBakalariStore();
@@ -36,30 +51,19 @@ const useAuth = () => {
     queryFn: async (): Promise<
       "network-error" | "error" | "success" | "pending" | "no-credentials"
     > => {
-      const credentials: BakalariAuthOptions = await StorageWrapper.get(
-        "loginData"
-      );
-
-      log.debug("starting-auth");
-
-      if (credentials == null) {
-        log.debug("no-credentials");
-
-        return "no-credentials";
-      }
+      log.debug("trying-auth");
 
       try {
-        log.debug("trying-login");
+        const api = await setupApi();
 
-        // Initialize the Bakalari API with the provided credentials
-        setApi(
-          await BakalariApi.initialize({
-            baseUrl: credentials.baseUrl,
-            token: credentials.token,
-            refreshToken: credentials.refreshToken,
-            onLogin: refreshStorage,
-          })
-        );
+        if (api == null) {
+          log.debug("no-credentials");
+
+          return "no-credentials";
+        }
+
+        setApi(api);
+        log.debug("success");
 
         setOnline();
       } catch (e) {
@@ -97,10 +101,9 @@ const useLogout = () => {
 
     setApi(null);
     router.replace("/login");
-    
+
     await StorageWrapper.clear("lastUrl", "REACT_QUERY_OFFLINE_CACHE");
     queryClient.removeQueries();
-    
   };
 };
 

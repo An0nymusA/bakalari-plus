@@ -1,10 +1,12 @@
 import { useWindowDimensions } from "react-native";
 import { Text, XStack, YStack, ScrollView, View } from "tamagui";
-import { FormattedKomensMessage } from "bakalari-ts-api";
+import { AttachmentInfo, FormattedKomensMessage } from "bakalari-ts-api";
 import RenderHtml from "react-native-render-html";
 
 import { File } from "@/src/assets/images";
 import { formatDate } from "@/src/utils/utils";
+import { download } from "@/src/moduleUtils/KomensUtils";
+import useBakalariStore from "@/src/utils/useBakalariStore";
 
 export const KomensMessage = ({
   data,
@@ -14,6 +16,13 @@ export const KomensMessage = ({
   if (!data) return;
 
   const { width } = useWindowDimensions();
+  const { onlineStatus, setLoaderVisible } = useBakalariStore();
+
+  const handleDownload = async (attachment: AttachmentInfo) => {
+    setLoaderVisible("transparent");
+    await download(attachment, onlineStatus);
+    setLoaderVisible(false);
+  };
 
   return (
     <YStack backgroundColor={"$background"} flex={1} alignItems="center">
@@ -43,6 +52,8 @@ export const KomensMessage = ({
               {data.Attachments.map((attachment) => (
                 <XStack
                   key={attachment.Id}
+                  onPress={() => handleDownload(attachment)}
+                  opacity={onlineStatus ? 1 : 0.5}
                   padding={"$2"}
                   backgroundColor={"$primaryTransparent"}
                   gap={"$1"}
@@ -55,10 +66,11 @@ export const KomensMessage = ({
             </XStack>
           )}
           <RenderHtml
+            source={{ html: data.Text }}
             baseStyle={{ color: "white" }}
+            defaultTextProps={{ selectable: true }}
             allowedStyles={["marginBottom", "marginRight", "marginLeft"]}
             contentWidth={width - 32}
-            source={{ html: data.Text }}
           />
         </YStack>
         <View height={"$4"} />

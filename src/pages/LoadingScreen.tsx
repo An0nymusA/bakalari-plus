@@ -15,7 +15,11 @@ const LoadingScreen = () => {
         top="0"
         width="100%"
         height="100%"
-        backgroundColor="$background"
+        backgroundColor={
+          loaderVisible === "transparent"
+            ? "$backgroundTransparent"
+            : "$background"
+        }
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -23,7 +27,7 @@ const LoadingScreen = () => {
         gap={"$2"}
         flex={1}
       >
-        {loaderVisible !== "simple" && <Logo width={100} height={100} />}
+        {loaderVisible === true && <Logo width={100} height={100} />}
         <ActivityIndicator size={"large"} color={colors.primary} />
       </View>
     )
