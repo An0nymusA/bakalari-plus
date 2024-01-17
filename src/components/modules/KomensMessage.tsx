@@ -48,7 +48,12 @@ export const KomensMessage = ({
       >
         <YStack maxWidth={600}>
           {data.Attachments.length > 0 && (
-            <XStack flexWrap="wrap" width={"100%"} marginBottom={"$4"}>
+            <XStack
+              flexWrap="wrap"
+              width={"100%"}
+              marginBottom={"$4"}
+              gap={"$2"}
+            >
               {data.Attachments.map((attachment) => (
                 <XStack
                   key={attachment.Id}
@@ -58,9 +63,12 @@ export const KomensMessage = ({
                   backgroundColor={"$primaryTransparent"}
                   gap={"$1"}
                   borderRadius={"$2"}
+                  maxWidth="100%"
                 >
                   <File width={18} height={18} />
-                  <Text color={"$primary"}>{attachment.Name}</Text>
+                  <Text $xsPortrait={{ maxWidth: 250 }} color={"$primary"}>
+                    {attachment.Name}
+                  </Text>
                 </XStack>
               ))}
             </XStack>

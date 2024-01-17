@@ -33,6 +33,7 @@ export default function Page() {
   const media = useMedia();
 
   useEffect(() => {
+    setLoaderVisible(false);
     SplashScreen.hideAsync();
 
     (async () => {

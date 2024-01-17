@@ -48,6 +48,8 @@ const AbsencesByDate = ({ data }: { data: ApiAbsence[] }) => {
 const AbsencesByDateItem = ({ data }: { data: ApiAbsence }) => {
   const { ok, missed, parsed } = parseAbsencePerDay(data);
 
+  if (ok == 0 && missed == 0) return null;
+
   return (
     <Accordion
       width="100%"

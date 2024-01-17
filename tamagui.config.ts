@@ -101,6 +101,7 @@ const config = createTamagui({
   media: createMedia({
     xs: { maxWidth: 660 },
     xsLandscape: { maxWidth: 660, orientation: "landscape" },
+    xsPortrait: { maxWidth: 660, orientation: "portrait" },
     sm: { maxWidth: 800 },
     md: { maxWidth: 1020 },
     lg: { maxWidth: 1280 },
