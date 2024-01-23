@@ -8,6 +8,9 @@ interface BakakalariStore {
   setLoaderVisible: (loaderVisible: boolean | "simple" | "transparent") => void;
   onlineStatus: boolean;
   setOnlineStatus: (online: boolean) => void;
+  backdropVisible: boolean;
+  setBackdropVisible: (visible: boolean) => void;
+  toggleBackdropVisible: () => void;
 }
 
 const useBakalariStore = create<BakakalariStore>((set) => ({
@@ -28,6 +31,17 @@ const useBakalariStore = create<BakakalariStore>((set) => ({
     set((state) => ({
       ...state,
       onlineStatus: online,
+    })),
+  backdropVisible: false,
+  setBackdropVisible: (visible: boolean) =>
+    set((state) => ({
+      ...state,
+      backdropVisible: visible,
+    })),
+  toggleBackdropVisible: () =>
+    set((state) => ({
+      ...state,
+      backdropVisible: !state.backdropVisible,
     })),
 }));
 

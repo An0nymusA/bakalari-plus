@@ -4,6 +4,7 @@ import { Text, YStack, XStack, styled, useMedia } from "tamagui";
 import { FormattedKomensMessage } from "bakalari-ts-api";
 
 import { capitalize, formatDate, stripHTMLTags } from "@/src/utils/utils";
+import { formatSenderName } from "@/src/moduleUtils/KomensUtils";
 
 const Komens = ({ data }: { data: FormattedKomensMessage[] }) => {
   return (
@@ -41,7 +42,7 @@ const KomensItem = ({ data }: { data: FormattedKomensMessage }) => {
     >
       <XStack alignItems="center">
         <Text color={"$grey0"} fontSize={"$2.5"} textAlign="left" flex={1}>
-          {data.Sender.Name.replace("(ředitelství)", "")}
+          {formatSenderName(data.Sender.Name)}
         </Text>
         <Text color={"$grey40"} fontSize={"$1.5"} fontWeight={500}>
           {formatDate(data.SentDate, "relative")}

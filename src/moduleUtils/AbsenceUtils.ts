@@ -1,11 +1,11 @@
 import { Absence, AbsencesPerSubject } from "bakalari-ts-api";
 
 export const countMissedPerSubject = (data: AbsencesPerSubject): number => {
-  return data.DistanceTeaching + data.Late + data.Base + data.Soon;
+  return data.DistanceTeaching + data.Base + data.Soon;
 };
 
 export const countMissedPerDate = (data: Absence): number => {
-  return data.DistanceTeaching + data.Late + data.Missed + data.Soon;
+  return data.DistanceTeaching + data.Missed + data.Soon + data.Unsolved;
 };
 
 export const parseAbsencePerDay = (data: Absence) => {

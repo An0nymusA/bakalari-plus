@@ -1,49 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { EventEmitter } from "events";
+import React, { useEffect } from "react";
 import { View } from "tamagui";
 
 import PopupMenu from "./PopupMenu";
-
-const backdropEventEmitter = new EventEmitter();
-
-const setVisibility = (visible: boolean) => {
-  backdropEventEmitter.emit("visibilityChange", { detail: visible });
-};
-
-const toggleVisibility = () => {
-  backdropEventEmitter.emit("visibilityToggle");
-};
+import useBakalariStore from "@/src/utils/useBakalariStore";
 
 const Backdrop = () => {
-  const [visibility, setVisibilityState] = useState(false);
+  const { backdropVisible, setBackdropVisible } = useBakalariStore();
 
   useEffect(() => {
-    const visibilityChangeHandler = (event: any) => {
-      setVisibilityState(event.detail);
-    };
-    const visibilityToggleHandler = () => {
-      setVisibilityState((prev) => !prev);
-    };
-
-    backdropEventEmitter.on("visibilityChange", visibilityChangeHandler);
-    backdropEventEmitter.on("visibilityToggle", visibilityToggleHandler);
-
-    return () => {
-      backdropEventEmitter.removeListener(
-        "visibilityChange",
-        visibilityChangeHandler
-      );
-      backdropEventEmitter.removeListener(
-        "visibilityToggle",
-        visibilityToggleHandler
-      );
-    };
+    return () => setBackdropVisible(false);
   }, []);
 
   return (
     <>
       {/* <AnimatePresence> */}
-      {visibility && (
+      {backdropVisible && (
         <>
           <View
             key={"backdrop"}
@@ -52,7 +23,7 @@ const Backdrop = () => {
             top="0"
             width={"100%"}
             height={"100%"}
-            onPress={() => setVisibility(false)}
+            onPress={() => setBackdropVisible(false)}
             backgroundColor={"#141518B3"}
             animation="linear"
             marginBottom="$3"
@@ -86,4 +57,3 @@ const Backdrop = () => {
 };
 
 export default Backdrop;
-export { setVisibility, toggleVisibility };

@@ -33,3 +33,7 @@ export const getValidMarksNumber = (marks: AddedMarks) => {
       !(isNaN(value) || isNaN(weight) || value == "0" || weight == "0")
   ).length;
 };
+
+export const formatTheme = (theme: string) => {
+  return theme.replace(/(\\n|\s)+$/g, "");
+};

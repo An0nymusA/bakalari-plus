@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { View } from "tamagui";
 import { useQuery } from "@tanstack/react-query";
 
-import useBakalariStore from "@utils/useBakalariStore";
 import useLogger from "@hooks/useLogger";
 import useApiEndpoints from "@hooks/useApiEndpoints";
 import PageMenu from "@components/menu/PageMenu";

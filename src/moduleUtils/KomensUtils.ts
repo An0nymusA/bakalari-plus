@@ -45,3 +45,7 @@ export const download = async (
     });
   });
 };
+
+export const formatSenderName = (name: string) => {
+  return name.replace("(ředitelství)", "");
+};

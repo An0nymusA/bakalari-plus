@@ -13,6 +13,7 @@ import { Chevron, Weight } from "@/src/assets/images";
 import { formatDate, capitalize } from "@/src/utils/utils";
 import { HorizontalLine } from "../HorizontalLine";
 import MarkPredictor from "./MarkPredictor";
+import { formatTheme } from "@/src/moduleUtils/MarksUtils";
 
 const Marks = ({
   data,
@@ -125,9 +126,18 @@ const SubjectMarkItem = ({ mark }: { mark: Mark }) => {
         >
           {mark.MarkText}
         </Text>
-        <Text flex={1} fontSize="$1.5" color={"$grey0"}>
-          {capitalize(mark.Caption)}
-        </Text>
+        <YStack flex={1}>
+          <Text fontSize="$1.5" color={"$grey0"}>
+            {capitalize(mark.Caption)}
+          </Text>
+          {!!mark.Theme && (
+            <Text maxWidth={"90%"} fontSize="$1" color={"$grey60"}>
+              {'"'}
+              {formatTheme(capitalize(mark.Theme))}
+              {'"'}
+            </Text>
+          )}
+        </YStack>
         <YStack alignItems="flex-end">
           <Text color={"$grey40"}>{formatDate(mark.MarkDate, "fulldate")}</Text>
           <XStack alignItems="center" gap="$0.5">
@@ -184,9 +194,16 @@ const MarkDate = ({ mark }: { mark: FormattedMarkByDate }) => {
           <Text fontSize="$2" color={"$primaryLight"} fontWeight={"$medium"}>
             {capitalize(mark.Subject.Name)}
           </Text>
-          <Text fontSize="$1.5" color={"$grey0"}>
+          <Text mt={"$0.5"} fontSize="$1.5" color={"$grey0"}>
             {capitalize(mark.Caption)}
           </Text>
+          {!!mark.Theme && (
+            <Text maxWidth={"90%"} fontSize="$1" color={"$grey60"}>
+              {'"'}
+              {formatTheme(capitalize(mark.Theme))}
+              {'"'}
+            </Text>
+          )}
         </YStack>
         <YStack alignItems="flex-end">
           <Text color={"$grey40"}>{formatDate(mark.MarkDate, "fulldate")}</Text>

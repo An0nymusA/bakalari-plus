@@ -1,6 +1,6 @@
 export { default as HouseSearch } from "./HouseSearch.svg";
 export { default as Key } from "./Key.svg";
-export { default as User } from "./User.svg";
+export { default as LoginUser } from "./LoginUser.svg";
 
 export { default as ProgressDone } from "./Progress-Done.svg";
 export { default as ProgressError } from "./Progress-Error.svg";
@@ -38,3 +38,6 @@ export { default as Remove } from "./Remove.svg";
 export { default as Add } from "./Add.svg";
 
 export { default as File } from "./File.svg";
+
+export { default as User } from "./User.svg";
+export { default as UserActive } from "./User-Active.svg";

@@ -6,12 +6,13 @@ import useApiEndpoints from "@hooks/useApiEndpoints";
 import queryClient from "@src/api/queryClient";
 
 const useApi = () => {
-  const { marks, komens, timetable, absence } = useApiEndpoints();
+  const { marks, komens, timetable, absence, user } = useApiEndpoints();
 
   const [isFetching, setIsFetching] = useState(true);
 
   const data = useQueries({
     queries: [
+      user(),
       marks(),
       komens(),
       absence(),

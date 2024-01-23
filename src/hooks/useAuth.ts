@@ -3,39 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { onlineManager } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-import { BakalariApi, BakalariAuthOptions } from "bakalari-ts-api";
-
 import StorageWrapper from "@utils/storage";
 import useBakalariStore from "@utils/useBakalariStore";
+import { setupApi } from "@utils/authHelper";
 import { setOffline, setOnline } from "@utils/utils";
 import useLogger from "./useLogger";
 import queryClient from "../api/queryClient";
 
 const { log } = useLogger("authHook", "hooks");
-
-// Refresh the storage with the latest authentication options
-const refreshStorage = async (token: string, refreshToken: string) => {
-  StorageWrapper.set("loginData", {
-    ...(await StorageWrapper.get("loginData")),
-    accessToken: token,
-    refreshToken: refreshToken,
-  });
-};
-
-export const setupApi = async (): Promise<BakalariApi | null> => {
-  const credentials: BakalariAuthOptions = await StorageWrapper.get(
-    "loginData"
-  );
-
-  if (credentials == null) return null;
-
-  return await BakalariApi.initialize({
-    baseUrl: credentials.baseUrl,
-    token: credentials.token,
-    refreshToken: credentials.refreshToken,
-    onLogin: refreshStorage,
-  });
-};
 
 // Custom hook for handling authentication logic
 const useAuth = () => {
@@ -97,6 +72,7 @@ const useLogout = () => {
 
   return async () => {
     log.info("logout");
+
     onlineManager.setOnline(false);
 
     setApi(null);

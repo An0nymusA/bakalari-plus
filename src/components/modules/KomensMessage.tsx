@@ -5,7 +5,7 @@ import RenderHtml from "react-native-render-html";
 
 import { File } from "@/src/assets/images";
 import { formatDate } from "@/src/utils/utils";
-import { download } from "@/src/moduleUtils/KomensUtils";
+import { download, formatSenderName } from "@/src/moduleUtils/KomensUtils";
 import useBakalariStore from "@/src/utils/useBakalariStore";
 
 export const KomensMessage = ({
@@ -33,7 +33,7 @@ export const KomensMessage = ({
         alignItems="center"
       >
         <Text flex={1} color={"white"} fontSize={"$3"}>
-          {data.Sender.Name.replace("(ředitelství)", "")}
+          {formatSenderName(data.Sender.Name)}
         </Text>
         <Text color={"$grey40"} fontSize={"$2"} fontWeight={500}>
           {formatDate(data.SentDate, "relative")}

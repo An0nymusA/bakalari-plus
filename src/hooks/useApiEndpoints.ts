@@ -1,4 +1,5 @@
 import {
+  BakalariApi,
   TimetableOptions,
   formatKomens,
   formatMarks,
@@ -23,12 +24,13 @@ const checkData = (context: string, ...data: (object | undefined)[]) => {
 
 const useApiEndpoints = () => ({
   // Function to fetch marks data
-  marks: () => ({
+  marks: (api?: BakalariApi | null) => ({
     queryKey: ["module", "marks"],
     queryFn: async () => {
+      if (!api) api = useBakalariStore.getState().api;
       log.debug("marks");
 
-      const data = await useBakalariStore.getState().api?.marks();
+      const data = await api?.marks();
 
       checkData("marks", data);
 
@@ -37,7 +39,10 @@ const useApiEndpoints = () => ({
   }),
 
   // Function to fetch timetable data
-  timetable: (args: TimetableOptions = { type: "actual" }) => {
+  timetable: (
+    args: TimetableOptions = { type: "actual" },
+    api?: BakalariApi | null
+  ) => {
     const { date, type } = args;
     const key = type == "permanent" ? "permanent" : date ?? getMondayDate(0);
     const logKey = type?.charAt(0).toLowerCase();
@@ -45,11 +50,10 @@ const useApiEndpoints = () => ({
     return {
       queryKey: ["module", "timetable", key],
       queryFn: async () => {
+        if (!api) api = useBakalariStore.getState().api;
         log.debug(`timetable:${logKey}`);
 
-        const data = await useBakalariStore
-          .getState()
-          .api?.timetable({ date, type });
+        const data = await api?.timetable({ date, type });
 
         checkData(`timetable:${logKey}`, data);
 
@@ -65,12 +69,12 @@ const useApiEndpoints = () => ({
   },
 
   // Function to fetch komens data
-  komens: () => ({
+  komens: (api?: BakalariApi | null) => ({
     queryKey: ["module", "komens"],
     queryFn: async () => {
+      if (!api) api = useBakalariStore.getState().api;
       log.debug("komens");
 
-      const api = useBakalariStore.getState().api;
       const received: any = await api?.komens();
       const noticeboard = await api?.komens({ noticeboard: true });
 
@@ -81,14 +85,28 @@ const useApiEndpoints = () => ({
   }),
 
   // Function to fetch absence data
-  absence: () => ({
+  absence: (api?: BakalariApi | null) => ({
     queryKey: ["module", "absence"],
     queryFn: async () => {
+      if (!api) api = useBakalariStore.getState().api;
       log.debug("absence");
 
-      const data = await useBakalariStore.getState().api?.absence();
+      const data = await api?.absence();
 
       checkData("absence", data);
+
+      return data;
+    },
+  }),
+  user: () => ({
+    queryKey: ["module", "user"],
+    queryFn: async () => {
+      const api = useBakalariStore.getState().api;
+      log.debug("user");
+
+      const data = await api?.user();
+
+      checkData("user", data);
 
       return data;
     },

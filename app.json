@@ -7,7 +7,7 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./src/assets/icons/splash.png",
-      "backgroundColor": "#1E1F25"
+      "backgroundColor": "#141518"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -16,12 +16,13 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/icons/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#111411"
       },
-      "package": "com.anonymous.bakalariplus"
+      "package": "com.anonymous.bakalariplus",
+      "allowBackup": false
     },
     "androidStatusBar": {
-      "backgroundColor": "#303346",
+      "backgroundColor": "#141518",
       "barStyle": "light-content"
     },
     "web": {

@@ -8,7 +8,7 @@ import { Komens, KomensActive } from "@/src/assets/images";
 import { Marks, MarksActive } from "@/src/assets/images";
 import { Timetable, TimetableActive } from "@/src/assets/images";
 import { VerticalLine } from "../VerticalLine";
-import { setVisibility } from "./MenuBackdrop";
+import useBakalariStore from "@/src/utils/useBakalariStore";
 
 const PopupMenu = () => {
   return (
@@ -23,9 +23,6 @@ const PopupMenu = () => {
       enterStyle={{
         y: 100,
       }}
-      exitStyle={{
-        y: 100,
-      }}
     >
       <PopupMenuButtons />
     </View>
@@ -33,6 +30,8 @@ const PopupMenu = () => {
 };
 
 export const PopupMenuButtons = () => {
+  const { setBackdropVisible } = useBakalariStore();
+
   const pathname = usePathname();
   const router = useRouter();
   const logout = useLogout();
@@ -40,7 +39,7 @@ export const PopupMenuButtons = () => {
   const redirect = (module: string) => {
     if (!pathname.includes(module)) router.push(`/modules/${module}`);
 
-    setVisibility(false);
+    setBackdropVisible(false);
   };
   const iconSize = 32;
 

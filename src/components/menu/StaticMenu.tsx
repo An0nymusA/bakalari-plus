@@ -1,19 +1,12 @@
 import { useState } from "react";
 import { ActivityIndicator } from "react-native";
 import { View, Button, useMedia } from "tamagui";
-import { usePathname } from "expo-router";
-import { onlineManager } from "@tanstack/react-query";
+import { usePathname, useRouter } from "expo-router";
 
-import {
-  NoSignal,
-  Refresh,
-  Settings,
-  SettingsActive,
-} from "@src/assets/images";
+import { NoSignal, Refresh, User, UserActive } from "@src/assets/images";
 import { Menu } from "@src/assets/images";
 import colors from "@/src/constants/colors";
 import queryClient from "@/src/api/queryClient";
-import { toggleVisibility } from "./MenuBackdrop";
 import useBakalariStore from "@utils/useBakalariStore";
 import { invalidateQueries } from "@/src/hooks/useApi";
 import { PopupMenuButtons } from "./PopupMenu";
@@ -21,10 +14,10 @@ import { PopupMenuButtons } from "./PopupMenu";
 const StaticMenu = () => {
   const media = useMedia();
   const pathname = usePathname();
+  const router = useRouter();
   const [dataLoading, setDataLoading] = useState(false);
-  const { loaderVisible, onlineStatus } = useBakalariStore();
-
-  const iconSize = 35;
+  const { loaderVisible, onlineStatus, toggleBackdropVisible } =
+    useBakalariStore();
 
   return (
     <View
@@ -42,11 +35,16 @@ const StaticMenu = () => {
         alignItems="center"
       >
         {/* Settings Button */}
-        <Button backgroundColor="transparent">
-          {pathname.includes("settings") ? (
-            <SettingsActive width={iconSize} height={iconSize} />
+        <Button
+          backgroundColor="transparent"
+          onPress={() => {
+            router.push("/modules/user");
+          }}
+        >
+          {pathname.includes("user") ? (
+            <UserActive width={40} height={40} />
           ) : (
-            <Settings width={iconSize} height={iconSize} />
+            <User width={40} height={40} />
           )}
         </Button>
 
@@ -54,7 +52,7 @@ const StaticMenu = () => {
           // Menu Button
           <Button
             backgroundColor="transparent"
-            onPress={() => toggleVisibility()}
+            onPress={() => toggleBackdropVisible()}
           >
             <Menu width={45} height={45} />
           </Button>
@@ -87,7 +85,7 @@ const StaticMenu = () => {
           <RefreshButtonIcon
             dataLoading={dataLoading}
             isOnline={onlineStatus}
-            iconSize={iconSize}
+            iconSize={35}
           />
         </Button>
       </View>

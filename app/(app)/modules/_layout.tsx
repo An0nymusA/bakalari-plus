@@ -1,15 +1,13 @@
 import { useDeferredValue, useEffect, useState } from "react";
 import { Slot, SplashScreen } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
+import { View } from "tamagui";
 
 import useBakalariStore from "@utils/useBakalariStore";
 import useLogger from "@hooks/useLogger";
-
-import { View } from "tamagui";
+import useApi from "@hooks/useApi";
 import Backdrop from "@components/menu/MenuBackdrop";
 import StaticMenu from "@components/menu/StaticMenu";
-
-import useApi from "@hooks/useApi";
 
 const { log } = useLogger("layout", "modules");
 

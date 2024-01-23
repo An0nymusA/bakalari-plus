@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useMedia, ZStack } from "tamagui";
 import { AppState, ImageBackground } from "react-native";
 
-import { Slot, usePathname, useRouter } from "expo-router";
+import { Redirect, Slot, usePathname, useRouter } from "expo-router";
 
 import Toast from "react-native-toast-message";
 
@@ -13,7 +13,6 @@ import { StyledSafeAreaView } from "@components/general/StyledSafeAreaView";
 
 import useAuth from "@hooks/useAuth";
 import useLogger from "@hooks/useLogger";
-import useMyFonts from "@hooks/useMyFonts";
 import LoadingScreen from "@/src/pages/LoadingScreen";
 import { toastVisibilityTime } from "@utils/toastHelper";
 import { setOffline, setOnline } from "@/src/utils/utils";
@@ -23,7 +22,7 @@ import { focusManager, onlineManager } from "@tanstack/react-query";
 const { log } = useLogger("layout", "root");
 
 export default function App() {
-  const { setOnlineStatus } = useBakalariStore();
+  const { setOnlineStatus, api } = useBakalariStore();
   const { data, isLoading } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
@@ -57,20 +56,17 @@ export default function App() {
     router.replace("/login");
   }, [data]);
 
-  const everythingLoaded = !isLoading;
-  // const everyThingLoaded = fontsLoaded && !isLoading;
-
   return (
     <StyledSafeAreaView>
       <ZStack flex={1} overflow="hidden">
-        {everythingLoaded && (
+        {!isLoading && (
           <ImageBackground
             source={
               media.landscape ? 0 : require("@images/Background-Login.png")
             }
             style={{ flex: 1 }}
           >
-            <Slot />
+            {!!api !== pathname.includes("login") && <Slot />}
           </ImageBackground>
         )}
         <LoadingScreen />

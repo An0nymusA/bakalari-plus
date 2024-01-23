@@ -9,7 +9,7 @@ import Toast from "react-native-toast-message";
 
 import { BakalariApi } from "bakalari-ts-api";
 
-import { HouseSearch, Key, User } from "@images/index";
+import { HouseSearch, Key, LoginUser } from "@images/index";
 
 import { useFormInputs } from "@hooks/useFormInputs";
 
@@ -45,9 +45,8 @@ export default function Page() {
       }
     })();
 
-    if (media.xs) {
+    if (media.xs)
       ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
-    }
 
     return () => {
       ScreenOrientation.unlockAsync();
@@ -190,7 +189,7 @@ export default function Page() {
         {/* Username input */}
         <LoginInput inputError={inputErrors.username} width="100%">
           <LoginInput.Icon>
-            <User />
+            <LoginUser />
           </LoginInput.Icon>
           <LoginInput.Input
             elementDisabled={disabled}

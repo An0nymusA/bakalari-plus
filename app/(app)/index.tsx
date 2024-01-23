@@ -16,7 +16,7 @@ export default function Page() {
     if (media.xs) {
       ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
     }
-    
+
     return () => {
       ScreenOrientation.unlockAsync();
     };

@@ -1,5 +1,7 @@
 import toastHelper from "./toastHelper";
 import { onlineManager } from "@tanstack/react-query";
+// import * as Notifications from "expo-notifications";
+// import { Platform } from "react-native";
 
 export const checkUrl = (url: string): boolean => {
   // const pattern =
@@ -133,3 +135,40 @@ export const stripHTMLTags = (str: string): string =>
     .replace(/\s+/g, " ")
     .replace(/<[^>]*>/g, "")
     .replace(/^\s+/, "");
+
+// export const sendNotification = (
+//   title: string,
+//   body: string = "",
+//   data: Record<string, string> = {}
+// ) => {
+//   Notifications.scheduleNotificationAsync({
+//     content: {
+//       title,
+//       body,
+//       data,
+//     },
+//     trigger: {
+//       seconds: 1,
+//     },
+//   });
+// };
+
+// export const requestNotificationsPermission = async () => {
+//   if (Platform.OS === "android") {
+//     await Notifications.setNotificationChannelAsync("default", {
+//       name: "default",
+//       importance: Notifications.AndroidImportance.MAX,
+//       lightColor: "#246CF9",
+//     });
+//   }
+
+//   const { status: existingStatus } = await Notifications.getPermissionsAsync();
+//   let finalStatus = existingStatus;
+
+//   if (existingStatus === "granted") return true;
+
+//   const { status } = await Notifications.requestPermissionsAsync();
+//   finalStatus = status;
+
+//   return finalStatus === "granted";
+// };

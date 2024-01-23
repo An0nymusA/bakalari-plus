@@ -18,7 +18,7 @@ const isToastSame = (props: ToastHelperProps) =>
   JSON.stringify(lastToastData.props) === JSON.stringify(props);
 
 const dispatchToast = (props: ToastHelperProps) => {
-  if (isToastSame(props)) return;
+  if (!props.text1 || isToastSame(props)) return;
 
   Toast.hide();
 
@@ -30,18 +30,16 @@ const dispatchToast = (props: ToastHelperProps) => {
 };
 
 const toastHelper = {
-  success: (message: string) => {
-    dispatchToast({ type: "success", text1: message });
+  success: (text1: string) => {
+    dispatchToast({ type: "success", text1 });
   },
-  error: (message: string) => {
-    dispatchToast({ type: "error", text1: message });
+  error: (text1: string) => {
+    dispatchToast({ type: "error", text1 });
   },
-  loading: (message: string) => {
-    dispatchToast({ type: "loading", text1: message, autoHide: false });
+  loading: (text1: string) => {
+    dispatchToast({ type: "loading", text1, autoHide: false });
   },
-  hide: () => {
-    Toast.hide();
-  },
+  hide: () => Toast.hide(),
 };
 
 export default toastHelper;

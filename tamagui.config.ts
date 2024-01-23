@@ -96,6 +96,8 @@ const config = createTamagui({
       "4": 16,
       "4.5": 18,
       "5": 20,
+      "5.5": 22,
+      "6": 24,
     },
   }),
   media: createMedia({
