@@ -38,7 +38,7 @@ const AbsencesByDate = ({ data }: { data: ApiAbsence[] }) => {
   return (
     <FlatList
       style={{ flex: 1 }}
-      data={Object.values(data)}
+      data={Object.values(data).reverse()}
       keyExtractor={(value) => value.Date}
       renderItem={({ item }) => <AbsencesByDateItem data={item} />}
       contentContainerStyle={{ marginHorizontal: 10 }}

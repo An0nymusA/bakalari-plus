@@ -16,8 +16,12 @@ const StaticMenu = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [dataLoading, setDataLoading] = useState(false);
-  const { loaderVisible, onlineStatus, toggleBackdropVisible } =
-    useBakalariStore();
+  const {
+    loaderVisible,
+    onlineStatus,
+    toggleBackdropVisible,
+    setBackdropVisible,
+  } = useBakalariStore();
 
   return (
     <View
@@ -38,6 +42,8 @@ const StaticMenu = () => {
         <Button
           backgroundColor="transparent"
           onPress={() => {
+            setBackdropVisible(false);
+
             router.push("/modules/user");
           }}
         >
