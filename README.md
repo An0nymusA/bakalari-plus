@@ -1,6 +1,6 @@
 # Bakaláři plus
 
-Aplikace pro systém Bakaláři.
+Mobilní aplikace pro systém Bakaláři.
 
 ## Funkce
 
@@ -33,3 +33,7 @@ Hlavním cílem bylo udělat aplikaci, která bude uživatelsky přívětivějš
 - Android only
 - Notifikace
 - Widget
+
+## Kde si jí můžu stáhnout ?
+
+- Poslední verze aplikace je zatím dostupná zde [Odkaz](https://drive.google.com/file/d/1lRGAMgq2dpUVLhR50QSQnwPxJruPFY1j/view?usp=drive_link)
