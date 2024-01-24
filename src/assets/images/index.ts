@@ -41,3 +41,7 @@ export { default as File } from "./File.svg";
 
 export { default as User } from "./User.svg";
 export { default as UserActive } from "./User-Active.svg";
+
+export { default as Teacher } from "./Teacher.svg";
+export { default as Change } from "./Change.svg";
+export { default as Calendar } from "./Calendar.svg";

@@ -7,7 +7,7 @@ import { NoSignal, Refresh, User, UserActive } from "@src/assets/images";
 import { Menu } from "@src/assets/images";
 import colors from "@/src/constants/colors";
 import queryClient from "@/src/api/queryClient";
-import useBakalariStore from "@utils/useBakalariStore";
+import useBakalariStore from "@/src/hooks/useBakalariStore";
 import { invalidateQueries } from "@/src/hooks/useApi";
 import { PopupMenuButtons } from "./PopupMenu";
 

@@ -16,6 +16,7 @@ import {
   isRowBlank,
   getColOffset,
 } from "@/src/moduleUtils/TimetableUtils";
+import useTimetableModalStore from "@/src/hooks/useTimetableModalStore";
 
 export default function Timetable({
   data,
@@ -188,6 +189,7 @@ const HourCell = ({
   dayId: number;
 }) => {
   const { cols } = useTable();
+  const { setCurrent } = useTimetableModalStore();
 
   if (hour == null || hour.length === 0)
     return (
@@ -209,6 +211,9 @@ const HourCell = ({
           key={`${dayId}:${hourIndex}:${index}`}
           borderLeftWidth={index > 0 ? 1 : 0}
           change={!!hourItem.Change}
+          onPress={() => {
+            hourItem.Change != null && setCurrent(hourItem);
+          }}
         >
           <Text color="$primaryLight" fontWeight="$medium" fontSize="$2">
             {hour.length > 1 &&

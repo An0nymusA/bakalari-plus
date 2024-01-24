@@ -8,7 +8,7 @@ import {
 
 import useLogger from "@hooks/useLogger";
 import { getMondayDate, setOffline } from "@utils/utils";
-import useBakalariStore from "../utils/useBakalariStore";
+import useBakalariStore from "./useBakalariStore";
 
 const { log } = useLogger("queries", "api");
 

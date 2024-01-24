@@ -37,7 +37,13 @@ export const getWeekNumber = (date: Date): number => {
 
 export const formatDate = (
   date: Date | string | number,
-  type: "date" | "weekday" | "fulldate" | "weekday-date" | "relative"
+  type:
+    | "date"
+    | "weekday"
+    | "fulldate"
+    | "weekday-date"
+    | "relative"
+    | "weekday-full-date"
 ): string => {
   const parsedDate =
     typeof date == "string" || typeof date == "number" ? new Date(date) : date;
@@ -59,15 +65,13 @@ export const formatDate = (
     return `${hours}:${minutes}`;
   };
 
-  if (type === "date") {
-    return getParsedDate();
-  } else if (type === "fulldate") {
-    return getFullDate();
-  } else if (type === "weekday") {
+  const getWeekdayShort = () => {
     const weekdays = ["po", "út", "st", "čt", "pá", "so", "ne"];
     const weekdayNumber = parsedDate.getDay();
     return weekdays[weekdayNumber - 1];
-  } else if (type === "weekday-date") {
+  };
+
+  const getWeekday = () => {
     const weekdays = [
       "Pondělí",
       "Úterý",
@@ -77,13 +81,26 @@ export const formatDate = (
       "Sobota",
       "Neděle",
     ];
-    const weekday = weekdays[parsedDate.getDay()];
-    return `${weekday} ${getParsedDate()}`;
-  } else if (type == "relative") {
-    return isToday(parsedDate) ? getTime() : getFullDate();
-  }
 
-  return "";
+    return weekdays[parsedDate.getDay()];
+  };
+
+  switch (type) {
+    case "date":
+      return getParsedDate();
+    case "fulldate":
+      return getFullDate();
+    case "weekday":
+      return getWeekdayShort();
+    case "weekday-date":
+      return `${getWeekday()} ${getParsedDate()}`;
+    case "weekday-full-date":
+      return `${getWeekday()} ${getFullDate()}`;
+    case "relative":
+      return isToday(parsedDate) ? getTime() : getFullDate();
+    default:
+      return "";
+  }
 };
 
 export const setOffline = (ignoreOnline: boolean = false) => {
@@ -170,5 +187,4 @@ export const stripHTMLTags = (str: string): string =>
 //   const { status } = await Notifications.requestPermissionsAsync();
 //   finalStatus = status;
 
-//   return finalStatus === "granted";
-// };
+//   return finalStatus ===

@@ -8,7 +8,7 @@ import { Komens, KomensActive } from "@/src/assets/images";
 import { Marks, MarksActive } from "@/src/assets/images";
 import { Timetable, TimetableActive } from "@/src/assets/images";
 import { VerticalLine } from "../VerticalLine";
-import useBakalariStore from "@/src/utils/useBakalariStore";
+import useBakalariStore from "@/src/hooks/useBakalariStore";
 
 const PopupMenu = () => {
   return (

@@ -6,7 +6,7 @@ import RenderHtml from "react-native-render-html";
 import { File } from "@/src/assets/images";
 import { formatDate } from "@/src/utils/utils";
 import { download, formatSenderName } from "@/src/moduleUtils/KomensUtils";
-import useBakalariStore from "@/src/utils/useBakalariStore";
+import useBakalariStore from "@/src/hooks/useBakalariStore";
 
 export const KomensMessage = ({
   data,

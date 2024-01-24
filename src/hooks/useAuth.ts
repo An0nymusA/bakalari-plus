@@ -4,7 +4,7 @@ import { onlineManager } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 import StorageWrapper from "@utils/storage";
-import useBakalariStore from "@utils/useBakalariStore";
+import useBakalariStore from "@/src/hooks/useBakalariStore";
 import { setupApi } from "@utils/authHelper";
 import { setOffline, setOnline } from "@utils/utils";
 import useLogger from "./useLogger";

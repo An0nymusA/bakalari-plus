@@ -20,7 +20,7 @@ import { Button } from "@components/form/Button";
 import { checkUrl } from "@utils/utils";
 import toastHelper from "@utils/toastHelper";
 import StorageWrapper from "@utils/storage";
-import useBakalariStore from "@utils/useBakalariStore";
+import useBakalariStore from "@/src/hooks/useBakalariStore";
 import useLogger from "@hooks/useLogger";
 
 const { log } = useLogger("login");

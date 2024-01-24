@@ -1,7 +1,7 @@
 import * as FileSystem from "expo-file-system";
 import * as IntentLauncher from "expo-intent-launcher";
 import { AttachmentInfo } from "bakalari-ts-api";
-import useBakalariStore from "../utils/useBakalariStore";
+import useBakalariStore from "../hooks/useBakalariStore";
 import toastHelper from "../utils/toastHelper";
 
 /**

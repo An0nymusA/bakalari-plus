@@ -6,16 +6,19 @@ import { useQuery } from "@tanstack/react-query";
 import PageMenu from "@components/menu/PageMenu";
 import Timetable from "@components/modules/Timetable";
 import NoData from "@components/modules/NoData";
-import useBakalariStore from "@utils/useBakalariStore";
+import useBakalariStore from "@/src/hooks/useBakalariStore";
 import { getMondayDate } from "@utils/utils";
 import useApiEndpoints from "@hooks/useApiEndpoints";
 import useLogger from "@hooks/useLogger";
 import { isInCache } from "@hooks/useApi";
+import useTimetableModalStore from "@/src/hooks/useTimetableModalStore";
+import TimetableModal from "@/src/components/modules/TimetableModal";
 
 const { log } = useLogger("timetable", "modules");
 
 export default function Page() {
   const { setLoaderVisible } = useBakalariStore();
+  const { clearCurrent } = useTimetableModalStore();
   const ApiRequests = useApiEndpoints();
 
   // Args for timetable query
@@ -30,8 +33,13 @@ export default function Page() {
 
     return () => {
       setLoaderVisible(false);
+      clearCurrent();
     };
   }, []);
+
+  useEffect(() => {
+    clearCurrent();
+  }, [type, dateModifier]);
 
   useEffect(() => {
     setLoaderVisible(data == null && isFetching ? "simple" : false);
@@ -101,6 +109,7 @@ export default function Page() {
           },
         ]}
       />
+      <TimetableModal />
     </View>
   );
 }

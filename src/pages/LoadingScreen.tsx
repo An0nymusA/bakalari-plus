@@ -1,6 +1,6 @@
 import { View } from "tamagui";
 import { Logo } from "../assets/images";
-import useBakalariStore from "../utils/useBakalariStore";
+import useBakalariStore from "../hooks/useBakalariStore";
 import { ActivityIndicator } from "react-native";
 import colors from "../constants/colors";
 

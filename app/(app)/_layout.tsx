@@ -16,7 +16,7 @@ import useLogger from "@hooks/useLogger";
 import LoadingScreen from "@/src/pages/LoadingScreen";
 import { toastVisibilityTime } from "@utils/toastHelper";
 import { setOffline, setOnline } from "@/src/utils/utils";
-import useBakalariStore from "@/src/utils/useBakalariStore";
+import useBakalariStore from "@/src/hooks/useBakalariStore";
 import { focusManager, onlineManager } from "@tanstack/react-query";
 
 const { log } = useLogger("layout", "root");
@@ -66,7 +66,8 @@ export default function App() {
             }
             style={{ flex: 1 }}
           >
-            {!!api !== pathname.includes("login") && <Slot />}
+            {(!!api !== pathname.includes("login") ||
+              (!api && data === "network-error")) && <Slot />}
           </ImageBackground>
         )}
         <LoadingScreen />
