@@ -6,7 +6,7 @@ interface BakakalariStore {
   setApi: (api: BakalariApi | null) => void;
   loaderVisible: boolean | "simple" | "transparent";
   setLoaderVisible: (loaderVisible: boolean | "simple" | "transparent") => void;
-  onlineStatus: boolean;
+  onlineStatus: null | boolean;
   setOnlineStatus: (online: boolean) => void;
   backdropVisible: boolean;
   setBackdropVisible: (visible: boolean) => void;
@@ -26,7 +26,7 @@ const useBakalariStore = create<BakakalariStore>((set) => ({
       ...state,
       loaderVisible,
     })),
-  onlineStatus: true,
+  onlineStatus: null,
   setOnlineStatus: (online: boolean) =>
     set((state) => ({
       ...state,

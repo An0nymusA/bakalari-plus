@@ -1,11 +1,9 @@
-import { useEffect } from "react";
-import { useMedia, ZStack } from "tamagui";
+import { useEffect, useState } from "react";
 import { AppState, ImageBackground } from "react-native";
-
-import { Redirect, Slot, usePathname, useRouter } from "expo-router";
-
+import { focusManager, onlineManager } from "@tanstack/react-query";
+import { useMedia, ZStack } from "tamagui";
+import { Slot, usePathname, useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
-
 import NetInfo from "@react-native-community/netinfo";
 
 import toastConfig from "@constants/toastConfig";
@@ -13,27 +11,36 @@ import { StyledSafeAreaView } from "@components/general/StyledSafeAreaView";
 
 import useAuth from "@hooks/useAuth";
 import useLogger from "@hooks/useLogger";
+import useBakalariStore from "@hooks/useBakalariStore";
 import LoadingScreen from "@/src/pages/LoadingScreen";
 import { toastVisibilityTime } from "@utils/toastHelper";
-import { setOffline, setOnline } from "@/src/utils/utils";
-import useBakalariStore from "@/src/hooks/useBakalariStore";
-import { focusManager, onlineManager } from "@tanstack/react-query";
+import { setOffline, setOnline } from "@utils/utils";
+import StorageWrapper from "@utils/storage";
 
 const { log } = useLogger("layout", "root");
 
 export default function App() {
   const { setOnlineStatus, api } = useBakalariStore();
+  const [hasAuthData, setHasAuthData] = useState<null | boolean>(null);
   const { data, isLoading } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
 
   const media = useMedia();
 
-  // Setting up fonts
-  // const fontsLoaded = useMyFonts();
-
   useEffect(() => {
     log.space();
+
+    StorageWrapper.get("loginData").then((data) => {
+      setHasAuthData(data !== null);
+    });
+
+    onlineManager.setOnline(false);
+    NetInfo.fetch().then((state) => {
+      onlineManager.setOnline(state.isConnected === true);
+      setOnlineStatus(state.isConnected === true);
+    });
+
     NetInfo.addEventListener((state) => {
       if (!!state.isConnected) {
         setOnline();
@@ -44,22 +51,23 @@ export default function App() {
     onlineManager.subscribe((isOnline) => {
       setOnlineStatus(isOnline);
     });
-
     AppState.addEventListener("change", (status) =>
       focusManager.setFocused(status === "active")
     );
   }, []);
 
   useEffect(() => {
-    if (pathname.includes("login") || data !== "no-credentials") return;
+    if (api || pathname.includes("login") || data !== "no-credentials") return;
 
     router.replace("/login");
   }, [data]);
 
+  const isLoaded = !isLoading || hasAuthData === true;
+
   return (
     <StyledSafeAreaView>
       <ZStack flex={1} overflow="hidden">
-        {!isLoading && (
+        {isLoaded && (
           <ImageBackground
             source={
               media.landscape ? 0 : require("@images/Background-Login.png")
@@ -67,7 +75,8 @@ export default function App() {
             style={{ flex: 1 }}
           >
             {(!!api !== pathname.includes("login") ||
-              (!api && data === "network-error")) && <Slot />}
+              (!api && data === "error") ||
+              hasAuthData === true) && <Slot />}
           </ImageBackground>
         )}
         <LoadingScreen />

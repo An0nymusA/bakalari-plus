@@ -90,7 +90,7 @@ const StaticMenu = () => {
         >
           <RefreshButtonIcon
             dataLoading={dataLoading}
-            isOnline={onlineStatus}
+            isOnline={onlineStatus === true}
             iconSize={35}
           />
         </Button>

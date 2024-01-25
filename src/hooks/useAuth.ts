@@ -24,7 +24,7 @@ const useAuth = () => {
   const query = useQuery({
     queryKey: ["auth"],
     queryFn: async (): Promise<
-      "network-error" | "error" | "success" | "pending" | "no-credentials"
+      "error" | "success" | "pending" | "no-credentials"
     > => {
       log.debug("trying-auth");
 
@@ -46,12 +46,14 @@ const useAuth = () => {
         if (e instanceof AxiosError && isApiUnreachable(e)) {
           log.error("network-error");
 
-          setOffline();
-          return "network-error";
+          // setOffline(true);
+          // return "network-error";
         }
 
         log.error("error", e);
-        logout();
+        setOffline(true);
+
+        // logout();
         return "error";
       }
       return "success";
@@ -67,7 +69,7 @@ const useAuth = () => {
 
 // Logout function
 const useLogout = () => {
-  const { setApi } = useBakalariStore();
+  const { setApi, setLoaderVisible } = useBakalariStore();
   const router = useRouter();
 
   return async () => {
@@ -76,6 +78,7 @@ const useLogout = () => {
     onlineManager.setOnline(false);
 
     setApi(null);
+    setLoaderVisible("simple");
     router.replace("/login");
 
     await StorageWrapper.clear("lastUrl", "REACT_QUERY_OFFLINE_CACHE");

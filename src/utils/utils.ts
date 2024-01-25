@@ -1,5 +1,7 @@
-import toastHelper from "./toastHelper";
 import { onlineManager } from "@tanstack/react-query";
+
+import useBakalariStore from "../hooks/useBakalariStore";
+import toastHelper from "./toastHelper";
 // import * as Notifications from "expo-notifications";
 // import { Platform } from "react-native";
 
@@ -67,8 +69,7 @@ export const formatDate = (
 
   const getWeekdayShort = () => {
     const weekdays = ["po", "út", "st", "čt", "pá", "so", "ne"];
-    const weekdayNumber = parsedDate.getDay();
-    return weekdays[weekdayNumber - 1];
+    return weekdays[parsedDate.getDay() - 1];
   };
 
   const getWeekday = () => {
@@ -82,7 +83,7 @@ export const formatDate = (
       "Neděle",
     ];
 
-    return weekdays[parsedDate.getDay()];
+    return weekdays[parsedDate.getDay() - 1];
   };
 
   switch (type) {
@@ -103,16 +104,27 @@ export const formatDate = (
   }
 };
 
+var lastToast: "offline" | "online" = "online";
 export const setOffline = (ignoreOnline: boolean = false) => {
-  if (!ignoreOnline && onlineManager.isOnline())
+  if (
+    (!ignoreOnline || useBakalariStore.getState().onlineStatus === true) &&
+    lastToast !== "offline"
+  ) {
     toastHelper.error("Nepodařilo se připojit k Bakalářům.");
+    lastToast = "offline";
+  }
 
   onlineManager.setOnline(false);
 };
 
 export const setOnline = (ignoreOffline: boolean = false) => {
-  if (!ignoreOffline && !onlineManager.isOnline())
+  if (
+    (!ignoreOffline || useBakalariStore.getState().onlineStatus === false) &&
+    lastToast !== "online"
+  ) {
     toastHelper.success("Zpět online");
+    lastToast = "online";
+  }
 
   onlineManager.setOnline(true);
 };

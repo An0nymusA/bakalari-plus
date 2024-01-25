@@ -32,10 +32,16 @@ export default function Page() {
   const router = useRouter();
   const media = useMedia();
 
-  useEffect(() => {
-    setLoaderVisible(false);
-    SplashScreen.hideAsync();
+  /**
+   * Hook pro správu dat formuláře
+   */
+  const { inputData, updateInput, inputErrors, setInputError } = useFormInputs({
+    url: "",
+    username: "",
+    password: "",
+  });
 
+  useEffect(() => {
     (async () => {
       const lastUrl = await StorageWrapper.get("lastUrl");
 
@@ -43,6 +49,9 @@ export default function Page() {
         updateInput("url", lastUrl.baseUrl);
         urlInputRef.current?.setNativeProps({ text: lastUrl.baseUrl });
       }
+
+      setLoaderVisible(false);
+      SplashScreen.hideAsync();
     })();
 
     if (media.xs)
@@ -52,15 +61,6 @@ export default function Page() {
       ScreenOrientation.unlockAsync();
     };
   }, []);
-
-  /**
-   * Hook pro správu dat formuláře
-   */
-  const { inputData, updateInput, inputErrors, setInputError } = useFormInputs({
-    url: "",
-    username: "",
-    password: "",
-  });
 
   /**
    * Komunikace s API
