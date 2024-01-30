@@ -1,8 +1,9 @@
+import { AttachmentInfo } from "bakalari-ts-api";
 import * as FileSystem from "expo-file-system";
 import * as IntentLauncher from "expo-intent-launcher";
-import { AttachmentInfo } from "bakalari-ts-api";
-import useBakalariStore from "../hooks/useBakalariStore";
-import toastHelper from "../utils/toastHelper";
+
+import useBakalariStore from "@hooks/useBakalariStore";
+import toastHelper from "@utils/toastHelper";
 
 /**
  * Downloads attachment and opens it in default app

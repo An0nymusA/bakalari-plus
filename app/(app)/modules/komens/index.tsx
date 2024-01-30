@@ -1,11 +1,11 @@
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { View } from "tamagui";
-import { useQuery } from "@tanstack/react-query";
 
-import useLogger from "@hooks/useLogger";
-import useApiEndpoints from "@hooks/useApiEndpoints";
+import Komens from "@components/modules/Komens";
 import NoData from "@components/modules/NoData";
-import Komens from "@/src/components/modules/Komens";
+import useApiEndpoints from "@hooks/useApiEndpoints";
+import useLogger from "@hooks/useLogger";
 
 const { log } = useLogger("komens", "modules");
 

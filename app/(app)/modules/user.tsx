@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { View } from "tamagui";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { View } from "tamagui";
 
-import useLogger from "@hooks/useLogger";
-import useApiEndpoints from "@hooks/useApiEndpoints";
 import NoData from "@components/modules/NoData";
-import User from "@/src/components/modules/User";
+import User from "@components/modules/User";
+import useApiEndpoints from "@hooks/useApiEndpoints";
+import useLogger from "@hooks/useLogger";
 
 const { log } = useLogger("absence", "modules");
 

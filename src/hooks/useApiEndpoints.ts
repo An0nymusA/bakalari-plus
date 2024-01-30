@@ -6,9 +6,9 @@ import {
   formatTimetable,
 } from "bakalari-ts-api";
 
+import useBakalariStore from "@hooks/useBakalariStore";
 import useLogger from "@hooks/useLogger";
 import { getMondayDate, setOffline } from "@utils/utils";
-import useBakalariStore from "./useBakalariStore";
 
 const { log } = useLogger("queries", "api");
 

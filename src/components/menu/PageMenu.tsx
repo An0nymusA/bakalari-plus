@@ -1,7 +1,7 @@
 import { Fragment } from "react";
-import { View } from "tamagui";
-import PageMenuButton from "./PageMenuButton";
-import { useMedia } from "tamagui";
+import { View, useMedia } from "tamagui";
+
+import PageMenuButton from "@components/menu/PageMenuButton";
 
 interface PageButtonProp {
   onPress: () => void;

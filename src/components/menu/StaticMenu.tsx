@@ -1,15 +1,14 @@
+import { usePathname, useRouter } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native";
-import { View, Button, useMedia } from "tamagui";
-import { usePathname, useRouter } from "expo-router";
+import { Button, View, useMedia } from "tamagui";
 
-import { NoSignal, Refresh, User, UserActive } from "@src/assets/images";
-import { Menu } from "@src/assets/images";
-import colors from "@/src/constants/colors";
-import queryClient from "@/src/api/queryClient";
-import useBakalariStore from "@/src/hooks/useBakalariStore";
-import { invalidateQueries } from "@/src/hooks/useApi";
-import { PopupMenuButtons } from "./PopupMenu";
+import queryClient from "@api/queryClient";
+import { Menu, NoSignal, Refresh, User, UserActive } from "@assets/images";
+import { PopupMenuButtons } from "@components/menu/PopupMenu";
+import colors from "@constants/colors";
+import { invalidateQueries } from "@hooks/useApi";
+import useBakalariStore from "@hooks/useBakalariStore";
 
 const StaticMenu = () => {
   const media = useMedia();

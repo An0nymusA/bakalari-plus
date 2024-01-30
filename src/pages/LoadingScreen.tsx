@@ -1,8 +1,9 @@
-import { View } from "tamagui";
-import { Logo } from "../assets/images";
-import useBakalariStore from "../hooks/useBakalariStore";
 import { ActivityIndicator } from "react-native";
-import colors from "../constants/colors";
+import { View } from "tamagui";
+
+import { Logo } from "@assets/images";
+import colors from "@constants/colors";
+import useBakalariStore from "@hooks/useBakalariStore";
 
 const LoadingScreen = () => {
   const { loaderVisible } = useBakalariStore();

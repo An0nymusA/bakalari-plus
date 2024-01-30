@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { View } from "tamagui";
 
-import PopupMenu from "./PopupMenu";
-import useBakalariStore from "@/src/hooks/useBakalariStore";
+import PopupMenu from "@components/menu/PopupMenu";
+import useBakalariStore from "@hooks/useBakalariStore";
 
 const Backdrop = () => {
   const { backdropVisible, setBackdropVisible } = useBakalariStore();

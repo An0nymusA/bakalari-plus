@@ -1,9 +1,9 @@
+import { Query, useQueries } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useQueries, Query } from "@tanstack/react-query";
 
-import { getMondayDate } from "@utils/utils";
+import queryClient from "@api/queryClient";
 import useApiEndpoints from "@hooks/useApiEndpoints";
-import queryClient from "@src/api/queryClient";
+import { getMondayDate } from "@utils/utils";
 
 const useApi = () => {
   const { marks, komens, timetable, absence, user } = useApiEndpoints();

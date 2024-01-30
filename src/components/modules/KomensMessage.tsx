@@ -1,12 +1,12 @@
-import { useWindowDimensions } from "react-native";
-import { Text, XStack, YStack, ScrollView, View } from "tamagui";
 import { AttachmentInfo, FormattedKomensMessage } from "bakalari-ts-api";
+import { useWindowDimensions } from "react-native";
 import RenderHtml from "react-native-render-html";
+import { ScrollView, Text, View, XStack, YStack } from "tamagui";
 
-import { File } from "@/src/assets/images";
-import { formatDate } from "@/src/utils/utils";
-import { download, formatSenderName } from "@/src/moduleUtils/KomensUtils";
-import useBakalariStore from "@/src/hooks/useBakalariStore";
+import { File } from "@assets/images";
+import useBakalariStore from "@hooks/useBakalariStore";
+import { download, formatSenderName } from "@moduleUtils/KomensUtils";
+import { formatDate } from "@utils/utils";
 
 export const KomensMessage = ({
   data,
@@ -20,7 +20,7 @@ export const KomensMessage = ({
 
   const handleDownload = async (attachment: AttachmentInfo) => {
     setLoaderVisible("transparent");
-    await download(attachment, onlineStatus);
+    await download(attachment, !!onlineStatus);
     setLoaderVisible(false);
   };
 

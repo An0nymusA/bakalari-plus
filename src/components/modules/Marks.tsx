@@ -1,19 +1,19 @@
-import { FlatList } from "react-native";
-import { Text, View, Accordion, Square, YStack, XStack } from "tamagui";
 import {
+  FormattedMarkByDate,
+  FormattedMarkBySubject,
   FormattedMarks,
   FormattedMarksByDate,
   FormattedMarksBySubject,
-  FormattedMarkBySubject,
-  FormattedMarkByDate,
   Mark,
 } from "bakalari-ts-api";
+import { FlatList } from "react-native";
+import { Accordion, Square, Text, View, XStack, YStack } from "tamagui";
 
-import { Chevron, Weight } from "@/src/assets/images";
-import { formatDate, capitalize } from "@/src/utils/utils";
-import { HorizontalLine } from "../HorizontalLine";
-import MarkPredictor from "./MarkPredictor";
-import { formatTheme } from "@/src/moduleUtils/MarksUtils";
+import { Chevron, Weight } from "@assets/images";
+import { HorizontalLine } from "@components/HorizontalLine";
+import MarkPredictor from "@components/modules/MarkPredictor";
+import { formatTheme } from "@moduleUtils/MarksUtils";
+import { capitalize, formatDate } from "@utils/utils";
 
 const Marks = ({
   data,

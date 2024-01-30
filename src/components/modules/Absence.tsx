@@ -1,18 +1,19 @@
-import { Chevron } from "@/src/assets/images";
-import {
-  countMissedPerSubject,
-  parseAbsencePerDay,
-} from "@/src/moduleUtils/AbsenceUtils";
-import { formatDate, roundPlaces } from "@/src/utils/utils";
 import {
   Absences,
-  Absence as ApiAbsence,
   AbsencesPerSubject,
+  Absence as ApiAbsence,
 } from "bakalari-ts-api";
 import React from "react";
 import { FlatList } from "react-native";
-import { View, Text, YStack, XStack, Accordion, Square } from "tamagui";
-import { HorizontalLine } from "../HorizontalLine";
+import { Accordion, Square, Text, View, XStack, YStack } from "tamagui";
+
+import { Chevron } from "@assets/images";
+import { HorizontalLine } from "@components/HorizontalLine";
+import {
+  countMissedPerSubject,
+  parseAbsencePerDay,
+} from "@moduleUtils/AbsenceUtils";
+import { formatDate, roundPlaces } from "@utils/utils";
 
 const Absence = ({
   data,

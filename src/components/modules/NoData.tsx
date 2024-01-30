@@ -1,5 +1,6 @@
 import { View } from "tamagui";
-import { Empty } from "@/src/assets/images";
+
+import { Empty } from "@assets/images";
 
 const NoData = ({ showNoData }: { showNoData: boolean }) => {
   if (!showNoData) return;

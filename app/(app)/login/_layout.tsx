@@ -1,6 +1,5 @@
-import { useEffect } from "react";
-
 import { Slot } from "expo-router";
+import { useEffect } from "react";
 
 import useLogger from "@hooks/useLogger";
 

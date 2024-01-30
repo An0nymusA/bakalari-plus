@@ -1,6 +1,7 @@
 import { FormattedMarkBySubject } from "bakalari-ts-api";
-import { AddedMarks } from "../hooks/useAddedMarks";
-import { roundPlaces } from "../utils/utils";
+
+import { AddedMarks } from "@hooks/useAddedMarks";
+import { roundPlaces } from "@utils/utils";
 
 export const calculateAverage = (
   marks: FormattedMarkBySubject["Marks"],

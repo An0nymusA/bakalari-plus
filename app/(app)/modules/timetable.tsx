@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { View, Text } from "tamagui";
+import { Text, View } from "tamagui";
 
 import { useQuery } from "@tanstack/react-query";
 
 import PageMenu from "@components/menu/PageMenu";
-import Timetable from "@components/modules/Timetable";
 import NoData from "@components/modules/NoData";
-import useBakalariStore from "@/src/hooks/useBakalariStore";
-import { getMondayDate } from "@utils/utils";
-import useApiEndpoints from "@hooks/useApiEndpoints";
-import useLogger from "@hooks/useLogger";
+import Timetable from "@components/modules/Timetable";
+import TimetableModal from "@components/modules/TimetableModal";
 import { isInCache } from "@hooks/useApi";
-import useTimetableModalStore from "@/src/hooks/useTimetableModalStore";
-import TimetableModal from "@/src/components/modules/TimetableModal";
+import useApiEndpoints from "@hooks/useApiEndpoints";
+import useBakalariStore from "@hooks/useBakalariStore";
+import useLogger from "@hooks/useLogger";
+import useTimetableModalStore from "@hooks/useTimetableModalStore";
+import { getMondayDate } from "@utils/utils";
 
 const { log } = useLogger("timetable", "modules");
 

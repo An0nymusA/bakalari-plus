@@ -1,7 +1,8 @@
-import { Logout, User as UserImage } from "@/src/assets/images";
-import { useLogout } from "@/src/hooks/useAuth";
 import { User as UserType } from "bakalari-ts-api";
-import { YStack, Text, Button } from "tamagui";
+import { Button, Text, YStack } from "tamagui";
+
+import { Logout, User as UserImage } from "@assets/images";
+import { useLogout } from "@hooks/useAuth";
 
 const User = ({ data }: { data: UserType }) => {
   return (

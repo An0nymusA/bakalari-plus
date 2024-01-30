@@ -1,5 +1,6 @@
 import { BakalariApi, BakalariAuthOptions } from "bakalari-ts-api";
-import StorageWrapper from "./storage";
+
+import StorageWrapper from "@utils/storage";
 
 const refreshStorage = async (token: string, refreshToken: string) => {
   StorageWrapper.set("loginData", {

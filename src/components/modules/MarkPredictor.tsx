@@ -1,6 +1,9 @@
-import { useState, useMemo, useEffect } from "react";
+import { FormattedMarksBySubject } from "bakalari-ts-api";
+import { useEffect, useMemo, useState } from "react";
 import {
   Adapt,
+  Button,
+  Input,
   Select,
   Sheet,
   Text,
@@ -8,19 +11,16 @@ import {
   XStack,
   YStack,
   styled,
-  Input,
-  Button,
 } from "tamagui";
-import { FormattedMarksBySubject } from "bakalari-ts-api";
 
-import { HorizontalLine } from "../HorizontalLine";
-import { getLastNumericKey } from "@utils/utils";
+import { Check, Chevron, Remove, Weight } from "@assets/images";
+import { HorizontalLine } from "@components/HorizontalLine";
+import useAddedMarks from "@hooks/useAddedMarks";
 import {
   calculateAverage,
   getValidMarksNumber,
-} from "@/src/moduleUtils/MarksUtils";
-import { Check, Chevron, Remove, Weight } from "@/src/assets/images";
-import useAddedMarks from "@hooks/useAddedMarks";
+} from "@src/moduleUtils/MarksUtils";
+import { getLastNumericKey } from "@utils/utils";
 
 const MarkPredictor = ({ marks }: { marks: FormattedMarksBySubject }) => {
   const [value, setValue] = useState<string>("");

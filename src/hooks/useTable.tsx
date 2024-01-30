@@ -1,5 +1,6 @@
-import React, { useContext, createContext } from "react";
-import { isToday } from "../utils/utils";
+import React, { createContext, useContext } from "react";
+
+import { isToday } from "@utils/utils";
 
 interface TableSharedProps {
   cols: Record<number, number>;

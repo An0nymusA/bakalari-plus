@@ -116,7 +116,10 @@ export const calculateColWidths = (
   return reducedWidths;
 };
 
-export const getColOffset = (cols: Record<number, number>, colKey: number): number => {
+export const getColOffset = (
+  cols: Record<number, number>,
+  colKey: number
+): number => {
   return Object.keys(cols)
     .sort()
     .reduce((acc, key) => {

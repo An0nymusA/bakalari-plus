@@ -1,27 +1,24 @@
-import { useState, useEffect, useRef } from "react";
-import { TextInput } from "react-native";
-import { useRouter, SplashScreen } from "expo-router";
-import * as ScreenOrientation from "expo-screen-orientation";
+import { onlineManager, useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { View, useMedia } from "tamagui";
-import { useMutation, onlineManager } from "@tanstack/react-query";
+import { SplashScreen, useRouter } from "expo-router";
+import * as ScreenOrientation from "expo-screen-orientation";
+import { useEffect, useRef, useState } from "react";
+import { TextInput } from "react-native";
 import Toast from "react-native-toast-message";
+import { View, useMedia } from "tamagui";
 
 import { BakalariApi } from "bakalari-ts-api";
 
-import { HouseSearch, Key, LoginUser } from "@images/index";
-
-import { useFormInputs } from "@hooks/useFormInputs";
-
-import { LoginInput } from "@components/form/LoginInput";
 import { HorizontalLine } from "@components/HorizontalLine";
 import { Button } from "@components/form/Button";
-
-import { checkUrl } from "@utils/utils";
-import toastHelper from "@utils/toastHelper";
-import StorageWrapper from "@utils/storage";
-import useBakalariStore from "@/src/hooks/useBakalariStore";
+import { LoginInput } from "@components/form/LoginInput";
+import useBakalariStore from "@hooks/useBakalariStore";
+import { useFormInputs } from "@hooks/useFormInputs";
 import useLogger from "@hooks/useLogger";
+import { HouseSearch, Key, LoginUser } from "@images/index";
+import StorageWrapper from "@utils/storage";
+import toastHelper from "@utils/toastHelper";
+import { checkUrl } from "@utils/utils";
 
 const { log } = useLogger("login");
 

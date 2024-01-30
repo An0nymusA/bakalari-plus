@@ -1,22 +1,22 @@
-import { useRef, useEffect, useMemo } from "react";
-import { Text, styled, ScrollView, YStack, XStack, useMedia } from "tamagui";
 import {
   FormattedTimetable,
   FormattedTimetableDay,
   FormattedTimetableHour,
 } from "bakalari-ts-api";
+import { useEffect, useMemo, useRef } from "react";
+import { ScrollView, Text, XStack, YStack, styled, useMedia } from "tamagui";
 
-import { formatDate, isToday } from "@utils/utils";
 import { TableProvider, useTable } from "@hooks/useTable";
-import { useTime } from "@/src/hooks/useTime";
+import { useTime } from "@hooks/useTime";
+import useTimetableModalStore from "@hooks/useTimetableModalStore";
 import {
+  calculateColWidths,
+  getColOffset,
   getCurrentOrOngoinHour,
   getMaxNestedInColumn,
-  calculateColWidths,
   isRowBlank,
-  getColOffset,
-} from "@/src/moduleUtils/TimetableUtils";
-import useTimetableModalStore from "@/src/hooks/useTimetableModalStore";
+} from "@moduleUtils/TimetableUtils";
+import { formatDate, isToday } from "@utils/utils";
 
 export default function Timetable({
   data,

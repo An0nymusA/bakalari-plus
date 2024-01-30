@@ -1,7 +1,8 @@
 import { ToastConfigParams } from "react-native-toast-message";
-import SuccessToast from "../components/toasts/SuccessToast";
-import ErrorToast from "../components/toasts/ErrorToast";
-import LoadingToast from "../components/toasts/LoadingToast";
+
+import ErrorToast from "@components/toasts/ErrorToast";
+import LoadingToast from "@components/toasts/LoadingToast";
+import SuccessToast from "@components/toasts/SuccessToast";
 
 /**
  * Setting up toasts

@@ -1,14 +1,20 @@
-import { View, Stack, styled, XStack } from "tamagui";
 import { usePathname, useRouter } from "expo-router";
+import { Stack, View, XStack, styled } from "tamagui";
 
+import {
+  Absence,
+  AbsenceActive,
+  Komens,
+  KomensActive,
+  Logout,
+  Marks,
+  MarksActive,
+  Timetable,
+  TimetableActive,
+} from "@assets/images";
+import { VerticalLine } from "@components/VerticalLine";
 import { useLogout } from "@hooks/useAuth";
-
-import { Absence, AbsenceActive, Logout } from "@/src/assets/images";
-import { Komens, KomensActive } from "@/src/assets/images";
-import { Marks, MarksActive } from "@/src/assets/images";
-import { Timetable, TimetableActive } from "@/src/assets/images";
-import { VerticalLine } from "../VerticalLine";
-import useBakalariStore from "@/src/hooks/useBakalariStore";
+import useBakalariStore from "@hooks/useBakalariStore";
 
 const PopupMenu = () => {
   return (

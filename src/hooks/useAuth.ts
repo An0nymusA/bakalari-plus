@@ -1,14 +1,13 @@
-import { useRouter } from "expo-router";
-import { useQuery } from "@tanstack/react-query";
-import { onlineManager } from "@tanstack/react-query";
+import { onlineManager, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useRouter } from "expo-router";
 
-import StorageWrapper from "@utils/storage";
-import useBakalariStore from "@/src/hooks/useBakalariStore";
+import queryClient from "@api/queryClient";
+import useBakalariStore from "@hooks/useBakalariStore";
+import useLogger from "@hooks/useLogger";
 import { setupApi } from "@utils/authHelper";
+import StorageWrapper from "@utils/storage";
 import { setOffline, setOnline } from "@utils/utils";
-import useLogger from "./useLogger";
-import queryClient from "../api/queryClient";
 
 const { log } = useLogger("authHook", "hooks");
 

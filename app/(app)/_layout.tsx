@@ -1,21 +1,20 @@
+import NetInfo from "@react-native-community/netinfo";
+import { focusManager, onlineManager } from "@tanstack/react-query";
+import { Slot, usePathname, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { AppState, ImageBackground } from "react-native";
-import { focusManager, onlineManager } from "@tanstack/react-query";
-import { useMedia, ZStack } from "tamagui";
-import { Slot, usePathname, useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
-import NetInfo from "@react-native-community/netinfo";
+import { ZStack, useMedia } from "tamagui";
 
-import toastConfig from "@constants/toastConfig";
 import { StyledSafeAreaView } from "@components/general/StyledSafeAreaView";
-
+import toastConfig from "@constants/toastConfig";
 import useAuth from "@hooks/useAuth";
-import useLogger from "@hooks/useLogger";
 import useBakalariStore from "@hooks/useBakalariStore";
-import LoadingScreen from "@/src/pages/LoadingScreen";
+import useLogger from "@hooks/useLogger";
+import LoadingScreen from "@pages/LoadingScreen";
+import StorageWrapper from "@utils/storage";
 import { toastVisibilityTime } from "@utils/toastHelper";
 import { setOffline, setOnline } from "@utils/utils";
-import StorageWrapper from "@utils/storage";
 
 const { log } = useLogger("layout", "root");
 

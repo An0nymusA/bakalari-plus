@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { getLastNumericKey } from "../utils/utils";
+
+import { getLastNumericKey } from "@utils/utils";
 
 export interface AddedMarks {
   [key: number]: { value: number; weight: number };

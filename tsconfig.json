@@ -7,12 +7,16 @@
       "@/*": ["./*"],
       "@src/*": ["src/*"],
       "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
       "@hooks/*": ["src/hooks/*"],
+      "@api/*": ["src/api/*"],
       "@utils/*": ["src/utils/*"],
       "@icons/*": ["src/assets/icons/*"],
+      "@assets/*": ["src/assets/*"],
       "@images/*": ["src/assets/images/*"],
       "@fonts/*": ["src/assets/fonts/*"],
-      "@constants/*": ["src/constants/*"]
+      "@constants/*": ["src/constants/*"],
+      "@moduleUtils/*": ["src/moduleUtils/*"]
     }
   }
 }

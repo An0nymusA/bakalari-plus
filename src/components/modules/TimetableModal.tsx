@@ -1,10 +1,10 @@
-import { View, Text, Button, XStack, YStack, styled } from "tamagui";
 import { FormattedTimetableHour } from "bakalari-ts-api";
+import { Button, Text, View, XStack, YStack, styled } from "tamagui";
 
-import { Calendar, Teacher, Change as ChangeIcon } from "@/src/assets/images";
+import { Calendar, Change as ChangeIcon, Teacher } from "@assets/images";
+import { HorizontalLine } from "@components/HorizontalLine";
 import useTimetableModalStore from "@hooks/useTimetableModalStore";
 import { formatDate } from "@utils/utils";
-import { HorizontalLine } from "../HorizontalLine";
 
 const TimetableModal = () => {
   const { current, clearCurrent } = useTimetableModalStore();

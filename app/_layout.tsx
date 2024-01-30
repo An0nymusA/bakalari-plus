@@ -1,11 +1,11 @@
-import { LogBox } from "react-native";
-import { Slot, SplashScreen } from "expo-router";
-import { TamaguiProvider, Theme } from "tamagui";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { Slot, SplashScreen } from "expo-router";
+import { LogBox } from "react-native";
+import { TamaguiProvider, Theme } from "tamagui";
 
-import queryClient, { persistOptions } from "@/src/api/queryClient";
-import StorageWrapper from "@utils/storage";
 import config from "@/tamagui.config";
+import queryClient, { persistOptions } from "@api/queryClient";
+import StorageWrapper from "@utils/storage";
 
 const IGNORED_LOGS = ["NativeEventEmitter"];
 

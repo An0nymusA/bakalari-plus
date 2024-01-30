@@ -1,5 +1,5 @@
+import { PageButtonProp } from "@components/menu/PageMenu";
 import { Text, styled } from "tamagui";
-import { PageButtonProp } from "./PageMenu";
 
 const PageMenuButton = ({ button }: { button: PageButtonProp }) => {
   return (

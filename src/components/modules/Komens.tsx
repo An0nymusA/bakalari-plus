@@ -1,10 +1,10 @@
-import { FlatList } from "react-native";
-import { useRouter } from "expo-router";
-import { Text, YStack, XStack, styled, useMedia } from "tamagui";
 import { FormattedKomensMessage } from "bakalari-ts-api";
+import { useRouter } from "expo-router";
+import { FlatList } from "react-native";
+import { Text, XStack, YStack, styled, useMedia } from "tamagui";
 
-import { capitalize, formatDate, stripHTMLTags } from "@/src/utils/utils";
-import { formatSenderName } from "@/src/moduleUtils/KomensUtils";
+import { formatSenderName } from "@moduleUtils/KomensUtils";
+import { capitalize, formatDate, stripHTMLTags } from "@utils/utils";
 
 const Komens = ({ data }: { data: FormattedKomensMessage[] }) => {
   return (

@@ -1,7 +1,7 @@
 import { onlineManager } from "@tanstack/react-query";
 
-import useBakalariStore from "../hooks/useBakalariStore";
-import toastHelper from "./toastHelper";
+import useBakalariStore from "@hooks/useBakalariStore";
+import toastHelper from "@utils/toastHelper";
 // import * as Notifications from "expo-notifications";
 // import { Platform } from "react-native";
 
