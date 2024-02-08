@@ -148,7 +148,7 @@ const WeekPill = ({
       height="100%"
       display="flex"
       justifyContent="flex-end"
-      alignItems="center"
+      alignItems="flex-end"
     >
       <Text
         color={"$grey40"}
@@ -156,8 +156,8 @@ const WeekPill = ({
         paddingHorizontal="$2"
         paddingVertical="$1"
         borderRadius={"$1"}
-        marginBottom="$2"
-        $gtXs={{
+        margin="$2"
+        $gtSm={{
           fontSize: "$2",
           paddingHorizontal: "$2.5",
           paddingVertical: "$1.5",
