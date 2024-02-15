@@ -14,7 +14,6 @@ const { log } = useLogger("authHook", "hooks");
 // Custom hook for handling authentication logic
 const useAuth = () => {
   const { setApi } = useBakalariStore();
-  const logout = useLogout();
 
   // Check if the API is unreachable
   const isApiUnreachable = (e: AxiosError) =>

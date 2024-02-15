@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Text, View } from "tamagui";
 
-import { useQuery } from "@tanstack/react-query";
+import { onlineManager, useQuery } from "@tanstack/react-query";
 
 import PageMenu from "@components/menu/PageMenu";
 import NoData from "@components/modules/NoData";
@@ -63,15 +63,17 @@ export default function Page() {
         buttons={[
           {
             onPress: () => {
-              setLoaderVisible(
-                !!isInCache(
-                  "module",
-                  "timetable",
-                  getMondayDate(dateModifier - 1)
-                )
-                  ? false
-                  : "simple"
+              const inCache = isInCache(
+                "module",
+                "timetable",
+                getMondayDate(dateModifier - 1)
               );
+
+              if (!inCache && !onlineManager.isOnline()) {
+                return;
+              }
+
+              setLoaderVisible(inCache ? false : "simple");
 
               setType("actual");
               setDateModifier((current) => --current);
@@ -92,15 +94,17 @@ export default function Page() {
           },
           {
             onPress: () => {
-              setLoaderVisible(
-                !!isInCache(
-                  "module",
-                  "timetable",
-                  getMondayDate(dateModifier + 1)
-                )
-                  ? false
-                  : "simple"
+              const inCache = isInCache(
+                "module",
+                "timetable",
+                getMondayDate(dateModifier + 1)
               );
+
+              if (!inCache && !onlineManager.isOnline()) {
+                return;
+              }
+
+              setLoaderVisible(inCache ? false : "simple");
 
               setType("actual");
               setDateModifier((current) => ++current);

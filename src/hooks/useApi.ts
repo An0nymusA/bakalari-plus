@@ -45,7 +45,7 @@ export const invalidateQueries = async () => {
 };
 
 export const isInCache = (...key: string[]) => {
-  return queryClient.getQueryCache().find({
+  return !!queryClient.getQueryCache().find({
     queryKey: key,
   });
 };

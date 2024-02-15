@@ -53,7 +53,7 @@ const StaticMenu = () => {
           )}
         </Button>
 
-        {media.xs ? (
+        {media.sm ? (
           // Menu Button
           <Button
             backgroundColor="transparent"

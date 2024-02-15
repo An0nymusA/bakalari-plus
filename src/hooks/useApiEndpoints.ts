@@ -12,7 +12,16 @@ import { getMondayDate, setOffline } from "@utils/utils";
 
 const { log } = useLogger("queries", "api");
 
-const checkData = (context: string, ...data: (object | undefined)[]) => {
+const checkData = (
+  context: string,
+  api: BakalariApi | null,
+  ...data: (object | undefined)[]
+) => {
+  if (api == null) {
+    log.debug(context, "api not set");
+    throw new Error("api blank");
+  }
+
   if (data.some((d) => !d)) {
     log.debug(context, "blank");
     setOffline();
@@ -32,7 +41,7 @@ const useApiEndpoints = () => ({
 
       const data = await api?.marks();
 
-      checkData("marks", data);
+      checkData("marks", api, data);
 
       return formatMarks(data!);
     },
@@ -55,7 +64,7 @@ const useApiEndpoints = () => ({
 
         const data = await api?.timetable({ date, type });
 
-        checkData(`timetable:${logKey}`, data);
+        checkData(`timetable:${logKey}`, api, data);
 
         return formatTimetable(data!);
       },
@@ -78,7 +87,7 @@ const useApiEndpoints = () => ({
       const received: any = await api?.komens();
       const noticeboard = await api?.komens({ noticeboard: true });
 
-      checkData("komens", received, noticeboard);
+      checkData("komens", api, received, noticeboard);
 
       return formatKomens(received, noticeboard);
     },
@@ -93,20 +102,21 @@ const useApiEndpoints = () => ({
 
       const data = await api?.absence();
 
-      checkData("absence", data);
+      checkData("absence", api, data);
 
       return data;
     },
   }),
-  user: () => ({
+  user: (api?: BakalariApi | null) => ({
     queryKey: ["module", "user"],
     queryFn: async () => {
-      const api = useBakalariStore.getState().api;
+      if (!api) api = useBakalariStore.getState().api;
+
       log.debug("user");
 
       const data = await api?.user();
 
-      checkData("user", data);
+      checkData("user", api, data);
 
       return data;
     },
