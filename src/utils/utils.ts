@@ -165,6 +165,16 @@ export const stripHTMLTags = (str: string): string =>
     .replace(/<[^>]*>/g, "")
     .replace(/^\s+/, "");
 
+export const addNetworkMode = <T>(
+  query: T,
+  networkMode: "offlineFirst" | "onlineFirst"
+) => {
+  return {
+    ...query,
+    networkMode,
+  };
+};
+
 // export const sendNotification = (
 //   title: string,
 //   body: string = "",

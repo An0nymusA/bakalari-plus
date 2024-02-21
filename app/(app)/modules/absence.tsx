@@ -11,8 +11,8 @@ import useLogger from "@hooks/useLogger";
 const { log } = useLogger("absence", "modules");
 
 export default function Page() {
-  const ApiRequests = useApiEndpoints();
-  const { data, isFetching } = useQuery(ApiRequests.absence());
+  const { absence } = useApiEndpoints();
+  const { data, isFetching } = useQuery(absence());
 
   const [type, setType] = useState<"date" | "subject">("subject");
 

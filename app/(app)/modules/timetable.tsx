@@ -19,14 +19,16 @@ const { log } = useLogger("timetable", "modules");
 export default function Page() {
   const { setLoaderVisible } = useBakalariStore();
   const { clearCurrent } = useTimetableModalStore();
-  const ApiRequests = useApiEndpoints();
+  const { timetable } = useApiEndpoints();
 
   // Args for timetable query
   const [dateModifier, setDateModifier] = useState(0);
   const date = getMondayDate(dateModifier);
 
   const [type, setType] = useState<"actual" | "permanent">("actual");
-  const { data, isFetching } = useQuery(ApiRequests.timetable({ type, date }));
+
+  // @ts-ignore
+  const { data, isFetching } = useQuery(timetable({ type, date }));
 
   useEffect(() => {
     log.navigation("opened");

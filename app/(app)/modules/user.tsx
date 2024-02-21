@@ -10,8 +10,8 @@ import useLogger from "@hooks/useLogger";
 const { log } = useLogger("absence", "modules");
 
 export default function Page() {
-  const ApiRequests = useApiEndpoints();
-  const { data, isFetching } = useQuery(ApiRequests.user());
+  const { user } = useApiEndpoints();
+  const { data, isFetching } = useQuery(user());
 
   useEffect(() => {
     log.navigation("opened");
