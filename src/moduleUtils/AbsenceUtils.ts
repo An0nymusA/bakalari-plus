@@ -1,17 +1,17 @@
 import { Absence, AbsencesPerSubject } from "bakalari-ts-api";
 
 export const countMissedPerSubject = (data: AbsencesPerSubject): number => {
-  return data.DistanceTeaching + data.Base + data.Soon;
+  return data.DistanceTeaching + data.Base;
 };
 
 export const countMissedPerDate = (data: Absence): number => {
-  return data.DistanceTeaching + data.Missed + data.Soon + data.Unsolved;
+  return data.DistanceTeaching + data.Missed + data.Unsolved;
 };
 
 export const parseAbsencePerDay = (data: Absence) => {
   const translations = {
     DistanceTeaching: "Distanční výuka",
-    Soon: "Brzký přichod",
+    Soon: "Brzký odchod",
     Late: "Pozdní příchod",
     Missed: "Neomluvená absence",
     Ok: "Omluvená absence",
@@ -19,7 +19,7 @@ export const parseAbsencePerDay = (data: Absence) => {
   };
 
   const missed = countMissedPerDate(data);
-  const ok = data.Ok;
+  const ok = data.Ok + data.Soon;
 
   const parsed = Object.keys(translations).reduce<
     { name: string; value: number }[]
